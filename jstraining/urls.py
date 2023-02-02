@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from bookings.views import get_bookings_sessions
+# from bookings.view import ...
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', get_bookings_sessions, name="get_bookings_session")
 ]
