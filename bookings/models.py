@@ -12,4 +12,4 @@ class SessionsIndividual(models.Model):
 
     def __str__(self):
         # to be modified to return proper string with info necessary
-        return self.days
+        return f"Day: {self.days}     Time: {self.times}"
