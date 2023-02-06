@@ -7,14 +7,14 @@ from .models import SessionsIndividual
 class IndividualSessions(generic.ListView):
     model = SessionsIndividual
     queryset = SessionsIndividual.objects
-    template_name = 'bookings_list.html'
+    template_name = 'sessions_list.html'
 
 
-class PostIndividualSessions(View):
+class CreateIndividualSessions(View):
     def get(self, request, *args, **kwargs):
         sessions = SessionsIndividual.objects.all()
         context = {
             'sessions': sessions
         }
 
-        return render(request, "bookings_list.html", context)
+        return render(request, "sessions_list.html", context)
