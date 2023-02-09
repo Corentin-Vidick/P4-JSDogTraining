@@ -3,35 +3,24 @@
 {% block content %}
 
     <div class="container">
+        {% for session in sessions|dictsort:"days" %}
+            <div class="row" id="{{ sessions.days }}">
+                <div class="col-4 offset-2">
+                    {% ifchanged %}
+                        {{ session.days }}
+                    {% endifchanged %} 
+                </div>
+                
+                <div class="col-1">
+                    {{ session.times }}
+                </div>    
+            </div>        
+        {% endfor %}  
         <div class="row">
-            
-            <div class="col-4 offset-2">
-                <div class="btn-group-vertical" role="group" aria-label="Basic radio toggle button group">
-                    {% for session in sessions|dictsort:"days" %}
-                    <!-- Goes through sessions after sorting by sessions.names -->
-                        {% ifchanged %}
-                        <!-- If sessions.names changes, prints the new option -->
-                            <input type="radio" class="btn-check" name="btnradiodays" id="{{ session.days }}" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="{{ session.days }}">{{ session.days }}</label>
-                        {% endifchanged %}
-                    {% endfor %}
-                </div>
+            <div class="col-4 offset-4">
+                <button><a href="/bookings_list">Book now</a></button>
             </div>
-
-            <div class="col-4">
-                <div class="btn-group-vertical" role="group" aria-label="Basic radio toggle button group">
-                    {% for session in sessions|dictsort:"times" %}
-                    <!-- Goes through sessions after sorting by sessions.days -->
-                        {% ifchanged %}
-                        <!-- If sessions.days changes, prints the new option -->
-                            <input type="radio" class="btn-check" name="btnradiotimes" id="{{ session.times }}" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="{{ session.times }}">{{ session.times }}</label>
-                        {% endifchanged %}
-                    {% endfor %}
-                </div>
-            </div>
-
-        </div>
+        </div>           
     </div>
 
 {% endblock %}
