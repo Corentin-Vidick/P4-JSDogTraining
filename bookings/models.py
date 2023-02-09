@@ -7,7 +7,6 @@ class SessionsIndividual(models.Model):
     # might need DateField for date
     days = models.CharField(max_length=20, null=False, blank=False)
     times = models.CharField(max_length=20, null=False, blank=False)
-    confirmed = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Day: {self.days}     Time: {self.times}"

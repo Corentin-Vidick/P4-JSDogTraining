@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SessionsIndividual
+from .models import SessionsIndividual, Booking
 from django_summernote.admin import SummernoteModelAdmin
 
 
@@ -7,9 +7,12 @@ from django_summernote.admin import SummernoteModelAdmin
 @admin.register(SessionsIndividual)
 class SessionsAdmin(SummernoteModelAdmin):
 
-    list_filter = ('days', 'confirmed')
-    list_display = ('days', 'times', 'confirmed')
-    actions = ['approve_session']
+    list_filter = ('days', )
+    list_display = ('days', 'times')
 
-    def approve_session(self, request, queryset):
-        queryset.update(confirmed=True)
+
+@admin.register(Booking)
+class BookingsAdmin(SummernoteModelAdmin):
+
+    list_filter = ('day', 'name')
+    list_display = ('day', 'time', 'name')

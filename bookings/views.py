@@ -30,11 +30,15 @@ class BookIndividualSession(View):
     def post(self, request, *args, **kwargs):
         booking_form = BookingsForm(request.POST)
         if booking_form.is_valid():
-            day = booking_form.cleaned_data['day']
-            time = booking_form.cleaned_data['time']
-            name = booking_form.cleaned_data['name']
+            clean = booking_form.cleaned_data
+            bkng = Booking(
+                day=clean['day'],
+                time=clean['time'],
+                name=clean['name']
+            )
+            bk.save()
         else:
             booking_form = BookingsForm()
         return render(request, 'confirm_booking.html', {
-            "day": day, "time": time, "name": name}
+            "day": bkng.day, "time": bkng.time, "name": bkng.name}
             )
