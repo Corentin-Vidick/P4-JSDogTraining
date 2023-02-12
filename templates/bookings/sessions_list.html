@@ -3,16 +3,16 @@
 {% block content %}
 
     <div class="container">
-        {% for session in sessions|dictsort:"days" %}
-            <div class="row" id="{{ sessions.days }}">
+        {% for session in sessions|dictsort:"day" %}
+            <div class="row" id="{{ sessions.day }}">
                 <div class="col-4 offset-2">
                     {% ifchanged %}
-                        {{ session.days }}
+                        {{ session.day }}
                     {% endifchanged %} 
                 </div>
                 
                 <div class="col-1">
-                    {{ session.times }}
+                    {{ session.time }}
                 </div>    
             </div>        
         {% endfor %}  

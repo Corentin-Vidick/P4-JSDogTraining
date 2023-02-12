@@ -7,12 +7,12 @@ from django_summernote.admin import SummernoteModelAdmin
 @admin.register(SessionsIndividual)
 class SessionsAdmin(SummernoteModelAdmin):
 
-    list_filter = ('days', )
-    list_display = ('days', 'times')
+    list_filter = ('day', )
+    list_display = ('day', 'time', 'booked')
 
 
 @admin.register(Booking)
 class BookingsAdmin(SummernoteModelAdmin):
 
-    list_filter = ('day', 'name')
-    list_display = ('day', 'time', 'name')
+    list_filter = ('session', 'name')
+    list_display = ('session', 'name', 'phone')
