@@ -10,7 +10,7 @@ class SessionsIndividual(models.Model):
     booked = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.day
+        return f"{self.day}, {self.time}"
 
 
 class Booking(models.Model):
