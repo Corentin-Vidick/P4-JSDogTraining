@@ -49,11 +49,17 @@ class CreateIndividualSessions(View):
 
 
 def book_session(request):
-    # options = SessionsIndividual.objects.all()
+    options = SessionsIndividual.objects.all()
     booking_form = BookingsForm(request.POST or None)
     if request.method == "POST":
         if booking_form.is_valid():
-            booking_form.instance.booked = True
+            # Finds corresponding sessions in SessionsIndividual
+            # and sets its value to True
+            for session in options:
+                if booking_form.instance.session == session:
+                    x = session
+                    x.booked = True
+                    x.save()
             booking_form.instance.name = request.user
             booking_form.save()
     template = "bookings_list.html"

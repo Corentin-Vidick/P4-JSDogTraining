@@ -10,7 +10,7 @@ class SessionsIndividual(models.Model):
     booked = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.day}, {self.time}"
+        return f"{self.day}, {self.time}, {self.booked}"
 
 
 class Booking(models.Model):
@@ -27,4 +27,4 @@ class Booking(models.Model):
     phone = models.CharField(max_length=25, null=False, blank=False)
 
     def __str__(self):
-        return self.name.username
+        return f"{self.name.username}, {self.session}"
