@@ -10,5 +10,16 @@ class BookingsForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["session"].queryset = SessionsIndividual.objects.filter(
-            booked=False).values_list("day", "time")
+        day_time = SessionsIndividual.objects.filter(
+            booked=False).all()
+        self.fields["session"].queryset = day_time
+
+
+# class DeleteForm(forms.ModelForm):
+#     class Meta:
+#         model = SessionsIndividual
+#         fields = "__all__"
+
+#     def __init__(self, *args, **kwargs):
+#         user().__init__(*args, **kwargs)
+#         print(model)

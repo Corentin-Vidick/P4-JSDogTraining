@@ -3,6 +3,14 @@
 {% block content %}
 <h2>Thank you <strong>{{ name }}</strong></h2>
 <p>
-    Your session has been booked for {{ day }} at {{ time }}
+    Your session has been booked on {{ session }}
 </p>
+<div class="row">
+    <div class="col-4 offset-2">
+        <button><a href="/sessions_list">Main</a></button>
+    </div>
+    <div class="col-4 offset-2">
+        <button><a href="/user_bookings">Your bookings</a></button>
+    </div>
+</div>  
 {% endblock %}

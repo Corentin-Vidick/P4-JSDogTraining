@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic, View
-from .models import SessionsIndividual
-from .forms import BookingsForm, Booking
+from .models import SessionsIndividual, Booking
+from .forms import BookingsForm
 
 
 # Create your views here.
@@ -62,9 +62,39 @@ def book_session(request):
                     x.save()
             booking_form.instance.name = request.user
             booking_form.save()
+        return render(
+                request, 'confirm_booking.html', {
+                    "name": request.user, "session": x
+                })
     template = "bookings_list.html"
     context = {
-        # "options": options,
         "form": booking_form,
     }
     return render(request, template, context)
+
+
+def user_bookings_session(request):
+    user_bookings = Booking.objects.all()
+    # for booking in user_bookings:
+    #     n = booking.name
+    #     s = booking.session
+    context = {
+        # "name": n,
+        # "session": s,
+        "bookings": user_bookings
+    }
+    return render(request, "user_bookings.html", context)
+
+
+# def delete_booking(request):
+#     print("deleting booked session through user")
+#     if request.method == "GET":
+#         dest = Booking.objects.all()
+#         print(dest)
+    # booking = SessionsIndividual.objects.all()
+    # user_bookings = Booking.objects.all()
+    # delete_booking_form = DeleteForm(request.POST or None)
+    # if (request.POST.get('user_booking_delete')):
+    #     print(booking)
+    # context = {"bookings": user_bookings}
+    # return render(request, "user_bookings.html", context)
