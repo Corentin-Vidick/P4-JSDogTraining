@@ -25,7 +25,6 @@ class BookingsAdmin(SummernoteModelAdmin):
         for session in sessions:
             for x in range(len(queryset)):
                 if session == queryset[x].session:
-                    print("Session found & deleted")
                     session.booked = False
                     session.save()
 

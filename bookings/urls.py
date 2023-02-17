@@ -11,4 +11,5 @@ urlpatterns = [
          name='user_bookings'),
     path('sessions_list/', views.CreateIndividualSessions.as_view(),
          name='home'),
+    path('cancel/<booking_id>', views.cancel_booking, name='cancel')
 ]

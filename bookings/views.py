@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic, View
 from .models import SessionsIndividual, Booking
@@ -86,15 +86,17 @@ def user_bookings_session(request):
     return render(request, "user_bookings.html", context)
 
 
-# def delete_booking(request):
-#     print("deleting booked session through user")
-#     if request.method == "GET":
-#         dest = Booking.objects.all()
-#         print(dest)
-    # booking = SessionsIndividual.objects.all()
-    # user_bookings = Booking.objects.all()
-    # delete_booking_form = DeleteForm(request.POST or None)
-    # if (request.POST.get('user_booking_delete')):
-    #     print(booking)
-    # context = {"bookings": user_bookings}
-    # return render(request, "user_bookings.html", context)
+def cancel_booking(request, booking_id):
+    print("canceling booking")
+    booking_to_delete = get_object_or_404(Booking, id=booking_id)
+    print(type(booking_to_delete))
+    # Find corresponding session and update "booked" status to False
+    sessions = SessionsIndividual.objects.all()
+    for session in sessions:
+        if session == booking_to_delete.session:
+            print("booking to delete and session matched")
+            x = session
+            x.booked = False
+            x.save()
+    booking_to_delete.delete()
+    return redirect("user_bookings")
