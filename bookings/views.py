@@ -16,38 +16,6 @@ class CreateIndividualSessions(View):
         return render(request, "sessions_list.html", context)
 
 
-# class BookIndividualSession(View):
-
-#     def get(self, request, *args, **kwargs):
-#         options = SessionsIndividual.objects.all()
-#         context = {
-#             'options': options,
-#             'form': BookingsForm(),
-#             'booked': False,
-#         }
-#         return render(request, "bookings_list.html",  context)
-
-#     def post(self, request, *args, **kwargs):
-#         booking_form = BookingsForm(request.POST)
-#         if booking_form.is_valid():
-#             clean = booking_form.cleaned_data
-#             bkng = Booking(
-#                 day=clean['day'],
-#                 time=clean['time'],
-#                 name=clean['name']
-#             )
-#             bkng.save()
-#             return render(
-#                 request, 'confirm_booking.html', {
-#                     "day": bkng.day, "time": bkng.time, "name": bkng.name
-#                 }
-#             )
-
-#         else:
-#             booking_form = BookingsForm()
-#             return render(request, "bookings_list.html",  context)
-
-
 def book_session(request):
     options = SessionsIndividual.objects.all()
     booking_form = BookingsForm(request.POST or None)
@@ -74,13 +42,10 @@ def book_session(request):
 
 
 def user_bookings_session(request):
-    user_bookings = Booking.objects.all()
-    # for booking in user_bookings:
-    #     n = booking.name
-    #     s = booking.session
+    # Filter so user can only see their own bookings
+    user_bookings = Booking.objects.filter(name=request.user.id).all()
+    print(user_bookings)
     context = {
-        # "name": n,
-        # "session": s,
         "bookings": user_bookings
     }
     return render(request, "user_bookings.html", context)
@@ -98,5 +63,6 @@ def cancel_booking(request, booking_id):
             x = session
             x.booked = False
             x.save()
+    # Delete booking
     booking_to_delete.delete()
     return redirect("user_bookings")
