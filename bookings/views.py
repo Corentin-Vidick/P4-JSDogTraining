@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic, View
+from django.contrib.auth.decorators import login_required
 from .models import SessionsIndividual, Booking
 from .forms import BookingsForm
 
@@ -16,6 +17,9 @@ class CreateIndividualSessions(View):
         return render(request, "sessions_list.html", context)
 
 
+# Decorator ensures user is logged in,
+# otherwise redirects to login page
+@login_required(redirect_field_name='/accounts/login')
 def book_session(request):
     options = SessionsIndividual.objects.all()
     booking_form = BookingsForm(request.POST or None)
