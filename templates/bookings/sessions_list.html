@@ -2,6 +2,8 @@
 
 {% block content %}
 
+<h1 class="text-center">Book a class today!</h1>
+
     <div class="container">
         {% for session in sessions|dictsort:"day" %}
             <div class="row" id="{{ sessions.day }}">

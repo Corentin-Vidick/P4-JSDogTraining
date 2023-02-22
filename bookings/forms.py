@@ -1,5 +1,5 @@
 from django import forms
-from .models import Booking, SessionsIndividual
+from .models import Booking, SessionsIndividual, Profile
 
 
 class BookingsForm(forms.ModelForm):
@@ -15,11 +15,11 @@ class BookingsForm(forms.ModelForm):
         self.fields["session"].queryset = day_time
 
 
-# class DeleteForm(forms.ModelForm):
-#     class Meta:
-#         model = SessionsIndividual
-#         fields = "__all__"
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = "__all__"
+        exclude = ("name", "profile_ready")
 
-#     def __init__(self, *args, **kwargs):
-#         user().__init__(*args, **kwargs)
-#         print(model)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

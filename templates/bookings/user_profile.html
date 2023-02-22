@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="text-center">{{ user }}'s profile:</h2>
+
+{% if user.profile.profile_ready %}
+
+    <!-- for loops from : https://stackoverflow.com/questions/68649918/print-all-attributes-from-an-object-with-django-templates -->
+    <div class="container">
+    {% for i in profile_values %}
+        {% for key, value in i.items %}
+        <div class="row">
+            <div class="col-4">{{ key}}</div>
+            <div class="col-4">{{ value }}</div>
+        </div>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </div>
+    <!-- end of "for loops from" -->
+
+    <button><a href="/user_profile_update">Update profile</a></button>
+    
+    <button><a href="/delete_profile">Delete Profile</a></button>
+
+{% else %}
+
+    <p>{{ user.profile }}</p>
+
+    <button><a href="/user_profile_update">Create profile</a></button>
+
+{% endif %}
+
+{% endblock %}

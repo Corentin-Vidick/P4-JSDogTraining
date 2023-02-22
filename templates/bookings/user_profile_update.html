@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="text-center">Create/update your profile:</h2>
+
+    <h3>Please complete your profile:</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit", name="saveProfile">Save</button>
+    </form>
+
+{% endblock %}
