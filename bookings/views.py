@@ -98,7 +98,7 @@ def user_profile_update(request):
 #                                       User Profile Display page
 @login_required(redirect_field_name='/accounts/login')
 def user_profile(request):
-    profile = Profile.objects.all()
+    profile = Profile.objects.filter(name=request.user.id).all()
     profile_values = profile.values()
 
     return render(request, 'user_profile.html', {

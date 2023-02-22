@@ -34,7 +34,7 @@ class Booking(models.Model):
 
 class Profile(models.Model):
     COUNTRIES = (("UK", "United Kingdom"), ("IE", "Ireland"))
-    name = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     address_line_1 = models.CharField(max_length=100, null=False, blank=False)
     address_line_2 = models.CharField(max_length=100, null=True, blank=True)
     postcode = models.CharField(max_length=8, null=False, blank=False)
