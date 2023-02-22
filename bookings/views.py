@@ -100,16 +100,18 @@ def user_profile_update(request):
 def user_profile(request):
     profile = Profile.objects.filter(name=request.user.id).all()
     profile_values = profile.values()
-
+    user_bookings = Booking.objects.filter(name=request.user.id).all()
     return render(request, 'user_profile.html', {
         "profile": profile,
-        "profile_values": profile_values
+        "profile_values": profile_values,
+        "bookings": user_bookings
         })
 
 
 #                                       User Delete Profile Button
 def delete_profile(request):
     print("Deleting profile")
+    print(request.user.profile)
     profile_to_delete = get_object_or_404(Profile)
     profile_to_delete.delete()
 
