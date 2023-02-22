@@ -111,8 +111,8 @@ def user_profile(request):
 #                                       User Delete Profile Button
 def delete_profile(request):
     print("Deleting profile")
-    print(request.user.profile)
-    profile_to_delete = get_object_or_404(Profile)
+    # profile_to_delete = get_object_or_404(Profile)
+    profile_to_delete = Profile.objects.filter(name=request.user.id).all()
     profile_to_delete.delete()
 
     return redirect("user_profile")

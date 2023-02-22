@@ -4,66 +4,38 @@
 
 <h2 class="text-center">My account</h2>
 
-<!-- {% if user.profile.profile_ready %} -->
-
-    <div class="container">
-        <div class="row">
-            <div class="col-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Bookings</h5>
-                        {% for booking in bookings %}
-                            <p class="card-text">{{ booking }}</p>
-                        {% endfor %}
-                            <a href="/bookings_list" class="card-link">Book another session</a>
-                        {% if bookings %}
-                            <a href="/user_bookings" class="card-link">Cancel</a>
-                        {% endif %}
-                    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Bookings</h5>
+                    {% for booking in bookings %}
+                    <p class="card-text">{{ booking }}</p>
+                    {% endfor %}
+                    <a href="/bookings_list" class="card-link">Book another session</a>
+                    {% if bookings %}
+                    <a href="/user_bookings" class="card-link">Cancel</a>
+                    {% endif %}
                 </div>
             </div>
-            <div class="col-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Profile</h5>
-                        {% if user.profile.profile_ready %}
-                            <p class="card-text"><i class="fa-solid fa-user">&emsp;{{ user }}</i></p>
-                            <p class="card-text"><i class="fa-solid fa-dog">&emsp;{{ user.profile.dog_name }}</i></p>
-                            <a href="/user_profile_update">Update profile</a>
-                            <a href="/delete_profile">Delete Profile</a>
-                        {% else %}
-                            <a href="/user_profile_update">Create profile</a>
-                        {% endif %}
-                    </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Profile</h5>
+                    {% if user.profile.profile_ready %}
+                    <p class="card-text"><i class="fa-solid fa-user">&emsp;{{ user }}</i></p>
+                    <p class="card-text"><i class="fa-solid fa-dog">&emsp;{{ user.profile.dog_name }}</i></p>
+                    <a href="/user_profile_update">Update profile</a>
+                    <a href="/delete_profile">Delete Profile</a>
+                    {% else %}
+                    <a href="/user_profile_update">Create profile</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- for loops from : https://stackoverflow.com/questions/68649918/print-all-attributes-from-an-object-with-django-templates -->
-    <!-- <div class="container">
-    {% for i in profile_values %}
-        {% for key, value in i.items %}
-        <div class="row">
-            <div class="col-4">{{ key}}</div>
-            <div class="col-4">{{ value }}</div>
-        </div>
-        {% endfor %}
-    </tr>
-    {% endfor %}
-    </div> -->
-    <!-- end of "for loops from" -->
-
-    <!-- <button><a href="/user_profile_update">Update profile</a></button>
-    
-    <button><a href="/delete_profile">Delete Profile</a></button>
-
-{% else %}
-
-    <p>{{ user.profile }}</p>
-
-    <button><a href="/user_profile_update">Create profile</a></button>
-
-{% endif %} -->
+</div>
 
 {% endblock %}
