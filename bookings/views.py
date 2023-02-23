@@ -88,10 +88,7 @@ def user_profile_update(request):
             profile_form.instance.name_id = request.user.id
             profile_form.instance.profile_ready = True
             profile_form.save()
-        return render(request, 'bookings/user_profile.html', {
-                    "profile": profile_form,
-                    "name_id": request.user
-                    })
+        return redirect("user_profile")
     template = "bookings/user_profile_update.html"
     context = {
         "form": profile_form,
