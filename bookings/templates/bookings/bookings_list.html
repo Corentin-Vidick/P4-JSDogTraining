@@ -7,7 +7,7 @@
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" name="book" class="btn btn-light">Book session</button>
-        <a href="{% url 'home' %}" class="btn btn-light">Cancel</a>
+        <button type="submit" name="book" class="btn btn-light btn-sm">Book session</button>
+        <a href="{% url 'home' %}" class="btn btn-light btn-sm">Cancel</a>
     </form>
 {% endblock %}

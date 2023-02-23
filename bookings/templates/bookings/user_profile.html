@@ -13,9 +13,9 @@
                     {% for booking in bookings %}
                     <p class="card-text">{{ booking }}</p>
                     {% endfor %}
-                    <a href="{% url 'bookings_list' %}" class="btn btn-light">Book another session</a>
+                    <a href="{% url 'bookings_list' %}" class="btn btn-success btn-sm">Book another session</a>
                     {% if bookings %}
-                    <a href="{% url 'user_bookings' %}" class="btn btn-light">Go to booking cancelation</a>
+                    <a href="{% url 'user_bookings' %}" class="btn btn-secondary btn-sm">Go to booking cancelation</a>
                     {% endif %}
                 </div>
             </div>
@@ -27,10 +27,28 @@
                     {% if user.profile.profile_ready %}
                     <p class="card-text"><i class="fa-solid fa-user">&emsp;{{ user }}</i></p>
                     <p class="card-text"><i class="fa-solid fa-dog">&emsp;{{ user.profile.dog_name }}</i></p>
-                    <a href="{% url 'user_profile_update' %}" class="btn btn-light">Update profile</a>
-                    <a href="{% url 'delete_profile' %}" class="btn btn-danger">Delete Profile</a>
+                    <a href="{% url 'user_profile_update' %}" class="btn btn-secondary">Update profile</a>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProfileModal" class="btn btn-danger btn-sm">
+                        Delete Profile
+                    </a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteProfileModal" tabindex="-1" aria-labelledby="deleteProfileLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <p>Are you sure you want to delete your profile?</p>
+                                    <p>You can create a new one when you wish.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">No</button>
+                                    <a href="{% url 'delete_profile' %}" class="btn btn-danger btn-sm">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {% else %}
-                    <a href="{% url 'user_profile_update' %}" class="btn btn-light">Create profile</a>
+                    <a href="{% url 'user_profile_update' %}" class="btn btn-success btn-sm">Create profile</a>
                     {% endif %}
                 </div>
             </div>

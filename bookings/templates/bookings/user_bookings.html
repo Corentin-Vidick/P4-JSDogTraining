@@ -12,7 +12,7 @@
             {{ booking }}
         </div>
         <div class="col-2">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteBookingModal" class="btn btn-primary">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteBookingModal" class="btn btn-danger btn-sm">
                 Cancel booking
             </a>
         </div>
@@ -21,16 +21,13 @@
     <div class="modal fade" id="deleteBookingModal" tabindex="-1" aria-labelledby="deleteBookingLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="deleteBookingLabel">Cancel booking?</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
                 <div class="modal-body">
-                    Are you sure you want to cancel your booking. This is permanent and can not be undone!
+                    <p>Are you sure you want to cancel your booking on {{ booking }}?</p>
+                    <p>This is permanent and can not be undone!</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                    <a href="{% url 'cancel' booking.id %}" class="btn btn-danger">Delete</a>
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">No</button>
+                    <a href="{% url 'cancel' booking.id %}" class="btn btn-danger btn-sm">Delete</a>
                 </div>
             </div>
         </div>
