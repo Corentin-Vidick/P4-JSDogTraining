@@ -77,7 +77,9 @@ def cancel_booking(request, booking_id):
 @login_required(redirect_field_name='/accounts/login')
 def user_profile_update(request):
     print("Creating/updating profile")
-    profile_form = ProfileForm(request.POST or None)
+    profile = Profile.objects.filter(name=request.user.id).all()
+    print(profile)
+    profile_form = ProfileForm(request.POST or None, initial={'address_line_1': 'hello'})
     if request.method == "POST":
         if profile_form.is_valid():
             profile_form.instance.user = request.user
