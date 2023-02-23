@@ -6,9 +6,11 @@ from .models import SessionsIndividual, Booking, Profile, User
 from .forms import BookingsForm, ProfileForm
 
 
-#                                       Show List Of All Possible Sessions
 class CreateIndividualSessions(View):
     def get(self, request, *args, **kwargs):
+        """
+        Show List Of All Possible Sessions
+        """
         sessions = SessionsIndividual.objects.all()
         context = {
             'sessions': sessions
@@ -17,11 +19,12 @@ class CreateIndividualSessions(View):
         return render(request, "bookings/sessions_list.html", context)
 
 
-#                                       Make A Booking
-# Decorator ensures user is logged in,
-# otherwise redirects to login page
 @login_required(redirect_field_name='/accounts/login')
 def book_session(request):
+    """
+    Make A Booking
+    Login required
+    """
     options = SessionsIndividual.objects.all()
     booking_form = BookingsForm(request.POST or None)
     if request.method == "POST":
@@ -46,8 +49,12 @@ def book_session(request):
     return render(request, template, context)
 
 
-#                                       User Bookings Display
+@login_required(redirect_field_name='/accounts/login')
 def user_bookings_session(request):
+    """
+    User Bookings Display
+    Login required
+    """
     # Filter so user can only see their own bookings
     user_bookings = Booking.objects.filter(name=request.user.id).all()
     context = {
@@ -56,8 +63,10 @@ def user_bookings_session(request):
     return render(request, "bookings/user_bookings.html", context)
 
 
-#                                       User Cancel Booking Button
 def cancel_booking(request, booking_id):
+    """
+    User Cancel Booking Button
+    """
     booking_to_delete = get_object_or_404(Booking, id=booking_id)
     # Find corresponding session and update "booked" status to False
     sessions = SessionsIndividual.objects.all()
@@ -66,7 +75,6 @@ def cancel_booking(request, booking_id):
             x = session
             x.booked = False
             x.save()
-    # Delete booking
     booking_to_delete.delete()
     return redirect("user_bookings")
 
@@ -75,8 +83,7 @@ def cancel_booking(request, booking_id):
 def user_profile_update(request):
     """
     User Profile Update
-    Decorator ensures user is logged in,
-    otherwise redirects to login page
+    Login required
     """
     print("Creating/updating profile")
     profile = Profile.objects.filter(name=request.user.id).first()
@@ -96,9 +103,12 @@ def user_profile_update(request):
     return render(request, template, context)
 
 
-#                                       User Profile Display page
 @login_required(redirect_field_name='/accounts/login')
 def user_profile(request):
+    """
+    User Profile Display page
+    Login required
+    """
     profile = Profile.objects.filter(name=request.user.id).all()
     profile_values = profile.values()
     user_bookings = Booking.objects.filter(name=request.user.id).all()
@@ -109,10 +119,12 @@ def user_profile(request):
         })
 
 
-#                                       User Delete Profile Button
+@login_required(redirect_field_name='/accounts/login')
 def delete_profile(request):
-    print("Deleting profile")
-    # profile_to_delete = get_object_or_404(Profile)
+    """
+    User Delete Profile Button
+    Login required
+    """
     profile_to_delete = Profile.objects.filter(name=request.user.id).all()
     profile_to_delete.delete()
 

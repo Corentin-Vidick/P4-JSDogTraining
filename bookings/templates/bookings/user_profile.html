@@ -13,9 +13,9 @@
                     {% for booking in bookings %}
                     <p class="card-text">{{ booking }}</p>
                     {% endfor %}
-                    <a href="/bookings_list" class="card-link">Book another session</a>
+                    <a href="{% url 'bookings_list' %}" class="btn btn-light">Book another session</a>
                     {% if bookings %}
-                    <a href="/user_bookings" class="card-link">Go to booking cancelation</a>
+                    <a href="{% url 'user_bookings' %}" class="btn btn-light">Go to booking cancelation</a>
                     {% endif %}
                 </div>
             </div>
@@ -27,10 +27,10 @@
                     {% if user.profile.profile_ready %}
                     <p class="card-text"><i class="fa-solid fa-user">&emsp;{{ user }}</i></p>
                     <p class="card-text"><i class="fa-solid fa-dog">&emsp;{{ user.profile.dog_name }}</i></p>
-                    <a href="/user_profile_update">Update profile</a>
-                    <a href="/delete_profile">Delete Profile</a>
+                    <a href="{% url 'user_profile_update' %}" class="btn btn-light">Update profile</a>
+                    <a href="{% url 'delete_profile' %}" class="btn btn-danger">Delete Profile</a>
                     {% else %}
-                    <a href="/user_profile_update">Create profile</a>
+                    <a href="{% url 'user_profile_update' %}" class="btn btn-light">Create profile</a>
                     {% endif %}
                 </div>
             </div>

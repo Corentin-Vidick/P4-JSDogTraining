@@ -7,10 +7,10 @@
 </p>
 <div class="row">
     <div class="col-4 offset-2">
-        <button><a href="/sessions_list">Main</a></button>
+        <a href="{% url 'home' %}" class="btn btn-light">Main</a>
     </div>
     <div class="col-4 offset-2">
-        <button><a href="/user_bookings">Your bookings</a></button>
+        <a href="{% url 'user_bookings' %}" class="btn btn-light">Your bookings</a>
     </div>
 </div>  
 {% endblock %}

@@ -20,7 +20,7 @@
         {% endfor %}  
         <div class="row">
             <div class="col-4 offset-4">
-                <button><a href="/bookings_list">Book now</a></button>
+                <a href="{% url 'bookings_list' %}" class="btn btn-light">Book now</a>
             </div>
         </div>           
     </div>
