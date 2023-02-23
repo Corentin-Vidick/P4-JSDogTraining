@@ -71,15 +71,17 @@ def cancel_booking(request, booking_id):
     return redirect("user_bookings")
 
 
-#                                       User Profile Update
-# Decorator ensures user is logged in,
-# otherwise redirects to login page
 @login_required(redirect_field_name='/accounts/login')
 def user_profile_update(request):
+    """
+    User Profile Update
+    Decorator ensures user is logged in,
+    otherwise redirects to login page
+    """
     print("Creating/updating profile")
-    profile = Profile.objects.filter(name=request.user.id).all()
+    profile = Profile.objects.filter(name=request.user.id).first()
     print(profile)
-    profile_form = ProfileForm(request.POST or None, initial={'address_line_1': 'hello'})
+    profile_form = ProfileForm(request.POST or None, instance=profile)
     if request.method == "POST":
         if profile_form.is_valid():
             profile_form.instance.user = request.user
