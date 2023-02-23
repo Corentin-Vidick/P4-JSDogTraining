@@ -14,7 +14,7 @@ class CreateIndividualSessions(View):
             'sessions': sessions
         }
 
-        return render(request, "sessions_list.html", context)
+        return render(request, "bookings/sessions_list.html", context)
 
 
 #                                       Make A Booking
@@ -35,11 +35,11 @@ def book_session(request):
                     x.save()
             booking_form.instance.name = request.user
             booking_form.save()
-        return render(
-                request, 'confirm_booking.html', {
-                    "name": request.user, "session": x
-                })
-    template = "bookings_list.html"
+            return render(
+                    request, 'bookings/confirm_booking.html', {
+                        "name": request.user, "session": x
+                    })
+    template = "bookings/bookings_list.html"
     context = {
         "form": booking_form,
     }
@@ -53,7 +53,7 @@ def user_bookings_session(request):
     context = {
         "bookings": user_bookings
     }
-    return render(request, "user_bookings.html", context)
+    return render(request, "bookings/user_bookings.html", context)
 
 
 #                                       User Cancel Booking Button
@@ -86,11 +86,11 @@ def user_profile_update(request):
             profile_form.instance.name_id = request.user.id
             profile_form.instance.profile_ready = True
             profile_form.save()
-        return render(request, 'user_profile.html', {
+        return render(request, 'bookings/user_profile.html', {
                     "profile": profile_form,
                     "name_id": request.user
                     })
-    template = "user_profile_update.html"
+    template = "bookings/user_profile_update.html"
     context = {
         "form": profile_form,
     }
@@ -103,7 +103,7 @@ def user_profile(request):
     profile = Profile.objects.filter(name=request.user.id).all()
     profile_values = profile.values()
     user_bookings = Booking.objects.filter(name=request.user.id).all()
-    return render(request, 'user_profile.html', {
+    return render(request, 'bookings/user_profile.html', {
         "profile": profile,
         "profile_values": profile_values,
         "bookings": user_bookings

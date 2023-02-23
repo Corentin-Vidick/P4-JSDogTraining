@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2><strong>{{ user.username }}</strong></h2>
+<h3>Sessions you have booked:</h3>
+
+<div class="container">
+{% for booking in bookings %}
+    <div class="row">
+        <div class="col-4">
+            {{ booking }}
+        </div>
+        <div class="col-2">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteBookingModal" class="btn btn-primary">
+                Cancel booking
+            </a>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="deleteBookingModal" tabindex="-1" aria-labelledby="deleteBookingLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteBookingLabel">Cancel booking?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to cancel your booking. This is permanent and can not be undone!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <a href="{% url 'cancel' booking.id %}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% empty %}
+    You currently have no bookings
+{% endfor %}
+</div>
+
+{% endblock %}
