@@ -57,7 +57,9 @@
 
     <footer>
         <nav class="navbar fixed-bottom navbar-expand-sm">
-            <a class="nav-link" href="#" target="_blank" aria-label="Contact us (opens in a new tab)">Contact</a>
+            <a class="nav-link" href="{% url 'contact' %}" aria-label="contact us">
+                Contact us
+            </a>
             <!-- This button only appears when screen size is small (.navbar-expand-sm) -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSocialMedia"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

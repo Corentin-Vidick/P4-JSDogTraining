@@ -18,4 +18,6 @@ urlpatterns = [
          name='user_profile'),
     path('delete_profile/', views.delete_profile,
          name='delete_profile'),
+     path('contact/', views.contact,
+         name='contact'),
 ]

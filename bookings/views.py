@@ -129,3 +129,15 @@ def delete_profile(request):
     profile_to_delete.delete()
 
     return redirect("user_profile")
+
+
+def contact(request):
+    """
+    Contact form
+    """
+    sessions = SessionsIndividual.objects.all()
+    context = {
+        'sessions': sessions
+    }
+
+    return render(request, "bookings/contact.html", context)
