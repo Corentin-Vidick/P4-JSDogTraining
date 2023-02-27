@@ -6,7 +6,6 @@ from cloudinary.models import CloudinaryField
 
 
 class SessionsIndividual(models.Model):
-    # might need DateField for date
     day = models.CharField(max_length=20, null=False, blank=False)
     time = models.CharField(max_length=20, null=False, blank=False)
     booked = models.BooleanField(default=False)
@@ -47,6 +46,16 @@ class Profile(models.Model):
     dog_breed = models.CharField(max_length=100, null=False, blank=False)
     dog_age = models.CharField(max_length=100, null=False, blank=False)
     profile_ready = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class Contact(models.Model):
+    name = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True)
+    email = models.CharField(max_length=100, null=False, blank=False)
+    message = models.TextField(max_length=1000, null=False, blank=False)
 
     def __str__(self):
         return f"{self.name}"

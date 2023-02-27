@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SessionsIndividual, Booking, Profile
+from .models import SessionsIndividual, Booking, Profile, Contact
 from django_summernote.admin import SummernoteModelAdmin
 
 
@@ -27,7 +27,6 @@ class BookingsAdmin(SummernoteModelAdmin):
                 if session == queryset[x].session:
                     session.booked = False
                     session.save()
-
         queryset.delete()
 
 
@@ -36,3 +35,10 @@ class SessionsAdmin(SummernoteModelAdmin):
 
     list_filter = ('name', )
     list_display = ('postcode', 'email', 'phone', 'dog_name')
+
+
+@admin.register(Contact)
+class SessionsAdmin(SummernoteModelAdmin):
+
+    list_filter = ('name', )
+    list_display = ('name', 'email', 'message')
