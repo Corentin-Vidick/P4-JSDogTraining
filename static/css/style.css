@@ -24,6 +24,11 @@ h1, .nav-link, .navbar-brand, #catchline {
     color: #F15A09;
 }
 
+.card-title {
+    color: #F6F0A2;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
 #catchline {
     background: rgba(21, 70, 54, 0.5);
 }
@@ -51,7 +56,7 @@ and https://www.w3schools.com/css/css3_shadows.asp */
 }
 
 
-/* Text font and size */
+/* Text font, size and alignement */
 h1 {
     font-family: 'Black And White Picture', sans-serif;
     font-size: 8vw;
@@ -69,6 +74,11 @@ h1 {
 .nav-link, .navbar-brand {
     font-family: 'Sansita', sans-serif;
     font-size: 1.5em;
+}
+
+.card-title {
+    font-family: 'Sansita', sans-serif;
+    text-align: center;
 }
 
 /* Margins and padding */
@@ -105,3 +115,34 @@ header {
     width: 100%;
     height: auto;
 }
+
+/* Card hover overlay effect */
+/* Based on https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_image_overlay_fade */
+.custom-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #154636;
+  }
+  
+  .homepage-section>div:hover .custom-overlay {
+    opacity: 0.9;
+  }
+  
+  .text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
