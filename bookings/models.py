@@ -51,9 +51,9 @@ class Profile(models.Model):
         return f"{self.name}"
 
 
-class Contact(models.Model):
-    name = models.OneToOneField(
-        User, on_delete=models.CASCADE, primary_key=True)
+class ContactMessage(models.Model):
+    name = models.CharField(
+        max_length=100, null=False, blank=False, default="Guest")
     email = models.CharField(max_length=100, null=False, blank=False)
     message = models.TextField(max_length=1000, null=False, blank=False)
 

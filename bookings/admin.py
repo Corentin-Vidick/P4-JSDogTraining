@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SessionsIndividual, Booking, Profile, Contact
+from .models import SessionsIndividual, Booking, Profile, ContactMessage
 from django_summernote.admin import SummernoteModelAdmin
 
 
@@ -15,7 +15,7 @@ class SessionsAdmin(SummernoteModelAdmin):
 class BookingsAdmin(SummernoteModelAdmin):
 
     list_filter = ('session', 'name')
-    list_display = ('session', 'name', 'phone')
+    list_display = ('name', 'session', 'phone')
 
     # When booked session is deleted, IndividuallSession.booked's value
     # returns to False
@@ -34,10 +34,10 @@ class BookingsAdmin(SummernoteModelAdmin):
 class SessionsAdmin(SummernoteModelAdmin):
 
     list_filter = ('name', )
-    list_display = ('postcode', 'email', 'phone', 'dog_name')
+    list_display = ('name', 'postcode', 'email', 'phone', 'dog_name')
 
 
-@admin.register(Contact)
+@admin.register(ContactMessage)
 class SessionsAdmin(SummernoteModelAdmin):
 
     list_filter = ('name', )

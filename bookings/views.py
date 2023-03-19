@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic, View
 from django.contrib.auth.decorators import login_required
-from .models import SessionsIndividual, Booking, Profile, User, Contact
+from .models import SessionsIndividual, Booking, Profile, User, ContactMessage
 from .forms import BookingsForm, ProfileForm, ContactForm
 
 
@@ -68,6 +68,7 @@ def cancel_booking(request, booking_id):
     User Cancel Booking Button
     """
     booking_to_delete = get_object_or_404(Booking, id=booking_id)
+    print(booking_to_delete)
     # Find corresponding session and update "booked" status to False
     sessions = SessionsIndividual.objects.all()
     for session in sessions:
@@ -95,7 +96,7 @@ def user_profile_update(request):
             profile_form.instance.name_id = request.user.id
             profile_form.instance.profile_ready = True
             profile_form.save()
-        return redirect("user_profile")
+            return redirect("user_profile")
     template = "bookings/user_profile_update.html"
     context = {
         "form": profile_form,
@@ -135,18 +136,17 @@ def contact(request):
     """
     Contact form
     """
-    contact = Profile.objects.filter(name=request.user.id).first()
-    if contact:
-        contact_form = ContactForm(request.POST or None, instance=contact)
-    else:
-        contact_form = ContactForm(request.POST or None)
+    # contact = ContactMessage.objects.filter(name=request.user.id).first()
+    # if contact:
+    #     contact_form = ContactForm(request.POST or None, instance=contact)
+    # else:
+    contact_form = ContactForm(request.POST or None)
 
     if request.method == "POST":
         if contact_form.is_valid():
-            contact_form.instance.user = request.user
-            contact_form.instance.name_id = request.user.id
+            contact_form.instance.name = request.user
             contact_form.save()
-        return redirect("home")
+            return redirect("home")
     template = "bookings/contact.html"
     context = {
         "form": contact_form,

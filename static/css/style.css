@@ -1,7 +1,52 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Black+And+White+Picture&family=Sansita&display=swap');
+
+/* Colors */
 body {
-    background-color: #3DE9FC;
+    background-color: #F6F0A2;
+}
+
+#footer-navbar, #header-navbar {
+    background-color: #154636;
+}
+
+h1, .nav-link, .navbar-brand {
+    color: #F15A09;
+}
+
+/* Toggler color from https://www.geeksforgeeks.org/how-to-change-hamburger-toggler-color-in-bootstrap/ */
+.custom-toggler .navbar-toggler-icon {
+    background-image: url(
+"data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(241, 90, 9, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+/* Titles */
+h1 {
+    font-family: 'Black And White Picture', sans-serif;
+    font-size: 8vw;
+    padding-bottom: 10%;
+    padding-top: 10px;
+    margin-bottom: 0px;
+}
+
+.nav-link, .navbar-brand {
+    font-family: 'Sansita', sans-serif;
+    font-size: 1.5em;
+}
+
+body {
+    margin-bottom: 80px;
+}
+
+header {
+    position: relative;
+    height: auto;
+    background-image: url(/static/images/banner_img3.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
 }
 
 .navbar {
-    background-color: #FCE223;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }

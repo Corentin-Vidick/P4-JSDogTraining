@@ -17,37 +17,44 @@
 
 <body>
 
-    <!-- Navbar derived from https://getbootstrap.com/docs/5.0/components/navbar/ -->
     <header>
-        <nav class="navbar navbar-expand-sm">
-            <a class="navbar-brand" href="{% url 'home' %}" aria-label="home">Home</a>
-            <!-- This button only appears when screen size is small (.navbar-expand-sm) -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarUserAuthorisedOptions"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- When screen size larger than 576px (sm) ul shows -->
-            <div class="collapse navbar-collapse flex-row-reverse" id="navbarUserAuthorisedOptions">
-                <ul class="navbar-nav">
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'user_profile' %}" aria-label="my account">My account</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_logout' %}" aria-label="logout">Logout</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_signup' %}" aria-label="register">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_login' %}" aria-label="login">Login</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </nav>
+        <h1 class="text-center">JS Training</h1>
     </header>
+
+    <!-- Navbar -->
+    <!-- Navbar derived from https://getbootstrap.com/docs/5.0/components/navbar/ -->
+    <nav class="navbar navbar-expand-sm" id="header-navbar">
+        <a class="navbar-brand" href="{% url 'home' %}" aria-label="home">Home</a>
+        <!-- This button only appears when screen size is small (.navbar-expand-sm) -->
+        <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarUserAuthorisedOptions" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- When screen size larger than 576px (sm) ul shows -->
+        <div class="collapse navbar-collapse flex-row-reverse" id="navbarUserAuthorisedOptions">
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user_profile' %}" aria-label="my account">My
+                        account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account_logout' %}" aria-label="logout">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account_signup' %}" aria-label="register">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account_login' %}" aria-label="login">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    
 
     <main>
         {% block content %}
@@ -56,12 +63,12 @@
     </main>
 
     <footer>
-        <nav class="navbar fixed-bottom navbar-expand-sm">
+        <nav class="navbar fixed-bottom navbar-expand-sm" id="footer-navbar">
             <a class="nav-link" href="{% url 'contact' %}" aria-label="contact us">
                 Contact us
             </a>
             <!-- This button only appears when screen size is small (.navbar-expand-sm) -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSocialMedia"
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSocialMedia"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
