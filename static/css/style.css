@@ -1,6 +1,16 @@
 /* Import fonts */
 @import url('https://fonts.googleapis.com/css2?family=Black+And+White+Picture&family=Sansita&display=swap');
 
+/* Removes all margins, padding and borders to start on blank slate */
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+    font-family: open-sans, sans-serif;
+    font-size: 1.05em;
+}
+
 /* Colors */
 body {
     background-color: #F6F0A2;
@@ -10,8 +20,28 @@ body {
     background-color: #154636;
 }
 
-h1, .nav-link, .navbar-brand {
+h1, .nav-link, .navbar-brand, #catchline {
     color: #F15A09;
+}
+
+#catchline {
+    background: rgba(21, 70, 54, 0.5);
+}
+
+/* change the color of active or hovered links
+adapted from https://www.codeply.com/p/fGj22m7OBN 
+and https://www.w3schools.com/css/css3_shadows.asp */
+.navbar .nav-item.active .nav-link,
+.navbar .nav-item:focus .nav-link,
+.navbar .nav-item:hover .nav-link,
+.navbar .navbar-brand.active,
+.navbar .navbar-brand:focus,
+.navbar .navbar-brand:hover,
+.navbar .nav-link.active,
+.navbar .nav-link:focus,
+.navbar .nav-link:hover {
+    color: #F15A09;
+    text-shadow: 1px 1px 2px white, 0 0 25px #64D373, 0 0 5px #F6F0A2;
 }
 
 /* Toggler color from https://www.geeksforgeeks.org/how-to-change-hamburger-toggler-color-in-bootstrap/ */
@@ -20,13 +50,20 @@ h1, .nav-link, .navbar-brand {
 "data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(241, 90, 9, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
-/* Titles */
+
+/* Text font and size */
 h1 {
     font-family: 'Black And White Picture', sans-serif;
     font-size: 8vw;
-    padding-bottom: 10%;
-    padding-top: 10px;
-    margin-bottom: 0px;
+    text-align: center;
+    vertical-align: baseline;
+}
+
+#catchline {
+    font-family: 'Black And White Picture', sans-serif;
+    font-size: 3vw;
+    text-align: center;
+    vertical-align: baseline;
 }
 
 .nav-link, .navbar-brand {
@@ -34,19 +71,37 @@ h1 {
     font-size: 1.5em;
 }
 
+/* Margins and padding */
+
 body {
     margin-bottom: 80px;
 }
 
-header {
-    position: relative;
-    height: auto;
-    background-image: url(/static/images/banner_img3.jpg);
-    background-repeat: no-repeat;
-    background-size: 100% auto;
+.navbar, .navbar-expand-sm .navbar-nav .nav-link {
+    padding: 0;
 }
 
-.navbar {
-    padding-top: 0px;
-    padding-bottom: 0px;
+.nav-link, .navbar-brand {
+    margin: 5px 20px;
+}
+
+.homepage-section, .homepage-section>div {
+    padding: 20px;
+}
+
+/* Header */
+header {
+    position: relative;
+}
+
+#header-text {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    text-align: center;
+}
+
+#img-banner {
+    width: 100%;
+    height: auto;
 }
