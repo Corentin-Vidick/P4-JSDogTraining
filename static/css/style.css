@@ -1,16 +1,6 @@
 /* Import fonts */
 @import url('https://fonts.googleapis.com/css2?family=Black+And+White+Picture&family=Sansita&display=swap');
 
-/* Removes all margins, padding and borders to start on blank slate */
-* {
-    margin: 0;
-    padding: 0;
-    border: none;
-    box-sizing: border-box;
-    font-family: open-sans, sans-serif;
-    font-size: 1.05em;
-}
-
 /* Colors */
 body {
     background-color: #F6F0A2;
@@ -31,6 +21,16 @@ h1, .nav-link, .navbar-brand, #catchline {
 
 #catchline {
     background: rgba(21, 70, 54, 0.5);
+}
+
+.text-link {
+    text-decoration: none;
+}
+
+.comment {
+    border-style: groove;
+    border-radius: 12px;
+    border-color: #F15A09;
 }
 
 /* change the color of active or hovered links
@@ -59,9 +59,20 @@ and https://www.w3schools.com/css/css3_shadows.asp */
 /* Text font, size and alignement */
 h1 {
     font-family: 'Black And White Picture', sans-serif;
-    font-size: 8vw;
+    font-size: 10vw;
     text-align: center;
     vertical-align: baseline;
+}
+
+h2 {
+    font-family: 'Black And White Picture', sans-serif;
+    font-size: 4em;
+    text-align: center;
+    vertical-align: baseline;
+}
+
+h4 {
+    text-align: center;
 }
 
 #catchline {
@@ -81,11 +92,11 @@ h1 {
     text-align: center;
 }
 
-/* Margins and padding */
-
-body {
-    margin-bottom: 80px;
+p, .text-link {
+    font-family: 'Sansita', sans-serif;
 }
+
+/* Margins and padding */
 
 .navbar, .navbar-expand-sm .navbar-nav .nav-link {
     padding: 0;
@@ -95,8 +106,37 @@ body {
     margin: 5px 20px;
 }
 
-.homepage-section, .homepage-section>div {
+.services-section, .services-section>div {
     padding: 20px;
+}
+
+footer {
+    padding-top: 20px;
+}
+
+.spacer {
+    display: flex;
+    align-items: center;
+    height: 300px;
+}
+
+.comment {
+    margin: 10px;
+}
+
+.spacer>div {
+    text-align: center;
+}
+
+.spacer-img {
+    height: 50px;
+    width: 50px;
+    opacity: 0.6;
+    border-radius: 40%;
+}
+
+h2 {
+    padding-bottom: 50px;
 }
 
 /* Header */
@@ -131,7 +171,7 @@ header {
     background-color: #154636;
   }
   
-  .homepage-section>div:hover .custom-overlay {
+  .services-section>div:hover .custom-overlay {
     opacity: 0.9;
   }
   
