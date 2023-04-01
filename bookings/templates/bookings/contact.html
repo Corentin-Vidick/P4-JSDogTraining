@@ -9,7 +9,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" name="sendMessage" class="btn btn-light">Send</button>
-        <a href="{% url 'user_profile' %}" class="btn btn-danger">Cancel</a>
+        <a href="{% url 'home' %}" class="btn btn-danger">Cancel</a>
     </form>
 
 {% endblock %}

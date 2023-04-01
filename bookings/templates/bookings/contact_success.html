@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="text-center">Thank you for contacting us</h2>
+
+<h3 class="text-center">We will be in touch as soon as possible</h3>
+
+<div class="row spacer">
+    <div class="col">
+        <img src="/static/images/pawprint.jpg" class="spacer-img" alt="Pawprint">
+    </div>
+    <div class="col">
+        <img src="/static/images/pawprint.jpg" class="spacer-img" alt="Pawprint">
+    </div>
+    <div class="col">
+        <img src="/static/images/pawprint.jpg" class="spacer-img" alt="Pawprint">
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <a href="{% url 'home' %}" class="btn btn-success btn-lg btn-left" aria-label="home">Home</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'account_signup' %}" class="btn btn-success btn-lg btn-right" aria-label="register">Register</a>
+    </div>
+</div>
+
+{% endblock %}

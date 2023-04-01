@@ -26,7 +26,23 @@ def book_session(request):
     Login required
     """
     options = SessionsIndividual.objects.all()
-    booking_form = BookingsForm(request.POST or None)
+    profile_exists = 0
+    profiles = Profile.objects.all()
+    for profile in profiles:
+        if profile.name == request.user:
+            initial_values = {
+                'address_line_1': profile.address_line_1,
+                'address_line_2': profile.address_line_2,
+                'postcode': profile.postcode,
+                'country': profile.country,
+                'phone': profile.phone
+            }
+            profile_exists = 1
+    if profile_exists:
+        booking_form = BookingsForm(request.POST or None,
+                                    initial=initial_values)
+    else:
+        booking_form = BookingsForm(request.POST or None)
     if request.method == "POST":
         if booking_form.is_valid():
             # Finds corresponding sessions in SessionsIndividual
@@ -88,7 +104,6 @@ def user_profile_update(request):
     """
     print("Creating/updating profile")
     profile = Profile.objects.filter(name=request.user.id).first()
-    print(profile)
     profile_form = ProfileForm(request.POST or None, instance=profile)
     if request.method == "POST":
         if profile_form.is_valid():
@@ -136,19 +151,23 @@ def contact(request):
     """
     Contact form
     """
-    # contact = ContactMessage.objects.filter(name=request.user.id).first()
-    # if contact:
-    #     contact_form = ContactForm(request.POST or None, instance=contact)
-    # else:
     contact_form = ContactForm(request.POST or None)
 
     if request.method == "POST":
         if contact_form.is_valid():
             contact_form.instance.name = request.user
             contact_form.save()
-            return redirect("home")
+            return redirect("contact_success")
     template = "bookings/contact.html"
     context = {
         "form": contact_form,
     }
     return render(request, template, context)
+
+
+def contact_success(request):
+    """
+    Contact form success confirmation
+    """
+    return render(request, "bookings/contact_success.html")
+

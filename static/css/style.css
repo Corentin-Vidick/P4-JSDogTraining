@@ -92,7 +92,7 @@ h4 {
     text-align: center;
 }
 
-p, .text-link {
+p, .text-link, h3 {
     font-family: 'Sansita', sans-serif;
 }
 
@@ -135,7 +135,16 @@ footer {
 }
 
 h2 {
+    padding-top: 50px;
     padding-bottom: 50px;
+}
+
+.btn-left {
+    margin-left: 50%;
+}
+
+.btn-right {
+    margin-left: 30%;
 }
 
 /* Header */
