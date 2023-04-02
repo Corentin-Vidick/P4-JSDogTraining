@@ -1,108 +1,137 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# P4 JSDOGTRAINING
 
-Welcome Corentin-Vidick,
+JSTraining is a website designed for a dog trainer's clients to book training sessions. The website describes what type of classes are on offer, gives a chance to the client to create an account and book a session.
+Users can see their bookings and delete them. They can also create, edit and delete a profile which, if created, will fill the booking form automatically with their address, phone number... Users can also send a message to the admin through the "Contact us" button.
+The trainer (as an admin) can create sessions (day and time), delete booked sessions, view users' profile and view and delete messages from the "Contact us" form.
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+https://ui.dev/amiresponsive?url=https://jstraining.herokuapp.com
+![screenshot](documentation/mockup.png)
 
-You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **September 1, 2021**
 
-## Gitpod Reminders
+## UX
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+In order to design the page I spoke with a dog trainer to get information on what kind of data and functionalities he would like on his page. I also created a persona which had interest but no knowledge about dog trainng classes nor any particular computer skills. The website had to be self-explanatory and easy to follow from page to ge, clearly marking the required actions.
+I settled on a main page, a booking and profile section and a contact form. Inspiration for the main page was taken from https://www.youtube.com/watch?v=g0db5kA4BfQ&list=PLqr9So6FmE4M6tS1LvpokGKp_lp56XFF6&index=8&t=300s&ab_channel=TheWebsiteArchitect .
 
-`python3 -m http.server`
+### Colour Scheme
 
-A blue button should appear to click: _Make Public_,
+For the colour palette I wanted something that would remind nature and hope. My primary colour is yellow as it represents happiness, optimism and positivity, and green as my secondary colour as it evokes harmony, growth and safety.
 
-Another blue button should appear to click: _Open Browser_.
+- `#F6F0A2` used for primary background colour.
+- `#F15A09` used for primary text.
+- `#154636` used for secondary background colour.
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+I used [coolors.co](https://coolors.co/154636-69b7e1-64d373-f6f0a2-f15a09) to generate my colour palette.
 
-A blue button should appear to click: _Make Public_,
+![screenshot](documentation/screenshots/coolors.jpg)
 
-Another blue button should appear to click: _Open Browser_.
+### Typography
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+Two fonts were used to create this website:
 
-To log into the Heroku toolbelt CLI:
+- A fun and "messy" (to match untrained dogs) font for the main headers and titles
+[Black And White Picture](https://fonts.google.com/specimen/Black+And+White+Picture)
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+- A more serious but still inviting font for the text and links
+[Montserrat](https://fonts.google.com/specimen/Sansita)
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
+Font awesome icons were used for the social media icons in the footer.
 
-------
+[Font Awesome](https://fontawesome.com)
 
-## Release History
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+## User Stories
 
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
+### New Site Users
 
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
+- As a site user I can create an account so that I can register.
+- As a user I can contact the admin so that they can answer my question.
 
-**July 2 2021:** Remove extensions that are not available in Open VSX.
+### Registered Site Users
 
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
+- As a site user I can log in/out so that I can access my account.
+- As a site user I can click on an available slot so that I can book a class.
+- As a site user I can view my bookings so that I can delete them if I want.
+- As a site user I can create/edit/delete my profile so that I can update my personal details.
 
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
+### Site Admin
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
+- As a site administrator, I should be able to create sessions, so that I can get users to book them.
+- As a site administrator, I should be able to view bookings, so that I can delete them.
+- As a site administrator, I should be able to view users' messages, so that I can reply to them in due time.
 
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
+## Features
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
+### Existing Features
 
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
+- **Main page**
 
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
+    - This is the home page. It tries to capture the user's attention and focus them on booking a class. It explains what kind of training is offered and why the user should choose JS training. It also highlights the ability to contact the owner of the page. It gives (currently fake) comments to show how happy previous customers are with the service offered.
 
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
+![screenshot](documentation/screenshots/)
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
+- **Login, Logout and Register**
 
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
+    - Users can create an account, log in and out of their account. This is required in order to book a session.
 
-------
+![screenshot](documentation/screenshots/sign_in.jpg)
+![screenshot](documentation/screenshots/sign_out.jpg)
+![screenshot](documentation/screenshots/sign_up.jpg)
 
-## FAQ about the uptime script
+- **Session booking**
 
-**Why have you added this script?**
+    - Can pick a session from all available slots. Address and phone are required to complete the process. Those details are automatically filled in if the user has created a profile.
 
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
+![screenshot](documentation/screenshots/booking.jpg)
 
-**How will this affect me?**
+- **Booking confirmation**
 
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
+    - When a booking is made, a recap of the information is displayed to the user to clearly confirm that the booking has been made.
 
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
+![screenshot](documentation/screenshots/booking_confirmation.jpg)
 
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
+- **My account**
 
-**So….?**
+    - Displays current bookings to the user, giving opportunity to book another session or delete a booked one. It also displays the user's profile, which can be created, edited or deleted.
 
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
+![screenshot](documentation/screenshots/my_account.jpg)
 
-**Can I opt out?**
+- **Booking cancelation**
 
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
+    - Displays current bookings to the user, giving opportunity to cancel them one by one.
 
-```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
+![screenshot](documentation/screenshots/cancel_booking.jpg)
 
-**Anything more?**
+- **Profile creation/update**
 
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
+    - Allows user to create and update their profile. This gives more information to the admin as well as auto-fill the booking form.
 
----
+![screenshot](documentation/screenshots/profile_create_update.jpg)
 
-Happy coding!
+- **Profile deletion**
+
+    - Allows user to delete their profile.
+
+![screenshot](documentation/screenshots/delete_profile_modal.jpg)
+
+- **Contact**
+
+    - Allows user to send a message to the admin wether they are registered or not.
+
+![screenshot](documentation/screenshots/contact.jpg)
+- **Contact confirmation**
+
+    - Confirms to user their message has been sent. Gives them the opportunity to jump to homepage or register.
+
+![screenshot](documentation/screenshots/contact_confirmation.jpg)
+
+- **Modals**
+
+    - Modals are used to ask for user's confirmation when canceling a booking or deleting their profile.
+
+![screenshot](documentation/screenshots/cancelation_modal.jpg)
+![screenshot](documentation/screenshots/delete_profile_modal.jpg)
+
+
+### Future Features
