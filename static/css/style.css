@@ -33,13 +33,6 @@ h1, .nav-link, .navbar-brand, #catchline {
     border-color: #F15A09;
 }
 
-h1 {
-    font-family: 'Black And White Picture', sans-serif;
-    font-size: 10vw;
-    text-align: center;
-    vertical-align: baseline;
-}
-
 /* change the color of active or hovered links
 adapted from https://www.codeply.com/p/fGj22m7OBN 
 and https://www.w3schools.com/css/css3_shadows.asp */
@@ -57,14 +50,19 @@ and https://www.w3schools.com/css/css3_shadows.asp */
 }
 
 /* Toggler color from https://www.geeksforgeeks.org/how-to-change-hamburger-toggler-color-in-bootstrap/ */
-/* .custom-toggler .navbar-toggler-icon {
+.navbar-toggler-icon {
     background-image: url(
 "data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(241, 90, 9, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
-} */
+}
 
 
 /* Text font, size and alignement */
-
+h1 {
+    font-family: 'Black And White Picture', sans-serif;
+    font-size: 10vw;
+    text-align: center;
+    vertical-align: baseline;
+}
 
 h2 {
     font-family: 'Black And White Picture', sans-serif;
