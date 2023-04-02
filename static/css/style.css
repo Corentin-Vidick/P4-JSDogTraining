@@ -43,7 +43,7 @@ h1 {
 /* change the color of active or hovered links
 adapted from https://www.codeply.com/p/fGj22m7OBN 
 and https://www.w3schools.com/css/css3_shadows.asp */
-.navbar .nav-item.active .nav-link,
+/* .navbar .nav-item.active .nav-link,
 .navbar .nav-item:focus .nav-link,
 .navbar .nav-item:hover .nav-link,
 .navbar .navbar-brand.active,
@@ -54,7 +54,7 @@ and https://www.w3schools.com/css/css3_shadows.asp */
 .navbar .nav-link:hover {
     color: #F15A09;
     text-shadow: 1px 1px 2px white, 0 0 25px #64D373, 0 0 5px #F6F0A2;
-}
+} */
 
 /* Toggler color from https://www.geeksforgeeks.org/how-to-change-hamburger-toggler-color-in-bootstrap/ */
 .custom-toggler .navbar-toggler-icon {
