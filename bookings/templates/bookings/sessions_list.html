@@ -4,18 +4,6 @@
 {% load static %}
 <div class="container">
 
-    <div class="row spacer">
-        <div class="col">
-            <img src="{% static 'images/pawprint.jpg' %}" class="spacer-img" alt="Pawprint">
-        </div>
-        <div class="col">
-            <img src="{% static 'images/pawprint.jpg' %}" class="spacer-img" alt="Pawprint">
-        </div>
-        <div class="col">
-            <img src="{% static 'images/pawprint.jpg' %}" class="spacer-img" alt="Pawprint">
-        </div>
-    </div>
-
     <div class="row services-section">
         <h2>Classes</h2>
         <div class="col-sm-6 col-md-4">
@@ -78,13 +66,9 @@
             <p>We offer three type of classes. Puppy classes to set the basics right and socialise your puppy from the start
                 in a fun and engaging way. Group classes for general behaviour training, comands and socialising. One-to-one
                 classes for dogs with more serious behavioural issues.</p>
-            <p><a class="text-link" href="{% url 'contact' %}" aria-label="contact us">Contact</a> us now for any enquiry
+            <p><a class="text-link" href="{% url 'contact_us' %}" aria-label="contact us">Contact</a> us now for any enquiry
             </p>
         </div>
-    </div>
-
-    <div>
-        <a href="{% url 'posts_overview' %}" class="btn btn-success btn-sm">See what the comunity thinks</a>
     </div>
 
     <div class="row spacer">
@@ -126,6 +110,10 @@
             <h4><i class="fa-solid fa-quote-left"></i></h4>
             <p>Definitely worth the money!</p>
         </div>
+    </div>
+
+    <div class="row "id="stories">
+        <a href="{% url 'posts_overview' %}" class="btn btn-success btn-story">See what the comunity has to say</a>
     </div>
 
     <div class="row spacer">

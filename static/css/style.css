@@ -33,6 +33,10 @@ h1, .nav-link, .navbar-brand, #catchline {
     border-color: #F15A09;
 }
 
+.card {
+    --bs-card-border-color: #F15A09;
+  }
+
 /* change the color of active or hovered links
 adapted from https://www.codeply.com/p/fGj22m7OBN 
 and https://www.w3schools.com/css/css3_shadows.asp */
@@ -96,6 +100,11 @@ p, .text-link, h3 {
     font-family: 'Sansita', sans-serif;
 }
 
+.btn-story {
+    font-family: 'Black And White Picture', sans-serif;
+    font-size: 3em;
+}
+
 /* Margins and padding */
 .navbar, .navbar-expand-sm .navbar-nav .nav-link {
     padding: 0;
@@ -147,6 +156,14 @@ h2 {
     margin-left: 30%;
 }
 
+.card {
+    margin-top: 3rem;
+  }
+
+#posts {
+    margin-bottom: 4rem;
+}
+
 /* Header */
 header {
     position: relative;
@@ -179,11 +196,11 @@ header {
     background-color: #154636;
   }
   
-  .services-section>div:hover .custom-overlay {
+.services-section>div:hover .custom-overlay {
     opacity: 0.9;
-  }
+}
   
-  .text {
+.text {
     color: white;
     font-size: 20px;
     position: absolute;
@@ -193,4 +210,13 @@ header {
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     text-align: center;
-  }
+}
+
+/* Posts */
+.card-header {
+    border-bottom: none;
+}
+
+.card {
+    --bs-card-border-width: 3px;
+}

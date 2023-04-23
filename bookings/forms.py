@@ -1,5 +1,5 @@
 from django import forms
-from .models import Booking, SessionsIndividual, Profile, ContactMessage, User
+from .models import Booking, SessionsIndividual, Profile, User
 
 
 class BookingsForm(forms.ModelForm):
@@ -25,13 +25,11 @@ class ProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
 
-class ContactForm(forms.ModelForm):
-    class Meta:
-        model = ContactMessage
-        fields = "__all__"
-        exclude = ("name",)
+# class ContactForm(forms.ModelForm):
+#     class Meta:
+#         model = ContactMessage
+#         fields = "__all__"
+#         exclude = ("name",)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # name = User.objects.filter(name=User)
-        # self.fields["name"].queryset = name
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)

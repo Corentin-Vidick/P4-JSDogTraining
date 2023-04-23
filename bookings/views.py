@@ -3,8 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic, View
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import SessionsIndividual, Booking, Profile, User, ContactMessage
-from .forms import BookingsForm, ProfileForm, ContactForm
+from .models import SessionsIndividual, Booking, Profile, User
+from .forms import BookingsForm, ProfileForm
 
 
 class CreateIndividualSessions(View):
@@ -150,29 +150,3 @@ def delete_profile(request):
     profile_to_delete.delete()
     messages.success(request, 'Your profile has been deleted')
     return redirect("user_profile")
-
-
-def contact(request):
-    """
-    Contact form
-    """
-    contact_form = ContactForm(request.POST or None)
-
-    if request.method == "POST":
-        if contact_form.is_valid():
-            contact_form.instance.name = request.user
-            contact_form.save()
-            messages.success(request, 'Your message has been sent')
-            return redirect("contact_success")
-    template = "bookings/contact.html"
-    context = {
-        "form": contact_form,
-    }
-    return render(request, template, context)
-
-
-def contact_success(request):
-    """
-    Contact form success confirmation
-    """
-    return render(request, "bookings/contact_success.html")

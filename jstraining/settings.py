@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'bookings',
     'blog',
+    'contact',
 ]
 
 SITE_ID = 1

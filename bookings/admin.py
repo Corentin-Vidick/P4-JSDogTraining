@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import SessionsIndividual, Booking, Profile, ContactMessage
+from .models import SessionsIndividual, Booking, Profile
+from contact.models import ContactMessage
 from django_summernote.admin import SummernoteModelAdmin
 
 

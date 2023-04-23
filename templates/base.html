@@ -29,6 +29,7 @@
     <!-- Navbar derived from https://getbootstrap.com/docs/5.0/components/navbar/ -->
     <nav class="navbar navbar-expand-sm" id="header-navbar">
         <a class="navbar-brand" href="{% url 'home' %}" aria-label="home">Home</a>
+        <a class="nav-link" href="{% url 'posts_overview' %}" aria-label="posts overview">Stories</a>
         <!-- This button only appears when screen size is small (.navbar-expand-sm) -->
         <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarUserAuthorisedOptions" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -69,7 +70,7 @@
 
     <footer>
         <nav class="navbar navbar-expand-sm" id="footer-navbar">
-            <a class="nav-link" href="{% url 'contact' %}" aria-label="contact us">
+            <a class="nav-link" href="{% url 'contact_us' %}" aria-label="contact us">
                 Contact us
             </a>
             <!-- This button only appears when screen size is small (.navbar-expand-sm) -->
