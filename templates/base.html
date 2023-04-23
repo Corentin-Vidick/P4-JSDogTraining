@@ -61,6 +61,7 @@
     
 
     <main>
+        {% include 'messages.html' %}
         {% block content %}
         <!-- Content Goes here -->
         {% endblock content %}
@@ -101,6 +102,15 @@
 
     <!-- Font Awesome script -->
     <script src="https://kit.fontawesome.com/c541643ad5.js" crossorigin="anonymous"></script>
+
+    <!-- Messages script -->
+    <script>
+        var message_ele = document.getElementById("message_container");
+
+        setTimeout(function(){ 
+        message_ele.style.display = "none"; 
+        }, 3000);
+    </script>
 
 </body>
 

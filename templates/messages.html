@@ -1,0 +1,6 @@
+{% for message in messages %}
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert" id="message_container">
+    <span aria-hidden="true">&times;</span>
+    {{ message }}
+  </div>
+{% endfor %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic, View
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 from django.core.paginator import Paginator
 from .models import Posts, Thoughts
 from .forms import CommentForm
@@ -46,7 +47,7 @@ class SinglePost(View):
                 "comment_form": CommentForm()
             },
         )
-    
+
     def post(self, request, slug, *args, **kwargs):
 
         queryset = Posts.objects.filter(status=1)
@@ -63,8 +64,12 @@ class SinglePost(View):
             comment = comment_form.save(commit=False)
             comment.post = post
             comment.save()
+            messages.success(request,
+                             'Your comment has been submitted,'
+                             'it will display once approved.')
         else:
             comment_form = CommentForm()
+            messages.error(request, 'Please try again')
 
         return render(
             request,

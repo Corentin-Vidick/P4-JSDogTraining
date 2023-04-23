@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic, View
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import SessionsIndividual, Booking, Profile, User, ContactMessage
 from .forms import BookingsForm, ProfileForm, ContactForm
@@ -54,6 +55,8 @@ def book_session(request):
                     x.save()
             booking_form.instance.name = request.user
             booking_form.save()
+            messages.success(request,
+                             'Your booking has been processed')
             return render(
                     request, 'bookings/confirm_booking.html', {
                         "name": request.user, "session": x
@@ -93,6 +96,7 @@ def cancel_booking(request, booking_id):
             x.booked = False
             x.save()
     booking_to_delete.delete()
+    messages.success(request, 'Booking deleted')
     return redirect("user_bookings")
 
 
@@ -111,6 +115,7 @@ def user_profile_update(request):
             profile_form.instance.name_id = request.user.id
             profile_form.instance.profile_ready = True
             profile_form.save()
+            messages.success(request, 'Your profiles has been created/updated')
             return redirect("user_profile")
     template = "bookings/user_profile_update.html"
     context = {
@@ -143,7 +148,7 @@ def delete_profile(request):
     """
     profile_to_delete = Profile.objects.filter(name=request.user.id)
     profile_to_delete.delete()
-
+    messages.success(request, 'Your profile has been deleted')
     return redirect("user_profile")
 
 
@@ -157,6 +162,7 @@ def contact(request):
         if contact_form.is_valid():
             contact_form.instance.name = request.user
             contact_form.save()
+            messages.success(request, 'Your message has been sent')
             return redirect("contact_success")
     template = "bookings/contact.html"
     context = {
@@ -170,4 +176,3 @@ def contact_success(request):
     Contact form success confirmation
     """
     return render(request, "bookings/contact_success.html")
-
