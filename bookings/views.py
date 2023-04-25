@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import SessionsIndividual, Booking, User
 from user_profile.models import Profile
+from .forms import BookingsForm
 from user_profile.forms import ProfileForm
 
 

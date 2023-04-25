@@ -5,7 +5,7 @@
 <h2 class="text-center">Contact us:</h2>
 
     <h3>Please send us your question or comment:</h3>
-    <form action="" method="post">
+    <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" name="sendMessage" class="btn btn-light">Send</button>

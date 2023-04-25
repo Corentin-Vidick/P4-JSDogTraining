@@ -164,6 +164,13 @@ h2 {
     margin-bottom: 4rem;
 }
 
+/* Body */
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 /* Header */
 header {
     position: relative;
@@ -179,6 +186,11 @@ header {
 #img-banner {
     width: 100%;
     height: auto;
+}
+
+/* Footer */
+footer{
+    margin-top: auto;
 }
 
 /* Card hover overlay effect */

@@ -1,11 +1,9 @@
 from django.contrib import admin
 from .models import SessionsIndividual, Booking
-from contact.models import ContactMessage
 from user_profile.models import Profile
 from django_summernote.admin import SummernoteModelAdmin
 
 
-# Register your models here.
 @admin.register(SessionsIndividual)
 class SessionsAdmin(SummernoteModelAdmin):
 
@@ -30,17 +28,3 @@ class BookingsAdmin(SummernoteModelAdmin):
                     session.booked = False
                     session.save()
         queryset.delete()
-
-
-@admin.register(Profile)
-class SessionsAdmin(SummernoteModelAdmin):
-
-    list_filter = ('name', )
-    list_display = ('name', 'postcode', 'email', 'phone', 'dog_name')
-
-
-@admin.register(ContactMessage)
-class SessionsAdmin(SummernoteModelAdmin):
-
-    list_filter = ('name', )
-    list_display = ('name', 'email', 'message')

@@ -23,7 +23,7 @@
                         </a>
                     {% else %}
                         <a href="{% url 'single_post' post.slug %}">
-                            <img class="card-img-top" src=" {{ post.image.url }}">
+                            <img class="card-img-top" src=" {{ post.image.url }}" alt="User uploaded image">
                         </a>
                     {% endif %}
                     <div class="card-body">
