@@ -9,19 +9,6 @@ from .forms import BookingsForm
 from user_profile.forms import ProfileForm
 
 
-class CreateIndividualSessions(View):
-    def get(self, request, *args, **kwargs):
-        """
-        Show List Of All Possible Sessions
-        """
-        sessions = SessionsIndividual.objects.all()
-        context = {
-            'sessions': sessions
-        }
-
-        return render(request, "bookings/sessions_list.html", context)
-
-
 @login_required(redirect_field_name='/accounts/login')
 def book_session(request):
     """
