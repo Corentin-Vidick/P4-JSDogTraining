@@ -5,74 +5,71 @@
 
     <div class="container">
         <div class="row">
-                <div class="col">
-                    <div class="card h-100 bg-transparent">
-                        <h2 class="card-header bg-transparent">{{ post.title }}</h2>
-                        {% if "placeholder" in post.image.url %}
-                            <img class="card-img-top" src="{% static 'images/post_placeholder.jpg' %}" alt="Pug looking at camera">
-                        {% else %}
-                            <img class="card-img-top" src=" {{ post.image.url }}">
-                        {% endif %}
-                        <div class="card-body">
-                            <p class="card-text">{{ post.content }}</p>
-                        </div>
-                        <div class="card-footer bg-transparent text-center">
-                            <small class="text-muted">
-                                {{ post.created_on}}
-                                {% if user.is_authenticated %}
-                                <form class="d-inline" action="{% url 'post_like' post.slug %}" method="POST">
-                                    {% csrf_token %}
-                                    {% if liked %}
-                                    <button type="submit" name="blogpost_id" value="{{post.slug}}" class="btn-like"><i class="fas fa-heart"></i></button>
-                                    {% else %}
-                                    <button type="submit" name="blogpost_id" value="{{post.slug}}" class="btn-like"><i class="far fa-heart"></i></button>
-                                    {% endif %}
-                                </form>
-                                {% else %}
-                                <span class="text-secondar"><i class="far fa-heart"></i></span>
-                                {% endif %}
-                                <span class="text-secondary">{{ post.number_of_likes }} </span>
-                            </small>
-                        </div>
-                    </div>
+            <div class="card h-100 bg-transparent">
+                <h2 class="card-header bg-transparent">{{ post.title }}</h2>
+                {% if "placeholder" in post.image.url %}
+                    <img class="card-img-top" src="{% static 'images/post_placeholder.jpg' %}" alt="Pug looking at camera">
+                {% else %}
+                    <img class="card-img-top" src=" {{ post.image.url }}">
+                {% endif %}
+                <div class="card-body">
+                    <p class="card-text">{{ post.content }}</p>
                 </div>
+                <div class="card-footer bg-transparent text-center">
+                    <small class="text-muted">
+                        {{ post.created_on}}
+                        {% if user.is_authenticated %}
+                            <form class="d-inline" action="{% url 'post_like' post.slug %}" method="POST">
+                                {% csrf_token %}
+                                {% if liked %}
+                                    <button type="submit" name="blogpost_id" value="{{post.slug}}" class="btn-like"><i
+                                            class="fas fa-heart"></i></button>
+                                {% else %}
+                                    <button type="submit" name="blogpost_id" value="{{post.slug}}" class="btn-like"><i
+                                            class="far fa-heart"></i></button>
+                                {% endif %}
+                            </form>
+                            {% else %}
+                            <span class="text-secondar"><i class="far fa-heart"></i></span>
+                        {% endif %}
+                        <span class="text-secondary">{{ post.number_of_likes }} </span>
+                    </small>
+                </div>
+            </div>
         </div>
 
         <!-- Comments -->
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        {% for comment in comments %}
-        <div class="col-md-8  col-lg-6 mx-auto bg-darker rounded p-3 mt-3 mb-3">
-            <p><em>{{ comment.name }}:</em></p>
-            {{ comment.body | linebreaks }}<hr>
-            <em>{{comment.created_date }}</em>
+        <div class="row justify-content-center">
+            {% for comment in comments %}
+            <div class="col-md-8  col-lg-6 mx-auto bg-darker rounded p-3 mt-3 mb-3">
+                <p><em>{{ comment.name }}:</em></p>
+                {{ comment.body | linebreaks }}<hr>
+                <em>{{comment.created_date }}</em>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+
+
+        <!-- Add comment -->
+            {% if commented %}
+                <div class="row justify-content-center">
+                    <div class="alert alert-success col-md-3 mx-auto mt-3 mb-3 p-3" role="alert">
+                        <p>Your latest comment is pending approval.</p>
+                    </div>
+                </div>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6 mx-auto mt-5 p-3 bg-darker rounded">
+                        <h2>Add a Comment</h2>
+                        <p>Post as: {{ user.username }}</p>
+                        <form method="POST">
+                            {{ comment_form.as_p }}
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Comment</button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
     </div>
-</div>
-
-<!-- Add comment -->
-<div class="container-fluid">
-
-    {% if commented %}
-    <div class="alert alert-success col-md-3 mx-auto mt-3 mb-3 p-3" role="alert">
-        <p>Comment is pending approval.</p>
-    </div>
-    {% else %}
-
-    {% if user.is_authenticated %}
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6 mx-auto mt-5 p-3 bg-darker rounded">
-            <h2>Add a Comment</h2>
-            <p>Post as: {{ user.username }}</p>
-            <form method="POST">
-                {{ comment_form.as_p }}
-                {% csrf_token %}
-                <button type="submit" class="btn btn-success">Comment</button>
-            </form>
-        </div>
-    </div>
-    {% endif %}
-    {% endif %}
-
 {% endblock %}
