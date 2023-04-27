@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic, View
+from django.views.generic import ListView
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -8,22 +9,24 @@ from .forms import CommentForm
 
 
 class PostOverview(generic.ListView):
-    model = Posts
     queryset = Posts.objects.filter(status=1).order_by("-created_on")
     template_name = "posts_overview.html"
-    paginate_by = 4
+    paginate_by = 2
+    model = Posts
 
     def get(self, request, *args, **kwargs):
         """
         This view renders the blog page and also all published posts
         """
         posts = Posts.objects.all()
-        paginator = Paginator(Posts.objects.all(), 6)
+        paginator = Paginator(posts, 2)
         page = request.GET.get('page')
-        postings = paginator.get_page(page)
+        page_post = paginator.get_page(page)
 
         return render(
-            request, 'blog/posts_overview.html',  {'posts': posts, 'postings': postings})
+            request, 'blog/posts_overview.html',
+            {'posts': posts, 'page_post': page_post}
+            )
 
 
 class SinglePost(View):

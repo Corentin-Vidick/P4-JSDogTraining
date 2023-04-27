@@ -5,32 +5,34 @@
 
     <div class="container">
         <div class="row">
-            <div class="card h-100 bg-transparent">
-                <h2 class="card-header bg-transparent">{{ post.title }}</h2>
+            <div class="card h-100 card-story">
+                <h2 class="card-header bg-transparent post-title">{{ post.title }}</h2>
                 {% if "placeholder" in post.image.url %}
                     <img class="card-img-top" src="{% static 'images/post_placeholder.jpg' %}" alt="Pug looking at camera">
                 {% else %}
-                    <img class="card-img-top" src=" {{ post.image.url }}">
+                    <img class="card-img-top" src=" {{ post.image.url }}" alt="User uploaded image">
                 {% endif %}
                 <div class="card-body">
-                    <p class="card-text">{{ post.content }}</p>
+                    <p class="card-text post-text">{{ post.content }}</p>
                 </div>
                 <div class="card-footer bg-transparent text-center">
-                    <small class="text-muted">
+                    <small>
                         {{ post.created_on}}
                         {% if user.is_authenticated %}
                             <form class="d-inline" action="{% url 'post_like' post.slug %}" method="POST">
                                 {% csrf_token %}
                                 {% if liked %}
-                                    <button type="submit" name="blogpost_id" value="{{post.slug}}" class="btn-like"><i
-                                            class="fas fa-heart"></i></button>
+                                    <button type="submit" name="blogpost_id" value="{{post.slug}}" class="btn-like" aria-label="Like">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
                                 {% else %}
-                                    <button type="submit" name="blogpost_id" value="{{post.slug}}" class="btn-like"><i
-                                            class="far fa-heart"></i></button>
+                                    <button type="submit" name="blogpost_id" value="{{post.slug}}" class="btn-like" aria-label="Like">
+                                        <i class="far fa-heart"></i>
+                                    </button>
                                 {% endif %}
                             </form>
                             {% else %}
-                            <span class="text-secondar"><i class="far fa-heart"></i></span>
+                            <span class="text-secondary"><i class="far fa-heart"></i></span>
                         {% endif %}
                         <span class="text-secondary">{{ post.number_of_likes }} </span>
                     </small>

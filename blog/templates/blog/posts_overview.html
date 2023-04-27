@@ -4,44 +4,73 @@
 {% load static %}
 
 {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
 {% endif %}
 
+
 <div class="container-fluid">
-    <div class="row row-cols-1 row-cols-md-3 g-4" id="posts">
-        {% for post in posts %}
+    <div class="row row-cols-1 row-cols-md-2" id="posts">
+
+        {% for post in page_post %}
+
             {% if post.status %}
-            <div class="col">
-                <div class="card h-100">
-                    {% if "placeholder" in post.image.url %}
-                        <a href="{% url 'single_post' post.slug %}">
-                            <img class="card-img-top" src="{% static 'images/post_placeholder.jpg' %}" alt="Pug looking at camera">
-                        </a>
-                    {% else %}
-                        <a href="{% url 'single_post' post.slug %}">
-                            <img class="card-img-top" src=" {{ post.image.url }}" alt="User uploaded image">
-                        </a>
-                    {% endif %}
-                    <div class="card-body">
-                        <a href="{% url 'single_post' post.slug %}">
-                            <h5 class="card-title">{{ post.title }}</h5>
-                            <p class="card-text">{{ post.preview }}</p>
-                        </a>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">
-                            {{ post.created_on}}
-                            <i class="far fa-heart"></i> {{ post.number_of_likes }}
-                        </small>
+                <div class="col">
+                    <div class="card h-100 card-story">
+
+                        {% if "placeholder" in post.image.url %}
+                            <a href="{% url 'single_post' post.slug %}">
+                                <img class="card-img-top post-overview-img" src="{% static 'images/post_placeholder.jpg' %}" alt="Pug looking at camera">
+                            </a>
+                        {% else %}
+                            <a href="{% url 'single_post' post.slug %}">
+                                <img class="card-img-top post-overview-img" src=" {{ post.image.url }}" alt="User uploaded image">
+                            </a>
+                        {% endif %}
+
+                        <div class="card-body bg-transparent">
+                            <a href="{% url 'single_post' post.slug %}" class="text-link">
+                                <h5 class="card-title post-title">{{ post.title }}</h5>
+                                <p class="card-text post-text">{{ post.preview }}</p>
+                            </a>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <small class="text-muted">
+                                {{ post.created_on}}
+                                <i class="far fa-heart"></i> {{ post.number_of_likes }}
+                            </small>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endif %}
+
         {% endfor %}
+
+    </div>
+
+    <!-- pagination -->
+    <div class="row justify-content-center">
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_post.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_post.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ page_post.number }} of {{ page_post.paginator.num_pages }}.
+                </span>
+        
+                {% if page_post.has_next %}
+                    <a href="?page={{ page_post.next_page_number }}">next</a>
+                    <a href="?page={{ page_post.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+        
     </div>
 </div>
 

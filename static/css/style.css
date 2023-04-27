@@ -37,6 +37,14 @@ h1, .nav-link, .navbar-brand, #catchline {
     --bs-card-border-color: #F15A09;
   }
 
+  .card-story {
+    background-color: #64D373;
+  }
+
+  .post-title, .post-text {
+    color: black;
+  }
+
 /* change the color of active or hovered links
 adapted from https://www.codeply.com/p/fGj22m7OBN 
 and https://www.w3schools.com/css/css3_shadows.asp */
@@ -52,13 +60,6 @@ and https://www.w3schools.com/css/css3_shadows.asp */
     color: #F15A09;
     text-shadow: 1px 1px 2px white, 0 0 25px #64D373, 0 0 5px #F6F0A2;
 }
-
-/* Toggler color from https://www.geeksforgeeks.org/how-to-change-hamburger-toggler-color-in-bootstrap/ */
-/* .navbar-toggler-icon {
-    background-image: url(
-"data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(241, 90, 9, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
-} */
-
 
 /* Text font, size and alignement */
 h1 {
@@ -96,7 +97,7 @@ h4 {
     text-align: center;
 }
 
-p, .text-link, h3 {
+p, .text-link, h3, .post-title {
     font-family: 'Sansita', sans-serif;
 }
 
@@ -104,6 +105,7 @@ p, .text-link, h3 {
     font-family: 'Black And White Picture', sans-serif;
     font-size: 3em;
 }
+
 
 /* Margins and padding */
 .navbar, .navbar-expand-sm .navbar-nav .nav-link {
@@ -129,7 +131,7 @@ footer {
 }
 
 .comment {
-    margin: 10px;
+    margin: 10px 0;
 }
 
 .spacer>div {
@@ -142,11 +144,6 @@ footer {
     opacity: 0.6;
     border-radius: 40%;
 }
-
-/* h2 {
-    padding-top: 50px;
-    padding-bottom: 50px;
-} */
 
 .btn-left {
     margin-left: 50%;
@@ -231,4 +228,22 @@ footer{
 
 .card {
     --bs-card-border-width: 3px;
+}
+
+.post-overview-img {
+    width: 80%;
+}
+
+/* .post-overview-img {
+    max-width: 800px;
+    max-height: 800px;
+    margin-left: 1.5%;
+    margin-top: 5%;
+} */
+
+/* This CSS code has to be last as anything that comes after it does not work */
+/* Toggler color from https://www.geeksforgeeks.org/how-to-change-hamburger-toggler-color-in-bootstrap/ */
+.navbar-toggler-icon {
+    background-image: url(
+"data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(241, 90, 9, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
