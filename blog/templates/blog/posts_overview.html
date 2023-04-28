@@ -23,11 +23,15 @@
 
                         {% if "placeholder" in post.image.url %}
                             <a href="{% url 'single_post' post.slug %}">
-                                <img class="card-img-top post-overview-img" src="{% static 'images/post_placeholder.jpg' %}" alt="Pug looking at camera">
+                                <img class="card-img-top post-overview-img img-fluid"
+                                     src="{% static 'images/post_placeholder.jpg' %}"
+                                     alt="Pug looking at camera">
                             </a>
                         {% else %}
                             <a href="{% url 'single_post' post.slug %}">
-                                <img class="card-img-top post-overview-img" src=" {{ post.image.url }}" alt="User uploaded image">
+                                <img class="card-img-top post-overview-img"
+                                     src=" {{ post.image.url }}"
+                                     alt="User uploaded image">
                             </a>
                         {% endif %}
 
@@ -38,7 +42,7 @@
                             </a>
                         </div>
                         <div class="card-footer bg-transparent">
-                            <small class="text-muted">
+                            <small>
                                 {{ post.created_on}}
                                 <i class="far fa-heart"></i> {{ post.number_of_likes }}
                             </small>
@@ -52,8 +56,8 @@
     </div>
 
     <!-- pagination -->
-    <div class="row justify-content-center">
-        <div class="pagination">
+    <div class="row">
+        <div class="pagination justify-content-center">
             <span class="step-links">
                 {% if page_post.has_previous %}
                     <a href="?page=1">&laquo; first</a>

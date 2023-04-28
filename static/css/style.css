@@ -230,16 +230,9 @@ footer{
     --bs-card-border-width: 3px;
 }
 
-.post-overview-img {
-    width: 80%;
-}
-
-/* .post-overview-img {
-    max-width: 800px;
-    max-height: 800px;
-    margin-left: 1.5%;
-    margin-top: 5%;
-} */
+/* WARNING */
+/* Do not write any code below this line */
+/* WARNING */
 
 /* This CSS code has to be last as anything that comes after it does not work */
 /* Toggler color from https://www.geeksforgeeks.org/how-to-change-hamburger-toggler-color-in-bootstrap/ */

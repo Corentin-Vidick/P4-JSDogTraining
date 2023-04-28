@@ -23,7 +23,9 @@ For the colour palette I wanted something that would remind nature and hope. My 
 
 I used [coolors.co](https://coolors.co/154636-69b7e1-64d373-f6f0a2-f15a09) to generate my colour palette.
 
+<details><summary>Coolors</summary>
 ![screenshot](documentation/screenshots/coolors.jpg)
+</details>
 
 ### Typography
 
