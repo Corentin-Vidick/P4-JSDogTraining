@@ -6,7 +6,7 @@ from cloudinary.models import CloudinaryField
 STATUS = ((0, "Draft"), (1, "Published"))
 
 
-class Posts(models.Model):
+class Story(models.Model):
     post_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
@@ -14,7 +14,7 @@ class Posts(models.Model):
         User, on_delete=models.CASCADE, related_name="blog_posts"
     )
     image = CloudinaryField('image', default='placeholder')
-    preview = models.CharField(max_length=50, blank=True)
+    preview = models.CharField(max_length=150, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     content = models.TextField()
@@ -32,8 +32,8 @@ class Posts(models.Model):
         return self.likes.count()
 
 
-class Thoughts(models.Model):
-    post = models.ForeignKey(Posts, on_delete=models.CASCADE,
+class Thought(models.Model):
+    post = models.ForeignKey(Story, on_delete=models.CASCADE,
                              related_name="comments")
     name = models.CharField(max_length=80)
     email = models.EmailField()

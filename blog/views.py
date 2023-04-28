@@ -4,21 +4,21 @@ from django.views.generic import ListView
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.core.paginator import Paginator
-from .models import Posts, Thoughts
+from .models import Story, Thought
 from .forms import CommentForm
 
 
 class PostOverview(generic.ListView):
-    queryset = Posts.objects.filter(status=1).order_by("-created_on")
+    queryset = Story.objects.filter(status=1).order_by("-created_on")
     template_name = "posts_overview.html"
     paginate_by = 2
-    model = Posts
+    model = Story
 
     def get(self, request, *args, **kwargs):
         """
         This view renders the blog page and also all published posts
         """
-        posts = Posts.objects.all()
+        posts = Story.objects.all()
         paginator = Paginator(posts, 2)
         page = request.GET.get('page')
         page_post = paginator.get_page(page)
@@ -32,7 +32,7 @@ class PostOverview(generic.ListView):
 class SinglePost(View):
 
     def get(self, request, slug, *args, **kwargs):
-        queryset = Posts.objects.filter(status=1)
+        queryset = Story.objects.filter(status=1)
         post = get_object_or_404(queryset, slug=slug)
         comments = post.comments.filter(approved=True).order_by("-created_on")
         liked = False
