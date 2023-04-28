@@ -5,7 +5,7 @@ Users can see their bookings and delete them. They can also create, edit and del
 The trainer (as an admin) can create sessions (day and time), delete booked sessions, view users' profile and view and delete messages from the "Contact us" form.
 
 https://ui.dev/amiresponsive?url=https://jstraining.herokuapp.com
-![screenshot](documentation/mockup.png)
+![screenshot](documentation/screenshots/am_i_responsive.jpg)
 
 
 ## UX
@@ -24,6 +24,7 @@ For the colour palette I wanted something that would remind nature and hope. My 
 I used [coolors.co](https://coolors.co/154636-69b7e1-64d373-f6f0a2-f15a09) to generate my colour palette.
 
 <details><summary>Coolors</summary>
+
 ![screenshot](documentation/screenshots/coolors.jpg)
 </details>
 
@@ -46,21 +47,30 @@ Font awesome icons were used for the social media icons in the footer.
 
 ### New Site Users
 
-- As a site user I can create an account so that I can register.
+- As a user I can view the main page so that I can navigate through the website.
+- As a user I can view the articles' overview so that see if I am interested in something.
 - As a user I can contact the admin so that they can answer my question.
+- As a user I can create an account so that I can log in and book a session / comment an article / create an account.
 
 ### Registered Site Users
 
-- As a site user I can log in/out so that I can access my account.
+- As a site user I can be notified of my actions so that I can know my action was successful.
 - As a site user I can click on an available slot so that I can book a class.
 - As a site user I can view my bookings so that I can delete them if I want.
-- As a site user I can create/edit/delete my profile so that I can update my personal details.
+- As a site user I can delete a booking so that my session is cancelled.
+- As a site user I can add a comment so that I can comment on an article.
+- As a site user I can create/read/update/delete my profile so that update my personal details.
+- As a site user I can log in/out so that access my account.
+- As a site user I can click on an available slot so that I can book a class.
 
 ### Site Admin
 
-- As a site administrator, I should be able to create sessions, so that I can get users to book them.
-- As a site administrator, I should be able to view bookings, so that I can delete them.
-- As a site administrator, I should be able to view users' messages, so that I can reply to them in due time.
+- As a site administrator, I can view created profiles so that I can see users' information.
+- As a site administrator, I can delete booked sessions so that cancel a booking.
+- As a site administrator, I can view booked sessions so that I know how busy I am.
+- As a site administrator, I can create/read/update/delete sessions so that I can manage my week's program.
+- As a site administrator, I can view submitted contact forms so that I can answer their questions.
+
 
 
 ## Features
@@ -71,69 +81,127 @@ Font awesome icons were used for the social media icons in the footer.
 
     - This is the home page. It tries to capture the user's attention and focus them on booking a class. It explains what kind of training is offered and why the user should choose JS training. It also highlights the ability to contact the owner of the page. It gives (currently fake) comments to show how happy previous customers are with the service offered.
 
-![screenshot](documentation/screenshots/)
+        <details><summary>Home page</summary>
+
+        ![screenshot](documentation/screenshots/home.jpg)
+        </details>
 
 - **Login, Logout and Register**
 
     - Users can create an account, log in and out of their account. This is required in order to book a session.
 
-![screenshot](documentation/screenshots/sign_in.jpg)
-![screenshot](documentation/screenshots/sign_out.jpg)
-![screenshot](documentation/screenshots/sign_up.jpg)
+        <details><summary>Registration</summary>
+
+        ![screenshot](documentation/screenshots/sign_in.jpg)
+        ![screenshot](documentation/screenshots/sign_out.jpg)
+        ![screenshot](documentation/screenshots/sign_up.jpg)
+        </details>
 
 - **Session booking**
 
     - Can pick a session from all available slots. Address and phone are required to complete the process. Those details are automatically filled in if the user has created a profile.
 
-![screenshot](documentation/screenshots/booking.jpg)
+        <details><summary>Registration</summary>
+
+        ![screenshot](documentation/screenshots/booking.jpg)
+        </details>
 
 - **Booking confirmation**
 
     - When a booking is made, a recap of the information is displayed to the user to clearly confirm that the booking has been made.
 
-![screenshot](documentation/screenshots/booking_confirmation.jpg)
+        <details><summary>Registration</summary>
+
+        ![screenshot](documentation/screenshots/booking_confirmation.jpg)
+        </details>
 
 - **My account**
 
     - Displays current bookings to the user, giving opportunity to book another session or delete a booked one. It also displays the user's profile, which can be created, edited or deleted.
 
-![screenshot](documentation/screenshots/my_account.jpg)
+        <details><summary>Registration</summary>
+
+        ![screenshot](documentation/screenshots/my_account.jpg)
+        </details>
 
 - **Booking cancelation**
 
     - Displays current bookings to the user, giving opportunity to cancel them one by one.
 
-![screenshot](documentation/screenshots/cancel_booking.jpg)
+        <details><summary>Registration</summary>
+
+        ![screenshot](documentation/screenshots/cancel_booking.jpg)
+        </details>
 
 - **Profile creation/update**
 
     - Allows user to create and update their profile. This gives more information to the admin as well as auto-fill the booking form.
 
-![screenshot](documentation/screenshots/profile_create_update.jpg)
+        <details><summary>Registration</summary>
+
+        ![screenshot](documentation/screenshots/profile_create_update.jpg)
+        </details>
 
 - **Profile deletion**
 
     - Allows user to delete their profile.
 
-![screenshot](documentation/screenshots/delete_profile_modal.jpg)
+        <details><summary>Registration</summary>
+
+        ![screenshot](documentation/screenshots/delete_profile_modal.jpg)
+        </details>
 
 - **Contact**
 
     - Allows user to send a message to the admin wether they are registered or not.
 
-![screenshot](documentation/screenshots/contact.jpg)
+        <details><summary>Registration</summary>
+
+        ![screenshot](documentation/screenshots/contact.jpg)
+        </details>
+
 - **Contact confirmation**
 
     - Confirms to user their message has been sent. Gives them the opportunity to jump to homepage or register.
 
-![screenshot](documentation/screenshots/contact_confirmation.jpg)
+        <details><summary>Registration</summary>
+
+        ![screenshot](documentation/screenshots/contact_confirmation.jpg)
+        </details>
+
+- **Story overview**
+
+    - Allows user to see articles and their preview two by two.
+
+        <details><summary>Story overview</summary>
+
+        ![screenshot](documentation/screenshots/stories.jpg)
+        </details>
+
+- **Single story**
+
+    - Allows user to see a whole article.
+
+        <details><summary>Single story</summary>
+        ![screenshot](documentation/screenshots/)
+        </details>
+
+- **Comments**
+
+    - Allows user to see comments and comment themselves if logged on.
+
+        <details><summary>Registration</summary>
+        ![screenshot](documentation/screenshots/contact.jpg)
+        </details>
 
 - **Modals**
 
     - Modals are used to ask for user's confirmation when canceling a booking or deleting their profile.
 
-![screenshot](documentation/screenshots/cancelation_modal.jpg)
-![screenshot](documentation/screenshots/delete_profile_modal.jpg)
+        <details><summary>Registration</summary>
+        ![screenshot](documentation/screenshots/cancelation_modal.jpg)
+        ![screenshot](documentation/screenshots/delete_profile_modal.jpg)
+        </details>
 
 
 ### Future Features
