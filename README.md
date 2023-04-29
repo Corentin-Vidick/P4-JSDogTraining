@@ -7,6 +7,36 @@ The trainer (as an admin) can create sessions (day and time), delete booked sess
 ![screenshot](documentation/screenshots/am_i_responsive.jpg)
 
 
+## Table of Contents
+0. [About](#about)
+1. [User Experience](#user-experience)
+    1. [Colour Scheme](#colour-scheme)
+    2. [Typography](#typography)
+2. [User Stories](#user-stories)
+    1. [New Site Users](#new-site-users)
+    2. [Registered Site Users](#registered -site-users)
+    3. [Site Admin](#site-admin)
+3. [Features](#features)
+    1. [Existing Features](#existing-features)
+    2. [Future Features](#future-features)
+4. [Tools & Technologies Used](#tools-and-technologies-used)
+5. [Database Design](#database-design)
+6. [Agile Development Process](#agile-development-process)
+    1. [GitHub Projects](#github-projects)
+    2. [GitHub Issues](#github-issues)
+    2. [MoSCoW Prioritization](#moscow-prioritization)
+7. [Testing](#testing)
+8. [Deployment](#deployment)
+    1. [ElephantSQL Database](#elephantsql-database)
+    2. [Cloudinary API](#cloudinary-api)
+    3. [Heroku Deployment](#heroku-deployment)
+    4. [Local Deployment](#local-deployment)
+    5. [Cloning](#cloning)
+    6. [Forking](#forking)
+9. [Credits](#credits)
+    1. [Content}(#content)
+    2. [Media}(#media)
+    3. [Acknowledgements](#acknowledgements)
 
 
 

@@ -2,6 +2,21 @@
 
 Return back to the [README.md](README.md) file.
 
+## Table of Contents
+1. [Code Validation](#code-validation)
+    1. [HTML](#html)
+    2. [CSS](#CSS)
+    2. [Python](#Python)
+2. [Browser Compatibility](#browser-compatibility)
+3. [Responsiveness](#responsiveness)
+4. [Lighthouse Audit](#lighthouse-audit)
+5. [Defensive Programming](#defensive-programming)
+6. [User Story Testing](#user-story-testing)
+7. [Automated Testing](#automated-testing)
+    1. [Python](#python)
+8. [Bugs](#bugs)
+
+
 ## Code Validation
 
 ### HTML
@@ -111,7 +126,7 @@ I've tested my deployed project using the Lighthouse Audit tool to check for any
 | --- | --- | --- | --- |
 | Home | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_home.jpg)</details> | All > 90 |
 | Article | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_article.jpg)</details> | All > 90 |
-| Bookings | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_bookings.jpg)</details> | All > 90 |
+| Bookings | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_bookings.jpg)</details> | Low performance |
 | Contact Success | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_contactsuccess.jpg)</details> | All > 90 |
 | Contact Us | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_contactus.jpg)</details> | All > 90 |
 | Sig In | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_signin.jpg)</details> | All > 90 |
@@ -120,7 +135,7 @@ I've tested my deployed project using the Lighthouse Audit tool to check for any
 | Stories | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_stories.jpg)</details> | All > 90 |
 | User Bookings | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_userbookings.jpg)</details> | All > 90 |
 | User Profile | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_userprofile.jpg)</details> | All > 90 |
-| User Profile Update | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_userprofileupdate.jpg)</details> | All > 90 |
+| User Profile Update | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_userprofileupdate.jpg)</details> | Low performance |
 
 ## Defensive Programming
 
@@ -237,5 +252,9 @@ Below are the results from the various apps on my application that I've tested:
 
 
 ## Bugs
+
+### Issues
+
+Booking form and Profile form cause low performance on Lighthouse due to Bootstrap CSS loading.
 
 There are no remaining bugs that I am aware of.
