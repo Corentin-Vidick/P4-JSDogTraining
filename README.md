@@ -34,8 +34,8 @@ The trainer (as an admin) can create sessions (day and time), delete booked sess
     5. [Cloning](#cloning)
     6. [Forking](#forking)
 9. [Credits](#credits)
-    1. [Content}(#content)
-    2. [Media}(#media)
+    1. [Content](#content)
+    2. [Media](#media)
     3. [Acknowledgements](#acknowledgements)
 
 
@@ -509,11 +509,16 @@ You can fork this repository by using the following steps:
 | [Bootstrap 5](https://getbootstrap.com/docs/5.0/components/alerts/) | entire site | confirmation alerts |
 | [Bootstrap 5](https://getbootstrap.com/docs/5.0/components/navbar/) | base.html | navbar |
 | [W3Schools](https://www.w3schools.com/howto/howto_css_modals.asp) | booking and profile deletion | interactive pop-up (modal) |
+| [CodeInstitute](https://github.com/Code-Institute-Solutions/Django3blog/tree/master/12_final_deployment) | blog | blog basic functionalities |
+| [AaronBeale](https://github.com/ArronBeale/CI_PP4_the_diplomat) | blog | blog basic functionalities |
+| [Rokroman](https://github.com/rockroman/CI_PP4-Knowledge-Flow) | readme | map user stories to GitHub KanBan |
+| [Mozilla](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Testing#how_to_run_the_tests) | bookings/tests.py | setUp and login required tests |
 | [Articles Factory](https://www.articlesfactory.com/articles/pets/choosing-the-best-dog-house.html/) | stories | article |
 | [Articles Factory](https://www.articlesfactory.com/articles/pets/time-for-a-dog-bath-dog-bathing-tips-for-you-and-your-dog.html/) | stories | article |
 | [Articles Factory](https://www.articlesfactory.com/articles/pets/top-10-problems-dog-parents-have.html/) | stories | article |
 | [Articles Factory](https://www.articlesfactory.com/articles/pets/eight-things-to-consider-when-adopting-a-shelter-dog.html) | stories | article |
 | [Articles Factory](https://www.articlesfactory.com/articles/health/the-difference-between-therapy-dogs-and-companion-dogs.html/) | stories | article |
+
 
 
 ### Media

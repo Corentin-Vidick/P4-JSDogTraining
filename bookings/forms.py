@@ -9,6 +9,9 @@ class BookingsForm(forms.ModelForm):
         exclude = ("name",)
 
     def __init__(self, *args, **kwargs):
+        """
+        Filters booked sessions out
+        """
         super().__init__(*args, **kwargs)
         day_time = SessionsIndividual.objects.filter(
             booked=False)

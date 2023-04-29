@@ -6,14 +6,18 @@ from django_summernote.admin import SummernoteModelAdmin
 
 @admin.register(SessionsIndividual)
 class SessionsAdmin(SummernoteModelAdmin):
-
+    """
+    Enables CRUD functionalities for Sessions
+    """
     list_filter = ('day', )
     list_display = ('day', 'time', 'booked')
 
 
 @admin.register(Booking)
 class BookingsAdmin(SummernoteModelAdmin):
-
+    """
+    Enables CRUD functionalities for Bookings
+    """
     list_filter = ('session', 'name')
     list_display = ('name', 'session', 'phone')
 

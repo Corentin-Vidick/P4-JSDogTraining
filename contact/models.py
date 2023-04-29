@@ -4,6 +4,9 @@ from cloudinary.models import CloudinaryField
 
 
 class ContactMessage(models.Model):
+    """
+    Model used for messages sent trhough "contact us"
+    """
     name = models.CharField(
         max_length=100, null=False, blank=False, default="Guest")
     email = models.CharField(max_length=100, null=False, blank=False)

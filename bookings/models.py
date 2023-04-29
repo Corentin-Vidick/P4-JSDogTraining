@@ -4,6 +4,9 @@ from cloudinary.models import CloudinaryField
 
 
 class SessionsIndividual(models.Model):
+    """
+    Decomposes bookings options
+    """
     day = models.CharField(max_length=20, null=False, blank=False)
     time = models.CharField(max_length=20, null=False, blank=False)
     booked = models.BooleanField(default=False)
@@ -13,6 +16,9 @@ class SessionsIndividual(models.Model):
 
 
 class Booking(models.Model):
+    """
+    Booking model used for each booking
+    """
     COUNTRIES = (("UK", "United Kingdom"), ("IE", "Ireland"))
     session = models.ForeignKey(
         SessionsIndividual, on_delete=models.CASCADE, null=False, blank=False)
