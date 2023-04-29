@@ -64,6 +64,7 @@ I have used the recommended [CI Python Linter](https://pep8ci.herokuapp.com) to 
 | views.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/contact/views.py) | <details><summary>Views</summary>![screenshot](documentation/screenshots/pylinter/contact_views.jpg)</details> | All clear, no errors found |
 | Home | --- | --- | --- |
 | apps.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/home/apps.py) | <details><summary>Apps</summary>![screenshot](documentation/screenshots/pylinter/home_apps.jpg)</details> | All clear, no errors found |
+| tests.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/home/tests.py) | <details><summary>Tests</summary>![screenshot](documentation/screenshots/pylinter/home_tests.jpg)</details> | All clear, no errors found |
 | urls.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/home/urls.py) | <details><summary>URLs</summary>![screenshot](documentation/screenshots/pylinter/home_urls.jpg)</details> | All clear, no errors found |
 | views.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/home/views.py) | <details><summary>Views</summary>![screenshot](documentation/screenshots/pylinter/home_views.jpg)</details> | All clear, no errors found |
 | User Profile | --- | --- | --- |
@@ -81,11 +82,11 @@ I've tested my deployed project on multiple browsers to check for compatibility 
 
 | Browser | Screenshot | Notes |
 | --- | --- | --- |
-| Chrome | ![screenshot](documentation/screenshots/browser_chrome.jpg) | Works as expected |
-| Firefox | ![screenshot](documentation/screenshots/browser_firefox.jpg) | Works as expected |
-| Edge | ![screenshot](documentation/screenshots/browser_edge.jpg) | Works as expected |
-| Brave | ![screenshot](documentation/screenshots/browser_brave.jpg) | Works as expected |
-| Opera | ![screenshot](documentation/screenshots/browser_opera.jpg) | Works as expected |
+| Chrome | <details><summary>Chrome</summary>![screenshot](documentation/screenshots/browser_chrome.jpg)</details> | Works as expected |
+| Firefox | <details><summary>Firefox</summary>![screenshot](documentation/screenshots/browser_firefox.jpg)</details> | Works as expected |
+| Edge | <details><summary>Edge</summary>![screenshot](documentation/screenshots/browser_edge.jpg)</details> | Works as expected |
+| Brave | <details><summary>Brave</summary>![screenshot](documentation/screenshots/browser_brave.jpg)</details> | Works as expected |
+| Opera | <details><summary>Opera</summary>![screenshot](documentation/screenshots/browser_opera.jpg)</details> | Works as expected |
 
 ## Responsiveness
 
@@ -93,14 +94,14 @@ I've tested my deployed project on multiple devices to check for responsiveness 
 
 | Device | Screenshot | Notes |
 | --- | --- | --- |
-| Mobile S (DevTools) | ![screenshot](documentation/screenshots/responsive/responsive_mobileS.jpg) | Works as expected |
-| Mobile IPhone 5 (DevTools) | ![screenshot](documentation/screenshots/responsive/responsive_iphone5.jpg) | Works as expected |
-| Mobile IPhone 12 Pro(DevTools) | ![screenshot](documentation/screenshots/responsive/responsive_iphone12pro.jpg) | Works as expected |
-| Mobile Galaxy S20 (DevTools) | ![screenshot](documentation/screenshots/responsive/responsive_galaxyS20.jpg) | Works as expected |
-| Mobile Tablet (DevTools) | ![screenshot](documentation/screenshots/responsive/responsive_tablet.jpg) | Works as expected |
-| Mobile Laptop (DevTools) | ![screenshot](documentation/screenshots/responsive/responsive_laptop.jpg) | Works as expected |
-| Mobile Laptop L (DevTools) | ![screenshot](documentation/screenshots/responsive/responsive_L.jpg) | Works as expected |
-| Mobile 4K (DevTools) | ![screenshot](documentation/screenshots/responsive/responsive_4k.jpg) | Works as expected |
+| Mobile S (DevTools) | <details><summary>Mobile S</summary>![screenshot](documentation/screenshots/responsive/responsive_mobileS.jpg)</details> | Works as expected |
+| Mobile IPhone 5 (DevTools) | <details><summary>Mobile IPhone 5</summary>![screenshot](documentation/screenshots/responsive/responsive_iphone5.jpg)</details> | Works as expected |
+| Mobile IPhone 12 Pro (DevTools) | <details><summary>Mobile IPhone 12 Pro</summary>![screenshot](documentation/screenshots/responsive/responsive_iphone12pro.jpg)</details> | Works as expected |
+| Mobile Galaxy S20 (DevTools) | <details><summary>Mobile Galaxy S20</summary>![screenshot](documentation/screenshots/responsive/responsive_galaxyS20.jpg)</details> | Works as expected |
+| Tablet (DevTools) | <details><summary>Tablet</summary>![screenshot](documentation/screenshots/responsive/responsive_tablet.jpg)</details> | Works as expected |
+| Laptop (DevTools) | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/responsive/responsive_laptop.jpg)</details> | Works as expected |
+| Laptop L (DevTools) | <details><summary>Laptop L</summary>![screenshot](documentation/screenshots/responsive/responsive_L.jpg)</details> | Works as expected |
+| 4K (DevTools) | <details><summary>4K</summary>![screenshot](documentation/screenshots/responsive/responsive_4k.jpg)</details> | Works as expected |
 
 ## Lighthouse Audit
 
@@ -108,7 +109,7 @@ I've tested my deployed project using the Lighthouse Audit tool to check for any
 
 | Page | Size | Screenshot | Notes |
 | --- | --- | --- | --- |
-| Home | Mobile | ![screenshot](documentation/lighthouse-home-mobile.png) | Some minor warnings |
+| Home | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/lighthouse-home-mobile.png) | All > 90 |
 | Home | Desktop | ![screenshot](documentation/lighthouse-home-desktop.png) | Few warnings |
 | About | Mobile | ![screenshot](documentation/lighthouse-about-mobile.png) | Some minor warnings |
 | About | Desktop | ![screenshot](documentation/lighthouse-about-desktop.png) | Few warnings |
@@ -175,23 +176,23 @@ Defensive programming was manually tested with the below user acceptance testing
 
 | User Story | Screenshot |
 | --- | --- |
-| As a user I can view the main page so that I can navigate through the website. | ![screenshot](documentation/screenshots/home.jpg) |
-| As a user I can view the articles' overview so that see if I am interested in something. | ![screenshot](documentation/screenshots/story.jpg) |
-| As a user I can contact the admin so that they can answer my question. | ![screenshot](documentation/screenshots/contact.jpg) |
-| As a user I can create an account so that I can log in and book a session / comment an article / create an account. | ![screenshot](documentation/screenshots/sign_up.jpg) |
-| As a site user I can be notified of my actions so that I can know my action was successful. | ![screenshot](documentation/screenshots/alert.jpg) |
-| As a site user I can view my bookings so that I can delete them if I want. | ![screenshot](documentation/screenshots/cancel_booking.jpg) |
-| As a site user I can delete a booking so that my session is cancelled. | ![screenshot](documentation/screenshots/cancel_booking_alert.jpg) |
-| As a site user I can add a comment so that I can comment on an article. | ![screenshot](documentation/screenshots/comment.jpg) |
-| As a site user I can create/read/update/delete my profile so that update my personal details. | ![screenshot](documentation/screenshots/profile_create_update.jpg) |
-| As a site user I can log in/out so that access my account. | ![screenshot](documentation/screenshots/sign_in.jpg) |
-| As a site user I can click on an available slot so that I can book a class. | ![screenshot](documentation/screenshots/session.jpg) |
-| As a site administrator, I can view created profiles so that I can see users' information. | ![screenshot](documentation/screenshots/admin_profile.jpg) |
-| As a site administrator, I can view and delete booked sessions so that I can cancel a booking if I am too busy. | ![screenshot](documentation/screenshots/admin_bookings.jpg) |
-| As a site administrator, I can create/read/update/delete sessions so that I can manage my week's program. | ![screenshot](documentation/screenshots/admin_sessions.jpg) |
-| As a site administrator, I can view submitted contact forms so that I can answer their questions. | ![screenshot](documentation/screenshots/admin_contact.jpg) |
-| As a site administrator, I can create/read/update/delete articles for the Story page. | ![screenshot](documentation/screenshots/admin_story.jpg) |
-| As a site administrator, I can view/approve/delete comments to moderate the Thoughts section. | ![screenshot](documentation/screenshots/admin_thoughts.jpg) |
+| As a user I can view the main page so that I can navigate through the website. | <details><summary>Home</summary>![screenshot](documentation/screenshots/home.jpg)</details> |
+| As a user I can view the articles' overview so that see if I am interested in something. | <details><summary>Story</summary>![screenshot](documentation/screenshots/story.jpg)</details> |
+| As a user I can contact the admin so that they can answer my question. | <details><summary>Contact</summary>![screenshot](documentation/screenshots/contact.jpg)</details> |
+| As a user I can create an account so that I can log in and book a session / comment an article / create an account. | <details><summary>Sign Up</summary>![screenshot](documentation/screenshots/sign_up.jpg)</details> |
+| As a site user I can be notified of my actions so that I can know my action was successful. | <details><summary>Alert</summary>![screenshot](documentation/screenshots/alert.jpg)</details> |
+| As a site user I can view my bookings so that I can delete them if I want. | <details><summary>Cancel Booking</summary>![screenshot](documentation/screenshots/cancel_booking.jpg)</details> |
+| As a site user I can delete a booking so that my session is cancelled. | <details><summary>Cancel Booking Alert</summary>![screenshot](documentation/screenshots/cancel_booking_alert.jpg)</details> |
+| As a site user I can add a comment so that I can comment on an article. | <details><summary>Comment</summary>![screenshot](documentation/screenshots/comment.jpg)</details> |
+| As a site user I can create/read/update/delete my profile so that update my personal details. | <details><summary>Profile Update</summary>![screenshot](documentation/screenshots/profile_create_update.jpg)</details> |
+| As a site user I can log in/out so that access my account. | <details><summary>Sign In</summary>![screenshot](documentation/screenshots/sign_in.jpg)</details> |
+| As a site user I can click on an available slot so that I can book a class. | <details><summary>Sessions</summary>![screenshot](documentation/screenshots/session.jpg)</details> |
+| As a site administrator, I can view created profiles so that I can see users' information. | <details><summary>Admin Profiles</summary>![screenshot](documentation/screenshots/admin_profile.jpg)</details> |
+| As a site administrator, I can view and delete booked sessions so that I can cancel a booking if I am too busy. | <details><summary>Admin Bookings</summary>![screenshot](documentation/screenshots/admin_bookings.jpg)</details> |
+| As a site administrator, I can create/read/update/delete sessions so that I can manage my week's program. | <details><summary>Admin Sessions</summary>![screenshot](documentation/screenshots/admin_sessions.jpg)</details> |
+| As a site administrator, I can view submitted contact forms so that I can answer their questions. | <details><summary>Admin contact</summary>![screenshot](documentation/screenshots/admin_contact.jpg)</details> |
+| As a site administrator, I can create/read/update/delete articles for the Story page. | <details><summary>Admin stories</summary>![screenshot](documentation/screenshots/admin_story.jpg)</details> |
+| As a site administrator, I can view/approve/delete comments to moderate the Thoughts section. | <details><summary>Admin Thoughts</summary>![screenshot](documentation/screenshots/admin_thoughts.jpg)</details> |
 
 ## Automated Testing
 
@@ -223,25 +224,13 @@ Below are the results from the various apps on my application that I've tested:
 
 | App | File | Coverage | Screenshot |
 | --- | --- | --- | --- |
-| Bookings | tests | 99% | ![screenshot](documentation/py-test-bag-forms.png) |
-| Contact | tests | 89% | ![screenshot](documentation/py-test-bag-models.png) |
+| Bookings | tests | 84% | ![screenshot](documentation/screenshots/test_bookings.jpg) |
+| Contact | tests | 91% | ![screenshot](documentation/screenshots/test_contact.jpg) |
+| Home | tests | 100% | ![screenshot](documentation/screenshots/test_home.jpg) |
+
+
+
 
 ## Bugs
-
-There are no remaining bugs that I am aware of.
-
-### GitHub **Issues**
-
-**Fixed Bugs**
-
-All previously closed/fixed bugs can be tracked [here](https://github.com/Corentin-Vidick/P4-JSDogTraining/issues?q=is%3Aissue+is%3Aclosed).
-
-| Bug | Status |
-| --- | --- |
-| [JS Uncaught ReferenceError: `foobar` is undefined/not defined](https://github.com/Corentin-Vidick/P4-JSDogTraining/issues/1) | Closed |
-| [Python `'ModuleNotFoundError'` when trying to import module from imported package](https://github.com/Corentin-Vidick/P4-JSDogTraining/issues/2) | Closed |
-| [Django `TemplateDoesNotExist` at /appname/path appname/template_name.html](https://github.com/Corentin-Vidick/P4-JSDogTraining/issues/3) | Closed |
-
-## Unfixed Bugs
 
 There are no remaining bugs that I am aware of.
