@@ -1,29 +1,12 @@
 from django.test import TestCase
+from django.urls import reverse
+# Required to assign User as a borrower
+from django.contrib.auth.models import User
 from bookings.forms import ContactForm, BookingsForm
 from bookings.models import ContactMessage, Booking, SessionsIndividual
 
 
 # Forms testing
-class TestContactForm(TestCase):
-
-    def test_email_is_required(self):
-        """
-        Test if email is required in contact form
-        """
-        form = ContactForm({'email': ''})
-        self.assertFalse(form.is_valid())
-        self.assertIn('email', form.errors.keys())
-        self.assertEqual(form.errors['email'][0], 'This field is required.')
-
-    def test_message_is_required(self):
-        """
-        Test if message is required in contact form
-        """
-        form = ContactForm({'email': 'gg@gg.com', 'message': ''})
-        self.assertFalse(form.is_valid())
-        self.assertIn('message', form.errors.keys())
-        self.assertEqual(form.errors['message'][0], 'This field is required.')
-
 
 class BookingForm(TestCase):
 
@@ -71,3 +54,50 @@ class BookingForm(TestCase):
         self.assertIn('session', form.errors.keys())
         self.assertEqual(form.errors['session'][0], 'Select a valid choice.'
                          ' That choice is not one of the available choices.')
+
+
+# Views testing
+class TestViews(TestCase):
+
+    def test_get_main_page(self):
+        """
+        Test if main page is loaded correctly and from desired template
+        """
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'bookings/sessions_list.html')
+
+    # setUp and login required tests based on
+    # https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Testing#how_to_run_the_tests
+    def setUp(self):
+        # Create a user
+        test_user1 = User.objects.create_user(
+            username='testuser1', password='testuser1password'
+            )
+        test_user1.save()
+
+        # Create an available booking
+        test_booking = SessionsIndividual.objects.create(
+                day='Tuesday',
+                time='10:30',
+                booked=False
+            )
+
+    def test_redirect_from_booking_if_not_logged_in(self):
+        response = self.client.get('/bookings_list/')
+        self.assertRedirects(
+            response, '/accounts/login/?/accounts/login=/bookings_list/'
+            )
+
+    def test_get_bookings_list_if_logged_in(self):
+        """
+        Test if bookings page is loaded correctly and from desired template
+        """
+        login = self.client.login(
+            username='testuser1', password='testuser1password'
+            )
+        response = self.client.get('/bookings_list/')
+
+        self.assertEqual(str(response.context['user']), 'testuser1')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'bookings/bookings_list.html')

@@ -109,6 +109,7 @@
     <script src="https://kit.fontawesome.com/c541643ad5.js" crossorigin="anonymous"></script>
 
     <!-- Messages script -->
+    {% if messages %}
     <script>
         var message_ele = document.getElementById("message_container");
 
@@ -116,6 +117,7 @@
         message_ele.style.display = "none"; 
         }, 3000);
     </script>
+    {% endif %}
 
 </body>
 
