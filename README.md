@@ -4,6 +4,8 @@ JSTraining is a website designed for a dog trainer's clients to book training se
 Users can see their bookings and delete them. They can also create, edit and delete a profile which, if created, will fill the booking form automatically with their address, phone number... Users can also send a message to the admin through the "Contact us" button.
 The trainer (as an admin) can create sessions (day and time), delete booked sessions, view users' profile and view and delete messages from the "Contact us" form.
 
+[Live Site](https://jstraining.herokuapp.com/)
+
 ![screenshot](documentation/screenshots/am_i_responsive.jpg)
 
 
@@ -14,7 +16,7 @@ The trainer (as an admin) can create sessions (day and time), delete booked sess
     2. [Typography](#typography)
 2. [User Stories](#user-stories)
     1. [New Site Users](#new-site-users)
-    2. [Registered Site Users](#registered -site-users)
+    2. [Registered Site Users](#registered-site-users)
     3. [Site Admin](#site-admin)
 3. [Features](#features)
     1. [Existing Features](#existing-features)
@@ -79,30 +81,31 @@ Font awesome icons were used for the social media icons in the footer.
 
 ### New Site Users
 
-- #18 As a user I can view the main page so that I can navigate through the website.
-- #16 As a user I can view the articles' overview so that see if I am interested in something.
-- #12 As a user I can contact the admin so that they can answer my question.
-- #14 As a user I can create an account so that I can log in and book a session / comment an article / create an account.
+- #1 As a user I can view the main page so that I can navigate through the website.
+- #2 As a user I can view the articles' overview so that I can see if I am interested in something.
+- #3 As a user I can view an article so that I can read the whole article and see the comments.
+- #4 As a user I can contact the admin so that they can answer my question.
+- #5 As a user I can create an account so that I can log in and book a session / comment an article / create an account.
 
 ### Registered Site Users
 
-- #17 As a site user I can be notified of my actions so that I can know my action was successful.
-- #23 As a site user I can view my bookings so that I can delete them if I want.
-- #15 As a site user I can delete a booking so that my session is cancelled.
-- #8 As a site user I can add a comment so that I can comment on an article.
-- #6 As a site user I can create/read/update/delete my profile so that update my personal details.
-- #5 As a site user I can log in/out so that access my account.
-- #1 As a site user I can click on an available slot so that I can book a class.
+- #6 As a site user I can be notified of my actions so that I can know my action was successful.
+- #7 As a site user I can book a session so that my dog can be trained.
+- #8 As a site user I can view confirmation of my booking so that I write it down.
+- #9 As a site user I can view my bookings so that I can delete them if I want.
+- #10 As a site user I can delete a booking so that my session is cancelled.
+- #11 As a site user I can add a comment so that I can comment on an article.
+- #12 As a site user I can create/read/update/delete my profile so that update my personal details.
+- #13 As a site user I can log in/out so that access my account.
+- #14 As a site user I can click on an available slot so that I can book a class.
 
 ### Site Admin
 
-- #22 As a site administrator, I can view created profiles so that I can see users' information.
-- #21 As a site administrator, I can delete booked sessions so that cancel a booking.
-- #20 As a site administrator, I can view booked sessions so that I know how busy I am.
-- #19 As a site administrator, I can create/read/update/delete sessions so that I can manage my week's program.
-- #13 As a site administrator, I can view submitted contact forms so that I can answer their questions.
-
-
+- #15 As a site administrator, I can view created profiles so that I can see users' information.
+- #16 As a site administrator, I can delete booked sessions so that cancel a booking.
+- #17 As a site administrator, I can view booked sessions so that I know how busy I am.
+- #18 As a site administrator, I can create/read/update/delete sessions so that I can manage my week's program.
+- #19 As a site administrator, I can view submitted contact forms so that I can answer their questions.
 
 ## Features
 
@@ -111,6 +114,7 @@ Font awesome icons were used for the social media icons in the footer.
 - **Home page**
 
     - This is the home page. It tries to capture the user's attention and focus them on booking a class. It explains what kind of training is offered and why the user should choose JS training. It also highlights the ability to contact the owner of the page. It gives (currently fake) comments to show how happy previous customers are with the service offered. There is also a call to go and read the articles that are published.
+    - User story #1
 
         <details><summary>Home page</summary>
 
@@ -120,6 +124,7 @@ Font awesome icons were used for the social media icons in the footer.
 - **Login, Logout and Register**
 
     - Users can create an account, log in and out of their account. This is required in order to book a session.
+    - User stories #5 and #13
 
         <details><summary>Login, Logout and Register</summary>
 
@@ -131,6 +136,7 @@ Font awesome icons were used for the social media icons in the footer.
 - **Session booking**
 
     - Can pick a session from all available slots. Address and phone are required to complete the process. Those details are automatically filled in if the user has created a profile.
+    - User story #7
 
         <details><summary>Session booking</summary>
 
@@ -140,6 +146,7 @@ Font awesome icons were used for the social media icons in the footer.
 - **Booking confirmation**
 
     - When a booking is made, a recap of the information is displayed to the user to clearly confirm that the booking has been made.
+    - User story #8
 
         <details><summary>Booking confirmation</summary>
 
@@ -149,6 +156,7 @@ Font awesome icons were used for the social media icons in the footer.
 - **My account**
 
     - Displays current bookings to the user, giving opportunity to book another session or delete a booked one. It also displays the user's profile, which can be created, edited or deleted.
+    - User story #9
 
         <details><summary>My account</summary>
 
@@ -158,6 +166,7 @@ Font awesome icons were used for the social media icons in the footer.
 - **Booking cancelation**
 
     - Displays current bookings to the user, giving opportunity to cancel them one by one.
+    - User story #10
 
         <details><summary>Booking cancelation</summary>
 
@@ -167,6 +176,7 @@ Font awesome icons were used for the social media icons in the footer.
 - **Profile creation/update**
 
     - Allows user to create and update their profile. This gives more information to the admin as well as auto-fill the booking form.
+    - User story #12
 
         <details><summary>Profile creation/update</summary>
 
@@ -176,6 +186,7 @@ Font awesome icons were used for the social media icons in the footer.
 - **Profile deletion**
 
     - Allows user to delete their profile.
+    - User story #12
 
         <details><summary>Profile deletion</summary>
 
@@ -185,6 +196,7 @@ Font awesome icons were used for the social media icons in the footer.
 - **Contact form**
 
     - Allows user to send a message to the admin wether they are registered or not.
+    - User story #4
 
         <details><summary>Contact form</summary>
 
@@ -194,6 +206,7 @@ Font awesome icons were used for the social media icons in the footer.
 - **Contact confirmation**
 
     - Confirms to user their message has been sent. Gives them the opportunity to jump to homepage or register.
+    - User story #6
 
         <details><summary>Contact confirmation</summary>
 
@@ -203,6 +216,7 @@ Font awesome icons were used for the social media icons in the footer.
 - **Story overview**
 
     - Allows user to see articles and their preview two by two.
+    - User story #2
 
         <details><summary>Story overview</summary>
 
@@ -212,6 +226,7 @@ Font awesome icons were used for the social media icons in the footer.
 - **Single story**
 
     - Allows user to see a whole article.
+    - User story #3
 
         <details><summary>Single story</summary>
 
@@ -221,6 +236,7 @@ Font awesome icons were used for the social media icons in the footer.
 - **Comments**
 
     - Allows user to see comments and comment themselves if logged on.
+    - User story #
 
         <details><summary>Comment</summary>
 
@@ -230,6 +246,7 @@ Font awesome icons were used for the social media icons in the footer.
 - **Modals**
 
     - Modals are used to ask for user's confirmation when canceling a booking or deleting their profile.
+    - User story #6
 
         <details><summary>Registration</summary>
 
@@ -237,6 +254,19 @@ Font awesome icons were used for the social media icons in the footer.
         ![screenshot](documentation/screenshots/delete_profile_modal.jpg)
         </details>
 
+- **Admin**
+
+    - The admin page enables superusers to operate CRUD functionalities on the database.
+    - User stories #15, #16, #17, #18, #19
+    <details><summary>Admin</summary>
+
+    ![screenshot](documentation/screenshots/admin_bookings.jpg)
+    ![screenshot](documentation/screenshots/admin_contact.jpg)
+    ![screenshot](documentation/screenshots/admin_profile.jpg)
+    ![screenshot](documentation/screenshots/admin_sessions.jpg)
+    ![screenshot](documentation/screenshots/admin_story.jpg)
+    ![screenshot](documentation/screenshots/admin_thoughts.jpg)
+    </details>
 
 ### Future Features
 
