@@ -109,13 +109,18 @@ I've tested my deployed project using the Lighthouse Audit tool to check for any
 
 | Page | Size | Screenshot | Notes |
 | --- | --- | --- | --- |
-| Home | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/lighthouse-home-mobile.png) | All > 90 |
-| Home | Desktop | ![screenshot](documentation/lighthouse-home-desktop.png) | Few warnings |
-| About | Mobile | ![screenshot](documentation/lighthouse-about-mobile.png) | Some minor warnings |
-| About | Desktop | ![screenshot](documentation/lighthouse-about-desktop.png) | Few warnings |
-| Gallery | Mobile | ![screenshot](documentation/lighthouse-gallery-mobile.png) | Slow response time due to large images |
-| Gallery | Desktop | ![screenshot](documentation/lighthouse-gallery-desktop.png) | Slow response time due to large images |
-| x | x | x | repeat for any other tested pages/sizes |
+| Home | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_home.jpg)</details> | All > 90 |
+| Article | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_article.jpg)</details> | All > 90 |
+| Bookings | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_bookings.jpg)</details> | All > 90 |
+| Contact Success | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_contactsuccess.jpg)</details> | All > 90 |
+| Contact Us | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_contactus.jpg)</details> | All > 90 |
+| Sig In | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_signin.jpg)</details> | All > 90 |
+| Sign Off | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_signoff.jpg)</details> | All > 90 |
+| Sign Up | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_signup.jpg)</details> | All > 90 |
+| Stories | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_stories.jpg)</details> | All > 90 |
+| User Bookings | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_userbookings.jpg)</details> | All > 90 |
+| User Profile | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_userprofile.jpg)</details> | All > 90 |
+| User Profile Update | Desktop | <details><summary>Laptop</summary>![screenshot](documentation/screenshots/lighthouse/lighthouse_userprofileupdate.jpg)</details> | All > 90 |
 
 ## Defensive Programming
 
