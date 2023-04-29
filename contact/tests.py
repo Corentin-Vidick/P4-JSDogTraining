@@ -1,6 +1,6 @@
 from django.test import TestCase
-from bookings.forms import ContactForm
-from bookings.models import ContactMessage
+from contact.forms import ContactForm
+from contact.models import ContactMessage
 from django.urls import reverse
 # Required to assign User as a borrower
 from django.contrib.auth.models import User
@@ -33,6 +33,6 @@ class TestViews(TestCase):
         """
         Test if contact page is loaded correctly and from desired template
         """
-        response = self.client.get('/contact/')
+        response = self.client.get('/contact_us/')
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'bookings/contact.html')
+        self.assertTemplateUsed(response, 'contact/contact_us.html')

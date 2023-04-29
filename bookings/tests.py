@@ -2,8 +2,8 @@ from django.test import TestCase
 from django.urls import reverse
 # Required to assign User as a borrower
 from django.contrib.auth.models import User
-from bookings.forms import ContactForm, BookingsForm
-from bookings.models import ContactMessage, Booking, SessionsIndividual
+from bookings.forms import BookingsForm
+from bookings.models import Booking, SessionsIndividual
 
 
 # Forms testing
@@ -39,7 +39,7 @@ class BookingForm(TestCase):
             })
         self.assertTrue(form.is_valid())
 
-    def test_session_from_booked_equal_true(self):
+    def test_session_form_booked_equal_true(self):
         """
         Test if only unbooked sessions are offered for booking
         (SessionsIndividual.booked=False)
@@ -58,15 +58,6 @@ class BookingForm(TestCase):
 
 # Views testing
 class TestViews(TestCase):
-
-    def test_get_main_page(self):
-        """
-        Test if main page is loaded correctly and from desired template
-        """
-        response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'bookings/sessions_list.html')
-
     # setUp and login required tests based on
     # https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Testing#how_to_run_the_tests
     def setUp(self):

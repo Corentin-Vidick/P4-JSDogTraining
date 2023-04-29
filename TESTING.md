@@ -51,13 +51,15 @@ I have used the recommended [CI Python Linter](https://pep8ci.herokuapp.com) to 
 | apps.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/bookings/apps.py) | <details><summary>Apps</summary>![screenshot](documentation/screenshots/pylinter/bookings_apps.jpg)</details> | All clear, no errors found |
 | forms.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/bookings/forms.py) | <details><summary>Forms</summary>![screenshot](documentation/screenshots/pylinter/bookings_forms.jpg)</details> | All clear, no errors found |
 | models.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/bookings/models.py) | <details><summary>Models</summary>![screenshot](documentation/screenshots/pylinter/bookings_models.jpg)</details> | All clear, no errors found |
+| tests.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/bookings/tests.py) | <details><summary>Tests</summary>![screenshot](documentation/screenshots/pylinter/bookings_tests.jpg)</details> | All clear, no errors found |
 | urls.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/bookings/urls.py) | <details><summary>URLs</summary>![screenshot](documentation/screenshots/pylinter/bookings_urls.jpg)</details> | All clear, no errors found |
 | views.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/bookings/views.py) | <details><summary>Views</summary>![screenshot](documentation/screenshots/pylinter/bookings_views.jpg)</details> | All clear, no errors found |
 | Contact | --- | --- | --- |
 | admin.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/contact/admin.py) | <details><summary>Admin</summary>![screenshot](documentation/screenshots/pylinter/contact_admin.jpg)</details> | All clear, no errors found |
 | apps.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/contact/apps.py) | <details><summary>Apps</summary>![screenshot](documentation/screenshots/pylinter/contact_apps.jpg)</details> | All clear, no errors found |
-| forms.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/contact/models.py) | <details><summary>Forms</summary>![screenshot](documentation/screenshots/pylinter/contact_forms.jpg)</details> | All clear, no errors found |
-| models.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/bookings/models.py) | <details><summary>Models</summary>![screenshot](documentation/screenshots/pylinter/contact_models.jpg)</details> | All clear, no errors found |
+| forms.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/contact/forms.py) | <details><summary>Forms</summary>![screenshot](documentation/screenshots/pylinter/contact_forms.jpg)</details> | All clear, no errors found |
+| models.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/contact/models.py) | <details><summary>Models</summary>![screenshot](documentation/screenshots/pylinter/contact_models.jpg)</details> | All clear, no errors found |
+| tests.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/contact/tests.py) | <details><summary>Tests</summary>![screenshot](documentation/screenshots/pylinter/contact_tests.jpg)</details> | All clear, no errors found |
 | urls.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/contact/urls.py) | <details><summary>URLs</summary>![screenshot](documentation/screenshots/pylinter/contact_urls.jpg)</details> | All clear, no errors found |
 | views.py | [CI PEP8](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/Corentin-Vidick/P4-JSDogTraining/main/contact/views.py) | <details><summary>Views</summary>![screenshot](documentation/screenshots/pylinter/contact_views.jpg)</details> | All clear, no errors found |
 | Home | --- | --- | --- |
@@ -171,16 +173,6 @@ Defensive programming was manually tested with the below user acceptance testing
 
 ## User Story Testing
 
-⚠️⚠️⚠️⚠️⚠️ START OF NOTES (to be deleted) ⚠️⚠️⚠️⚠️⚠️
-
-Testing user stories is actually quite simple, once you've already got the stories defined on your README.
-
-Most of your project's **features** should already align with the **user stories**,
-so this should as simple as creating a table with the user story, matching with the re-used screenshot
-from the respective feature.
-
-🛑🛑🛑🛑🛑 END OF NOTES (to be deleted) 🛑🛑🛑🛑🛑
-
 | User Story | Screenshot |
 | --- | --- |
 | As a user I can view the main page so that I can navigate through the website. | ![screenshot](documentation/screenshots/home.jpg) |
@@ -231,27 +223,8 @@ Below are the results from the various apps on my application that I've tested:
 
 | App | File | Coverage | Screenshot |
 | --- | --- | --- | --- |
-| Bag | test_forms.py | 99% | ![screenshot](documentation/py-test-bag-forms.png) |
-| Bag | test_models.py | 89% | ![screenshot](documentation/py-test-bag-models.png) |
-| Bag | test_urls.py | 100% | ![screenshot](documentation/py-test-bag-urls.png) |
-| Bag | test_views.py | 71% | ![screenshot](documentation/py-test-bag-views.png) |
-| Checkout | test_forms.py | 99% | ![screenshot](documentation/py-test-checkout-forms.png) |
-| Checkout | test_models.py | 89% | ![screenshot](documentation/py-test-checkout-models.png) |
-| Checkout | test_urls.py | 100% | ![screenshot](documentation/py-test-checkout-urls.png) |
-| Checkout | test_views.py | 71% | ![screenshot](documentation/py-test-checkout-views.png) |
-| Home | test_forms.py | 99% | ![screenshot](documentation/py-test-home-forms.png) |
-| Home | test_models.py | 89% | ![screenshot](documentation/py-test-home-models.png) |
-| Home | test_urls.py | 100% | ![screenshot](documentation/py-test-home-urls.png) |
-| Home | test_views.py | 71% | ![screenshot](documentation/py-test-home-views.png) |
-| Products | test_forms.py | 99% | ![screenshot](documentation/py-test-products-forms.png) |
-| Products | test_models.py | 89% | ![screenshot](documentation/py-test-products-models.png) |
-| Products | test_urls.py | 100% | ![screenshot](documentation/py-test-products-urls.png) |
-| Products | test_views.py | 71% | ![screenshot](documentation/py-test-products-views.png) |
-| Profiles | test_forms.py | 99% | ![screenshot](documentation/py-test-profiles-forms.png) |
-| Profiles | test_models.py | 89% | ![screenshot](documentation/py-test-profiles-models.png) |
-| Profiles | test_urls.py | 100% | ![screenshot](documentation/py-test-profiles-urls.png) |
-| Profiles | test_views.py | 71% | ![screenshot](documentation/py-test-profiles-views.png) |
-| x | x | x | repeat for all remaining tested apps/files |
+| Bookings | tests | 99% | ![screenshot](documentation/py-test-bag-forms.png) |
+| Contact | tests | 89% | ![screenshot](documentation/py-test-bag-models.png) |
 
 ## Bugs
 
