@@ -13,7 +13,7 @@
                     <img class="card-img-top" src=" {{ post.image.url }}" alt="User uploaded image">
                 {% endif %}
                 <div class="card-body">
-                    <p class="card-text post-text">{{ post.content }}</p>
+                    <p class="card-text post-text">{{ post.content | safe}}</p>
                 </div>
                 <div class="card-footer bg-transparent text-center">
                     <small>
