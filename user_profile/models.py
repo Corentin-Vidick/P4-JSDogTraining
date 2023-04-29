@@ -4,6 +4,9 @@ from cloudinary.models import CloudinaryField
 
 
 class Profile(models.Model):
+    """
+    Model used for users' profiles
+    """
     COUNTRIES = (("UK", "United Kingdom"), ("IE", "Ireland"))
     name = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)

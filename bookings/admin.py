@@ -7,7 +7,7 @@ from django_summernote.admin import SummernoteModelAdmin
 @admin.register(SessionsIndividual)
 class SessionsAdmin(SummernoteModelAdmin):
     """
-    Enables CRUD functionalities for Sessions
+    Enables CRUD functionalities for SessionsIndividual
     """
     list_filter = ('day', )
     list_display = ('day', 'time', 'booked')
