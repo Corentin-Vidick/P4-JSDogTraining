@@ -7,6 +7,9 @@ STATUS = ((0, "Draft"), (1, "Published"))
 
 
 class Story(models.Model):
+    """
+    Story model for posts
+    """
     post_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
@@ -33,6 +36,9 @@ class Story(models.Model):
 
 
 class Thought(models.Model):
+    """
+    Thought model for comments
+    """
     post = models.ForeignKey(Story, on_delete=models.CASCADE,
                              related_name="comments")
     name = models.CharField(max_length=80)

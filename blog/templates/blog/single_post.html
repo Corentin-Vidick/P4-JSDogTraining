@@ -3,6 +3,7 @@
 {% block content %}
 {% load static %}
 
+    <!-- Story -->
     <div class="container">
         <div class="row">
             <div class="card h-100 card-story">
@@ -18,6 +19,7 @@
                 <div class="card-footer bg-transparent text-center">
                     <small>
                         {{ post.created_on}}
+                        <!-- Checks wether user has liked the post or not -->
                         {% if user.is_authenticated %}
                             <form class="d-inline" action="{% url 'post_like' post.slug %}" method="POST">
                                 {% csrf_token %}

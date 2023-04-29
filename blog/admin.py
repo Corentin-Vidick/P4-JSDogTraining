@@ -5,7 +5,9 @@ from django_summernote.admin import SummernoteModelAdmin
 
 @admin.register(Story)
 class PostsAdmin(SummernoteModelAdmin):
-
+    """
+    Enables CRUD functionalities for Stories
+    """
     list_display = ('title', 'slug', 'status', 'created_on')
     search_fields = ['title', 'content']
     list_filter = ('status', 'created_on')
@@ -15,6 +17,9 @@ class PostsAdmin(SummernoteModelAdmin):
 
 @admin.register(Thought)
 class ThoughtsAdmin(admin.ModelAdmin):
+    """
+    Enables CRUD functionalities and approval for Thoughts
+    """
     list_display = ('name', 'body', 'post', 'created_on', 'approved')
     list_filter = ('approved', 'created_on')
     search_fields = ('name', 'email', 'body')

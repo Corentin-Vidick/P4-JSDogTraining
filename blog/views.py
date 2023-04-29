@@ -9,15 +9,15 @@ from .forms import CommentForm
 
 
 class PostOverview(generic.ListView):
+    """
+    Overview of posts, two per pagination
+    """
     queryset = Story.objects.filter(status=1).order_by("-created_on")
     template_name = "posts_overview.html"
     paginate_by = 2
     model = Story
 
     def get(self, request, *args, **kwargs):
-        """
-        This view renders the blog page and also all published posts
-        """
         posts = Story.objects.all()
         paginator = Paginator(posts, 2)
         page = request.GET.get('page')
@@ -30,7 +30,9 @@ class PostOverview(generic.ListView):
 
 
 class SinglePost(View):
-
+    """
+    Single post view, includes comments functionalities
+    """
     def get(self, request, slug, *args, **kwargs):
         queryset = Story.objects.filter(status=1)
         post = get_object_or_404(queryset, slug=slug)
@@ -52,7 +54,9 @@ class SinglePost(View):
         )
 
     def post(self, request, slug, *args, **kwargs):
-
+        """
+        Approve comments filter and comment submission
+        """
         queryset = Posts.objects.filter(status=1)
         post = get_object_or_404(queryset, slug=slug)
         comments = post.comments.filter(approved=True).order_by("-created_on")
@@ -88,7 +92,9 @@ class SinglePost(View):
 
 
 class PostLike(View):
-
+    """
+    Handles the "like/unlike" functionality
+    """
     def post(self, request, slug, *args, **kwargs):
         post = get_object_or_404(Posts, slug=slug)
         if post.likes.filter(id=request.user.id).exists():
