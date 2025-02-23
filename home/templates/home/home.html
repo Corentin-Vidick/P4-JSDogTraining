@@ -3,17 +3,20 @@
 {% block content %}
 {% load static %}
 <div class="container">
-    <!-- Group class -->
     <div class="row services-section">
         <h2>Classes</h2>
+        <!-- Stock -->
         <div class="col-sm-6 col-md-4">
             <div class="card">
                 <img src="{% static 'images/group_class.jpg' %}" class="card-img" alt="A pack of four dogs on the lead">
                 <div class="card-img-overlay">
-                    <h3 class="card-title">Group class</h3>
+                    <h3 class="card-title">Stock management</h3>
                 </div>
                 <div class="custom-overlay">
-                    <div class="text">Coming soon</div>
+                    <div class="text">
+                        <p>Access the stock management page</p>
+                        <a href="{% url 'stock' %}" class="btn btn-success btn-sm">Stock</a>
+                    </div>
                 </div>
             </div>
         </div>

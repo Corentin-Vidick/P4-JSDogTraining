@@ -10,4 +10,5 @@ urlpatterns = [
     path('', include('contact.urls'), name='contact_urls'),
     path('', include('user_profile.urls'), name='user_profile_urls'),
     path('', include('blog.urls'), name='blog_urls'),
+    path('', include('stock.urls'), name='stock_urls'),
 ]
