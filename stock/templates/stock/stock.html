@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Welcome to the stock management</h2>
+
+<h3>Available stock:</h3>
+
+<div class="container">
+    <table style="width:100%">
+        <tr>
+            <th>Treat</th>
+            <th>Quantity</th>
+            <th>Add stock</th>
+            <th>Remove stock</th>
+        </tr>
+        {% for item in stock %}
+        <tr>
+            <td> {{ item.name }} </td>
+            <td> {{ item.quantity }} </td>
+            <td> <i class="fa-solid fa-plus"></i> </td>
+            <td> <i class="fa-solid fa-minus"></i> </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}
