@@ -235,3 +235,7 @@ th, td {
     border: 1px solid black;
     padding-left: 5%;
   }
+
+.stock_table {
+    width: 100%;
+}

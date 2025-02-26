@@ -6,33 +6,39 @@
 <h3>Available stock:</h3>
 
 <div class="container">
-    <table style="width:100%">
+    <table class="stock_table">
         <tr>
             <th>Treat</th>
             <th>Quantity</th>
             <th>Add stock</th>
             <th>Remove stock</th>
         </tr>
-        {% for item in stock %}
+        {% for stock in grouped_stock %}
         <tr>
-            <td>{{ item.name }}</td>
-            <td>{{ item.quantity }}</td>
+            <td>
+                <a href="{% url 'stock_detail' stock.name %}">{{ stock.name }}</a>
+            </td>
+            <td>{{ stock.total_quantity }}</td>
             <td>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStockModal"
-                        data-item-id="{{ item.id }}"
-                        data-item-category="{{ item.category }}"
-                        data-item-name="{{ item.name }}"
-                        data-item-weight="{{ item.weight }}"
-                        data-item-label="{{ item.label }}"
-                        data-item-origin-stock="{{ item.origin_stock }}">
+                        data-item-id="{{ stock.id }}"
+                        data-item-category="{{ stock.category }}"
+                        data-item-name="{{ stock.name }}"
+                        data-item-weight="{{ stock.weight }}"
+                        data-item-label="{{ stock.label }}"
+                        data-item-origin-stock="{{ stock.origin_stock }}">
                     <i class="fa-solid fa-plus" aria-hidden="true"></i>
                 </button>
             </td>
             <td><i class="fa-solid fa-minus"></i></td>
         </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4">No stock available.</td>
+        </tr>
         {% endfor %}
     </table>
-    <!-- Single Modal defined outside the loop -->
+    <!-- Add stock defined outside the loop -->
     <div class="modal fade" id="addStockModal" tabindex="-1" aria-labelledby="addStockLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -46,11 +52,11 @@
                     </div>
                     <div class="modal-body">
                         <!-- Hidden fields for auto-populated constant values -->
-                        <input type="hidden" name="name" id="modalItemNameHidden" value="">
-                        <input type="hidden" name="category" id="modalItemCategory" value="">
-                        <input type="hidden" name="weight" id="modalItemWeight" value="">
-                        <input type="hidden" name="label" id="modalItemLabel" value="">
-                        <input type="hidden" name="origin_stock" id="modalItemOriginstock" value="">
+                        <input type="hidden" name="name" id="groupedModalItemNameHidden" value="">
+                        <input type="hidden" name="category" id="groupedModalItemCategory" value="">
+                        <input type="hidden" name="weight" id="groupedModalItemWeight" value="">
+                        <input type="hidden" name="label" id="groupedModalItemLabel" value="">
+                        <input type="hidden" name="origin_stock" id="groupedModalItemOriginstock" value="">
                         
                         <!-- Fields that the user fills in -->
                         {{ form.as_p }}

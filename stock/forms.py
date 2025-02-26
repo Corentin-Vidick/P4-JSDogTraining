@@ -5,3 +5,8 @@ class AddStockForm(forms.ModelForm):
     class Meta:
         model = PackedStock
         fields = ['quantity', 'expiry_date', 'batch']
+
+class AddStockDetailForm(forms.ModelForm):
+    class Meta:
+        model = PackedStock
+        fields = ['quantity']
