@@ -133,3 +133,57 @@ $(document).ready(function() {
         modal.find('#detailModalItemBatch').val(itemBatch);
     });
 });
+
+// Remove stock
+// Grouped view: When the Remove Stock modal is shown
+$('#removeStockModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    console.log("Storing triggering remove button:", button);
+    window.triggeringRemoveButton = button;
+    var itemName = button.attr('data-item-name');
+    console.log("Remove - Item Name:", itemName);
+    
+    var modal = $(this);
+    modal.find('#removeModalItemName').text(itemName);
+    modal.find('#removeModalItemNameHidden').val(itemName);
+});
+
+// Grouped view: Handle the removal form submission via AJAX
+$('#removeStockForm').on('submit', function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: removeStockUrl,
+        data: $(this).serialize(),
+        success: function(response) {
+            if(response.success){
+                alert(response.message);
+                $('#removeStockModal').modal('hide');
+                // Retrieve the triggering button
+                var button = window.triggeringRemoveButton;
+                if (!button) {
+                    console.error("Triggering remove button not found");
+                    return;
+                }
+                // Find the closest table row and update its total quantity cell
+                var row = button.closest('tr');
+                row.find('.total_quantity').text(response.total_quantity);
+            } else if(response.warning) {
+                // If the view returned a warning, prompt for confirmation
+                if(confirm(response.message)){
+                    // Set the confirm field to true and resubmit the form
+                    $('#removeStockForm input[name="confirm"]').prop('checked', true);
+                    $('#removeStockForm').submit();
+                }
+            } else {
+                console.log('Validation errors:', response.errors);
+                alert('There were errors in your submission.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Removal AJAX error:', status, error);
+            console.error('Response:', xhr.responseText);
+            alert('An error occurred while removing stock: ' + error);
+        }
+    });
+});

@@ -5,7 +5,7 @@ from django.contrib import messages
 from .models import PackedStock, BulkStock, LabelStock
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .forms import AddStockForm, AddStockDetailForm
+from .forms import AddStockForm, RemoveStockForm, AddStockDetailForm
 from django.db.models import Sum, Max
 from datetime import datetime
 
@@ -20,8 +20,11 @@ def stock(request):
         .annotate(total_quantity=Sum('quantity'))
         .order_by('name')
     )
-    form = AddStockForm()
-    return render(request, 'stock/stock.html', {'grouped_stock': grouped_stock, 'form': form})
+    return render(request, 'stock/stock.html', {
+        'grouped_stock': grouped_stock,
+        'form': AddStockForm(),
+        'remove_form': RemoveStockForm()
+        })
 
 def stock_detail(request, treat_name):
     """
@@ -50,8 +53,8 @@ def stock_detail(request, treat_name):
 
 def add_stock(request):
     """
-    Add stock using the corresponding treat name, only the quantity, expiry date and batch are required as a user input,
-    the name, category, weight label and origin stock are auto generated
+    Add stock using the corresponding treat name. Only the quantity, expiry date and batch are required as a user input.
+    The name, category, weight label and origin stock are auto generated
     """
     if request.method == 'POST':
         form = AddStockForm(request.POST)
@@ -105,6 +108,70 @@ def add_stock(request):
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Only POST method allowed'})
+
+def remove_stock(request):
+    """
+    Remove stock for a given treat (grouped view), following these rules:
+    - Remove stock from records in FIFO order (earliest expiry first).
+    - If a record’s quantity falls to zero, delete that record.
+    - If the removal quantity is greater than the total available and not confirmed,
+      return a warning to prompt confirmation.
+    - If confirmed, merge all records into one:
+         * Keep one record (e.g. the earliest by expiry date) and set its quantity to zero.
+         * Delete all other records for that treat.
+    """
+    if request.method == 'POST':
+        form = RemoveStockForm(request.POST)
+        if form.is_valid():
+            removal_qty = form.cleaned_data['quantity']
+            confirm = form.cleaned_data.get('confirm', False)
+            # Get the treat name from the hidden input:
+            name = request.POST.get('name')
+            # Calculate total available for that treat:
+            total = PackedStock.objects.filter(name=name).aggregate(total=Sum('quantity'))['total'] or 0
+
+            if removal_qty > total and not confirm:
+                return JsonResponse({
+                    'success': False,
+                    'warning': True,
+                    'message': 'Removal quantity exceeds total available. Please confirm removal.'
+                })
+            
+            if removal_qty > total and confirm:
+                # Over-removal confirmed: Merge all records into one.
+                stocks = PackedStock.objects.filter(name=name).order_by('expiry_date')
+                if stocks.exists():
+                    first_stock = stocks.first()
+                    first_stock.quantity = 0
+                    first_stock.save()
+                    # Delete all other records for this treat.
+                    stocks.exclude(pk=first_stock.pk).delete()
+            else:
+                # Normal removal: removal_qty <= total
+                stocks = PackedStock.objects.filter(name=name).order_by('expiry_date')
+                remaining = removal_qty
+                for stock in stocks:
+                    if remaining <= 0:
+                        break
+                    if stock.quantity <= remaining:
+                        remaining -= stock.quantity
+                        stock.delete()
+                    else:
+                        stock.quantity -= remaining
+                        stock.save()
+                        remaining = 0
+
+            new_total = PackedStock.objects.filter(name=name).aggregate(total=Sum('quantity'))['total'] or 0
+            return JsonResponse({
+                'success': True,
+                'message': 'Stock removed successfully!',
+                'total_quantity': new_total
+            })
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    return JsonResponse({'success': False, 'message': 'Only POST method allowed'})
+
+
 
 def add_stock_detail(request):
     """

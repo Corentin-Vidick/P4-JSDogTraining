@@ -30,7 +30,12 @@
                     <i class="fa-solid fa-plus" aria-hidden="true"></i>
                 </button>
             </td>
-            <td><i class="fa-solid fa-minus"></i></td>
+            <td>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removeStockModal"
+                        data-item-name="{{ stock.name }}">
+                    <i class="fa-solid fa-minus" aria-hidden="true"></i>
+                </button>
+            </td>
         </tr>
         {% empty %}
         <tr>
@@ -38,6 +43,7 @@
         </tr>
         {% endfor %}
     </table>
+
     <!-- Add stock defined outside the loop -->
     <div class="modal fade" id="addStockModal" tabindex="-1" aria-labelledby="addStockLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -69,6 +75,41 @@
             </div>
         </div>
     </div>
+
+    <!-- Remove Stock Modal -->
+    <div class="modal fade" id="removeStockModal" tabindex="-1" aria-labelledby="removeStockLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="removeStockForm" action="{% url 'remove_stock' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="removeStockLabel">
+                            Remove stock from <span id="removeModalItemName"></span>
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Hidden field for the treat name -->
+                        <input type="hidden" name="name" id="removeModalItemNameHidden" value="">
+                        <!-- Display the removal form fields -->
+                        <div class="mb-3">
+                            {{ remove_form.quantity.label_tag }}
+                            {{ remove_form.quantity }}
+                        </div>
+                        <div class="mb-3">
+                            {{ remove_form.confirm.label_tag }}
+                            {{ remove_form.confirm }}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Remove Stock</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 {% endblock %}
@@ -77,6 +118,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         const addStockUrl = "{% url 'add_stock' %}";
+        const removeStockUrl = "{% url 'remove_stock' %}";
     </script>
     <script src="{% static 'js/stock.js' %}"></script>
 {% endblock %}

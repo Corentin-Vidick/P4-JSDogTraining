@@ -16,3 +16,7 @@ class AddStockDetailForm(forms.ModelForm):
     class Meta:
         model = PackedStock
         fields = ['quantity']
+
+class RemoveStockForm(forms.Form):
+    quantity = forms.IntegerField(min_value=1, label="Quantity to remove")
+    confirm = forms.BooleanField(required=False, label="Confirm over-removal")
