@@ -8,8 +8,7 @@
         <th>Expiry Date</th>
         <th>Batch</th>
         <th>Quantity</th>
-        <th>Add Stock</th>
-        <th>Remove Stock</th>
+        <th>Update Stock</th>
       </tr>
     </thead>
     <tbody>
@@ -17,7 +16,7 @@
         <tr>
           <td>{{ detail.expiry_date }}</td>
           <td>{{ detail.batch }}</td>
-          <td>{{ detail.total_quantity }}</td>
+          <td class="total_quantity">{{ detail.total_quantity }}</td>
           <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStockDetailModal"
                     data-item-id="{{ detail.id }}"
@@ -28,13 +27,8 @@
                     data-item-origin-stock="{{ detail.origin_stock }}"
                     data-item-expiry-date="{{ detail.expiry_date|date:'Y-m-d' }}"
                     data-item-batch="{{ detail.batch }}">
-                    <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
                 </button>
-          </td>
-          <td>
-            <button type="button" class="btn btn-danger">
-              <i class="fa-solid fa-minus"></i>
-            </button>
           </td>
         </tr>
       {% empty %}

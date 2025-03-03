@@ -18,7 +18,7 @@
             <td>
                 <a href="{% url 'stock_detail' stock.name %}">{{ stock.name }}</a>
             </td>
-            <td>{{ stock.total_quantity }}</td>
+            <td class="total_quantity">{{ stock.total_quantity }}</td>
             <td>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStockModal"
                         data-item-id="{{ stock.id }}"

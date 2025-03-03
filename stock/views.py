@@ -56,49 +56,117 @@ def add_stock(request):
     if request.method == 'POST':
         form = AddStockForm(request.POST)
         if form.is_valid():
-            stock_item = form.save(commit=False)
-            # Assign the auto-populated fields
-            stock_item.name = request.POST.get('name')
-            stock_item.category = request.POST.get('category')
-            stock_item.weight = request.POST.get('weight')
-            stock_item.label = request.POST.get('label')
-            stock_item.origin_stock = request.POST.get('origin_stock')
+            new_quantity = form.cleaned_data['quantity']
+            # Get required auto-populated fields from hidden inputs
+            name = request.POST.get('name')
+            category = request.POST.get('category')
+            weight = request.POST.get('weight')
+            label = request.POST.get('label')
+            origin_stock = request.POST.get('origin_stock')
+            
+            # expiry_date and batch are now required:
+            expiry_date_str = request.POST.get('expiry_date')
+            batch_str = request.POST.get('batch')
+            if not expiry_date_str:
+                return JsonResponse({'success': False, 'errors': {'expiry_date': 'Expiry date is required.'}})
+            if not batch_str:
+                return JsonResponse({'success': False, 'errors': {'batch': 'Batch is required.'}})
+            
+            try:
+                expiry_date = datetime.strptime(expiry_date_str, "%Y-%m-%d").date()
+            except ValueError as e:
+                return JsonResponse({'success': False, 'errors': {'expiry_date': str(e)}})
+            
+            try:
+                batch = int(batch_str)
+            except ValueError as e:
+                return JsonResponse({'success': False, 'errors': {'batch': str(e)}})
+            
+            # Create a new stock record
+            stock_item = PackedStock(
+                name=name,
+                category=category,
+                weight=weight,
+                label=label,
+                origin_stock=origin_stock,
+                quantity=new_quantity,
+                expiry_date=expiry_date,
+                batch=batch
+            )
             stock_item.save()
-            return JsonResponse({'success': True, 'message': 'Stock added successfully!'})
+
+            # Recalculate the total quantity for this treat (grouped by name)
+            total = PackedStock.objects.filter(name=name).aggregate(total=Sum('quantity'))['total'] or 0
+            return JsonResponse({
+                'success': True,
+                'message': 'Stock added successfully!',
+                'total_quantity': total
+            })
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Only POST method allowed'})
 
 def add_stock_detail(request):
     """
-    Add stock using the corresponding treat name, expiry date and batch. Only the quantity is required as a user input,
+    Overwrite stock using the corresponding treat name, expiry date and batch. Only the quantity is required as a user input,
     the name, category, weight label and origin stock are auto generated
     """
     if request.method == 'POST':
         form = AddStockDetailForm(request.POST)
         if form.is_valid():
-            stock_item = form.save(commit=False)
+            new_quantity = form.cleaned_data['quantity']
             # Assign the auto-populated fields
-            stock_item.name = request.POST.get('name')
-            stock_item.category = request.POST.get('category')
-            stock_item.weight = request.POST.get('weight')
-            stock_item.label = request.POST.get('label')
-            stock_item.origin_stock = request.POST.get('origin_stock')
+            name = request.POST.get('name')
+            category = request.POST.get('category')
+            weight = request.POST.get('weight')
+            label = request.POST.get('label')
+            origin_stock = request.POST.get('origin_stock')
             expiry_date_str = request.POST.get('expiry_date')
+            # Convert expiry_date to a Python date object
             if expiry_date_str:
                 try:
-                    stock_item.expiry_date = datetime.strptime(expiry_date_str, "%Y-%m-%d").date()
+                    expiry_date = datetime.strptime(expiry_date_str, "%Y-%m-%d").date()
                 except ValueError as e:
                     return JsonResponse({'success': False, 'errors': {'expiry_date': str(e)}})
+            else:
+                expiry_date = None
             # Convert batch from string to integer
             batch_str = request.POST.get('batch')
             if batch_str:
                 try:
-                    stock_item.batch = int(batch_str)
+                    batch = int(batch_str)
                 except ValueError as e:
                     return JsonResponse({'success': False, 'errors': {'batch': str(e)}})
-            stock_item.save()
-            return JsonResponse({'success': True, 'message': 'Stock updated successfully!'})
+            else:
+                batch = None
+
+            # Try to fetch an existing record for this treat, expiry date, and batch.
+            try:
+                stock_item = PackedStock.objects.get(name=name, expiry_date=expiry_date, batch=batch)
+                # Overwrite the quantity with the new value
+                stock_item.quantity = new_quantity
+                # Optionally, update the constant fields (if needed)
+                stock_item.category = category
+                stock_item.weight = weight
+                stock_item.label = label
+                stock_item.origin_stock = origin_stock
+                stock_item.save()
+            except PackedStock.DoesNotExist:
+                # No matching record exists, so create a new one
+                stock_item = PackedStock(
+                    name=name,
+                    category=category,
+                    weight=weight,
+                    label=label,
+                    origin_stock=origin_stock,
+                    quantity=new_quantity,
+                    expiry_date=expiry_date,
+                    batch=batch
+                )
+                stock_item.save()
+            # Recalculate the total quantity for this group
+            total = PackedStock.objects.filter(name=name, expiry_date=expiry_date, batch=batch).aggregate(total=Sum('quantity'))['total'] or 0
+            return JsonResponse({'success': True, 'message': 'Stock added successfully!', 'total_quantity': total})
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Only POST method allowed'})
