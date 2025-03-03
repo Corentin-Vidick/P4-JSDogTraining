@@ -4,13 +4,13 @@
 {% load static %}
 <div class="container">
     <div class="row services-section">
-        <h2>Classes</h2>
-        <!-- Stock -->
+        <h2>Stock control</h2>
+        <!-- Packed stock -->
         <div class="col-sm-6 col-md-4">
             <div class="card">
-                <img src="{% static 'images/group_class.jpg' %}" class="card-img" alt="A pack of four dogs on the lead">
+                <img src="{% static 'images/packedstocktiny.jpg' %}" class="card-img" alt="A pack of four dogs on the lead">
                 <div class="card-img-overlay">
-                    <h3 class="card-title">Stock management</h3>
+                    <h3 class="card-title">Packed stock</h3>
                 </div>
                 <div class="custom-overlay">
                     <div class="text">
@@ -20,12 +20,12 @@
                 </div>
             </div>
         </div>
-        <!-- Puppy class -->
+        <!-- Bulk stock -->
         <div class="col-sm-6 col-md-4">
             <div class="card">
-                <img src="{% static 'images/puppy_class.jpg' %}" class="card-img" alt="Three golden retriever puppies playing">
+                <img src="{% static 'images/bulkstock.jpg' %}" class="card-img" alt="Three golden retriever puppies playing">
                 <div class="card-img-overlay">
-                    <h3 class="card-title">Puppy class</h3>
+                    <h3 class="card-title">Bulk stock</h3>
                 </div>
                 <div class="custom-overlay">
                     <div class="text">Coming soon</div>
@@ -35,14 +35,14 @@
         <!-- One-to-one class -->
         <div class="col-sm-6 col-md-4">
             <div class="card">
-                <img src="{% static 'images/onetoone_class.jpg' %}" class="card-img" alt="Yellow labrador retriever on leash">
+                <img src="{% static 'images/label.jpg' %}" class="card-img" alt="Yellow labrador retriever on leash">
                 <div class="card-img-overlay">
-                    <h3 class="card-title">One-to-one</h3>
+                    <h3 class="card-title">Label stock</h3>
                 </div>
                 <div class="custom-overlay">
                     <div class="text">
-                        <p>Book a one-to-one behaviour training class</p>
-                        <a href="{% url 'bookings_list' %}" class="btn btn-success btn-sm">Book now</a>
+                        <p>Coming soon</p>
+                        <!-- <a href="{% url 'bookings_list' %}" class="btn btn-success btn-sm">Book now</a> -->
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
     </div>
 
     <!-- Who we are section -->
-    <div class="row whoweare-section">
+    <!-- <div class="row whoweare-section">
         <div class="col-10 offset-1">
             <h2>Animal behaviour training</h2>
             <p>Does your dog have behaviour issues? JS Training is here to help correct and manage your dog's behaviour
@@ -76,10 +76,10 @@
             <p><a class="text-link" href="{% url 'contact_us' %}" aria-label="contact us">Contact</a> us now for any enquiry
             </p>
         </div>
-    </div>
+    </div> -->
 
     <!-- Repeatable row to give space to the page -->
-    <div class="row spacer">
+    <!-- <div class="row spacer">
         <div class="col">
             <img src="{% static 'images/pawprint.jpg' %}" class="spacer-img" alt="Pawprint">
         </div>
@@ -89,14 +89,14 @@
         <div class="col">
             <img src="{% static 'images/pawprint.jpg' %}" class="spacer-img" alt="Pawprint">
         </div>
-    </div>
+    </div> -->
 
     <!-- Reviews, currently fake -->
-    <div class="row reviews-section">
+    <!-- <div class="row reviews-section">
         <h2>What our customers say</h2>
-        <div class="col-sm comment">
+        <div class="col-sm comment"> -->
             <!-- Use of &#160; as a no break space -->
-            <h4><i class="fa-solid fa-quote-left">&#160;</i></h4>
+            <!-- <h4><i class="fa-solid fa-quote-left">&#160;</i></h4>
             <p>We own a 40kg american akita that had socialisation and aggresivity issues. During the 5 sessions we had we
                 were taught what to do, how to react and control our dog's behaviour. Walks have been much nicer and less
                 stressful since.</p>
@@ -108,9 +108,9 @@
         <div class="col-sm comment">
             <h4><i class="fa-solid fa-quote-left">&#160;</i></h4>
             <p>Simply said, they saved our household</p>
-        </div>
+        </div> -->
         <!-- w-100 acts as a break in column arrangement -->
-        <div class="w-100"></div>
+        <!-- <div class="w-100"></div>
         <div class="col-sm comment">
             <h4><i class="fa-solid fa-quote-left"></i>&#160;</h4>
             <p>My doberman went from wanting to kill my cat to best buddies. It was a long process but so glad I contacted
@@ -120,10 +120,10 @@
             <h4><i class="fa-solid fa-quote-left"></i>&#160;</h4>
             <p>Definitely worth the money!</p>
         </div>
-    </div>
+    </div> -->
 
     <!-- Repeatable row to give space to the page -->
-    <div class="row spacer">
+    <!-- <div class="row spacer">
         <div class="col">
             <img src="{% static 'images/pawprint.jpg' %}" class="spacer-img" alt="Pawprint">
         </div>
@@ -137,7 +137,7 @@
 
     <div class="row" id="stories">
         <a href="{% url 'posts_overview' %}" class="btn btn-success btn-story">See what the comunity has to say</a>
-    </div>
+    </div> -->
 
 </div>
 

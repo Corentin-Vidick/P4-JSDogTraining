@@ -54,6 +54,7 @@ def stock_detail(request, treat_name):
 def add_stock(request):
     """
     Add stock using the corresponding treat name. Only the quantity, expiry date and batch are required as a user input.
+    Before adding the new record, delete any existing record with quantity=0 for this treat.
     The name, category, weight label and origin stock are auto generated
     """
     if request.method == 'POST':
@@ -85,6 +86,9 @@ def add_stock(request):
             except ValueError as e:
                 return JsonResponse({'success': False, 'errors': {'batch': str(e)}})
             
+            # Delete any zero-quantity records for this treat
+            PackedStock.objects.filter(name=name, quantity=0).delete()
+
             # Create a new stock record
             stock_item = PackedStock(
                 name=name,
