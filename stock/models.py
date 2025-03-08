@@ -20,9 +20,9 @@ class BulkStock(models.Model):
     """
     All bulk stock (treats, rope)
     """
-    name = models.ForeignKey(
+    bulk_name = models.ForeignKey(
         PackedStock, on_delete=models.CASCADE, null=False, blank=False)
-    quantity = models.IntegerField()
+    bulk_quantity = models.IntegerField()
 
     def __str__(self):
         return f"{self.name}, {self.quantity}"
@@ -31,9 +31,11 @@ class LabelStock(models.Model):
     """
     All labels stock
     """
-    name = models.ForeignKey(
+    label_name = models.ForeignKey(
         PackedStock, on_delete=models.CASCADE, null=False, blank=False)
-    quantity = models.IntegerField()
+    has_two_labels = models.BooleanField(default=False)
+    label_quantity_1 = models.IntegerField()
+    label_quantity_2 = models.IntegerField(null=True)
 
     def __str__(self):
-        return f"{self.name}, {self.quantity}"
+        return f"{self.name}, {self.label_quantity_1}, {self.label_quantity_2}"

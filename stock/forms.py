@@ -1,5 +1,5 @@
 from django import forms
-from .models import PackedStock
+from .models import PackedStock, LabelStock
 
 class AddStockForm(forms.ModelForm):
     class Meta:
@@ -20,3 +20,8 @@ class AddStockDetailForm(forms.ModelForm):
 class RemoveStockForm(forms.Form):
     quantity = forms.IntegerField(min_value=1, label="Quantity to remove")
     confirm = forms.BooleanField(required=False, label="Confirm over-removal")
+
+class AddLabelStockForm(forms.ModelForm):
+    class Meta:
+        model = LabelStock
+        fields = ['label_quantity_1', 'label_quantity_2']

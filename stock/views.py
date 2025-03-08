@@ -5,9 +5,13 @@ from django.contrib import messages
 from .models import PackedStock, BulkStock, LabelStock
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .forms import AddStockForm, RemoveStockForm, AddStockDetailForm
+from .forms import AddStockForm, RemoveStockForm, AddStockDetailForm, AddLabelStockForm
 from django.db.models import Sum, Max
 from datetime import datetime
+
+#
+# PackedStock views
+#
 
 def stock(request):
     """
@@ -238,6 +242,64 @@ def add_stock_detail(request):
             # Recalculate the total quantity for this group
             total = PackedStock.objects.filter(name=name, expiry_date=expiry_date, batch=batch).aggregate(total=Sum('quantity'))['total'] or 0
             return JsonResponse({'success': True, 'message': 'Stock added successfully!', 'total_quantity': total})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    return JsonResponse({'success': False, 'message': 'Only POST method allowed'})
+
+
+#
+# LabelStock views
+#
+
+def label(request):
+    """
+    Display all label stock available, grouped by stock name
+    """
+    # Group the LabelStock by 'name' and calculate the total quantity for each
+    grouped_label_stock = (
+        LabelStock.objects
+        .values('name', 'has_two_labels')
+        .annotate(total_quantity_1 = Sum('label_quantity_1'),
+                  total_quantity_2 = Sum('label_quantity_2'))
+        .order_by('name')
+        )
+    return render(request, 'stock/label_stock.html', {
+        'grouped_label_stock': grouped_label_stock,
+        'label_form': AddLabelStockForm(),
+        #'edit_label_form': EditLabelStockForm()
+        })
+
+def add_label_stock(request):
+    """
+    Add stock using the corresponding treat name. Only the quantity is required as a user input.
+    """
+    if request.method == 'POST':
+        form = AddLabelStockForm(request.POST)
+        if form.is_valid():
+            new_quantity_1 = form.cleaned_data['label_quantity_1']
+            new_quantity_2 = form.cleaned_data['label_quantity_2']
+            # Get required auto-populated fields from hidden inputs
+            name = request.POST.get('name')
+            has_two_labels = request.POST.get('has_two_labels')
+
+            # Create a new stock record
+            stock_item = LabelStock(
+                name = name,
+                has_two_labels = has_two_labels,
+                label_quantity_1 = new_quantity_1,
+                label_quantity_2 = new_quantity_2,
+            )
+            stock_item.save()
+
+            # Recalculate the total quantity for this label (grouped by name)
+            total_1 = LabelStock.objects.filter(name=name).aggregate(total_1=Sum('label_quantity_1'))['total_1'] or 0
+            total_2 = LabelStock.objects.filter(name=name).aggregate(total_2=Sum('label_quantity_2'))['total_2'] or 0
+            return JsonResponse({
+                'success': True,
+                'message': 'Stock added successfully!',
+                'total_quantity_1': total_1,
+                'total_quantity_2': total_2
+            })
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Only POST method allowed'})

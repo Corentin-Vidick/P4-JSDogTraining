@@ -187,3 +187,58 @@ $('#removeStockForm').on('submit', function(e) {
         }
     });
 });
+
+// Add label stock
+// Grouped view: When the modal is shown, store the triggering button and populate modal fields.
+$('#addLabelStockModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    // Store the button globally for later use.
+    window.triggeringGroupedButton = button;
+    
+    var itemName = button.attr('data-item-name');
+    var itemHasTwoLabels = button.attr('data-item-has-two-labels');
+    
+    console.log("Grouped view - Item Name:", itemName);
+    
+    var modal = $(this);
+    modal.find('#groupedModalItemName').text(itemName);
+    modal.find('#groupedModalItemNameHidden').val(itemName);
+    modal.find('#groupedModalItemCategorygroupedModalItemHasTwoLabels').val(itemHasTwoLabels);
+});
+ 
+// Grouped view: Handle the form submission using AJAX.
+$('#labelStockForm').on('submit', function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: addLabelStockUrl,
+        data: $(this).serialize(),
+        success: function(response) {
+            if(response.success){
+                alert(response.message);
+                $('#addLabelStockModal').modal('hide');
+                // Retrieve the button that triggered the modal from the global variable.
+                var button = window.triggeringGroupedButton;
+                if (!button) {
+                    console.error("Triggering button not found");
+                    return;
+                }
+                // Find the closest table row to that button.
+                var row = button.closest('tr');
+                // Update the cell showing the total quantity.
+                row.find('.total_quantity_1').text(response.total_quantity_1);
+                row.find('.total_quantity_2').text(response.total_quantity_2);
+                console.log("Updated total quantity 1 cell with:", response.total_quantity_1);
+                console.log("Updated total quantity 1 cell with:", response.total_quantity_2);
+            } else {
+                console.log('Validation errors:', response.errors);
+                alert('There were errors in your submission.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Grouped view AJAX error:', status, error);
+            console.error('Response:', xhr.responseText);
+            alert('An error occurred while adding stock: ' + error);
+        }
+    });
+});

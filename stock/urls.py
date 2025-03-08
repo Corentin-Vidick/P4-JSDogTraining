@@ -12,4 +12,8 @@ urlpatterns = [
           name='add_stock_detail'),
      path('remove_stock/', views.remove_stock,
           name='remove_stock'),
+     path('label/', views.label,
+          name='label'),
+     path('add_label_stock/', views.add_label_stock,
+          name='add_label_stock'),
 ]
