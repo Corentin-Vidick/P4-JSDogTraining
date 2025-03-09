@@ -2,12 +2,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic, View
 from django.contrib import messages
-from .models import PackedStock, BulkStock, LabelStock
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.template.loader import render_to_string
+from django.db.models import Sum, Max, F
+from .models import PackedStock, BulkStock, LabelStock
 from .forms import AddStockForm, RemoveStockForm, AddStockDetailForm, AddLabelStockForm
-from django.db.models import Sum, Max
 from datetime import datetime
+
 
 #
 # PackedStock views
@@ -105,6 +107,19 @@ def add_stock(request):
                 batch=batch
             )
             stock_item.save()
+
+            # Adjust LabelStock quantity
+            try:
+                label_stock = LabelStock.objects.get(label_name__label=label)
+                
+                # Deduct quantity, ensuring values don't go negative
+                label_stock.label_quantity_1 = max(0, label_stock.label_quantity_1 - new_quantity)
+                if label_stock.has_two_labels:
+                    label_stock.label_quantity_2 = max(0, label_stock.label_quantity_2 - new_quantity)
+
+                label_stock.save()
+            except LabelStock.DoesNotExist:
+                pass  # Handle case where label stock doesn't exist
 
             # Recalculate the total quantity for this treat (grouped by name)
             total = PackedStock.objects.filter(name=name).aggregate(total=Sum('quantity'))['total'] or 0
@@ -258,16 +273,29 @@ def label(request):
     # Group the LabelStock by 'name' and calculate the total quantity for each
     grouped_label_stock = (
         LabelStock.objects
-        .values('name', 'has_two_labels')
+        .values('label_name__label', 'has_two_labels')
         .annotate(total_quantity_1 = Sum('label_quantity_1'),
                   total_quantity_2 = Sum('label_quantity_2'))
-        .order_by('name')
+        .order_by('label_name')
         )
+    label_form = AddLabelStockForm(initial={'has_two_labels': False})
     return render(request, 'stock/label_stock.html', {
         'grouped_label_stock': grouped_label_stock,
-        'label_form': AddLabelStockForm(),
+        'label_form': label_form,
         #'edit_label_form': EditLabelStockForm()
         })
+
+def get_label_stock_form(request):
+    """
+    Return the rendered AddLabelStockForm based on the provided has_two_labels parameter.
+    """
+    # Get the parameter from the GET query string.
+    has_two_labels_str = request.GET.get('has_two_labels', 'false')
+    has_two_labels = has_two_labels_str.lower() == 'true'
+    form = AddLabelStockForm(has_two_labels=has_two_labels)
+    # Make sure the path to your partial is correct.
+    html = render_to_string('partials/label_stock_form.html', {'label_form': form})
+    return JsonResponse({'form_html': html})
 
 def add_label_stock(request):
     """
@@ -277,23 +305,36 @@ def add_label_stock(request):
         form = AddLabelStockForm(request.POST)
         if form.is_valid():
             new_quantity_1 = form.cleaned_data['label_quantity_1']
-            new_quantity_2 = form.cleaned_data['label_quantity_2']
+            new_quantity_2 = form.cleaned_data.get('label_quantity_2', 0)
             # Get required auto-populated fields from hidden inputs
-            name = request.POST.get('name')
-            has_two_labels = request.POST.get('has_two_labels')
+            label_name_str = request.POST.get('label_name__label')
+            has_two_labels = request.POST.get('has_two_labels') == 'True'
 
-            # Create a new stock record
-            stock_item = LabelStock(
-                name = name,
-                has_two_labels = has_two_labels,
-                label_quantity_1 = new_quantity_1,
-                label_quantity_2 = new_quantity_2,
+            try:
+                # Retrieve the corresponding PackedStock instance
+                label_name_instance = PackedStock.objects.get(label=label_name_str)  
+            except PackedStock.DoesNotExist:
+                return JsonResponse({'success': False, 'message': 'Invalid label name'})
+
+            # Try to get the existing record, or create a new one
+            stock_item, created = LabelStock.objects.get_or_create(
+                label_name=label_name_instance, 
+                defaults={
+                    'has_two_labels': has_two_labels,
+                    'label_quantity_1': new_quantity_1,
+                    'label_quantity_2': new_quantity_2,
+                }
             )
-            stock_item.save()
+
+            if not created:
+                # If it already exists, update the stock quantities
+                stock_item.label_quantity_1 = F('label_quantity_1') + new_quantity_1
+                stock_item.label_quantity_2 = F('label_quantity_2') + new_quantity_2
+                stock_item.save()
 
             # Recalculate the total quantity for this label (grouped by name)
-            total_1 = LabelStock.objects.filter(name=name).aggregate(total_1=Sum('label_quantity_1'))['total_1'] or 0
-            total_2 = LabelStock.objects.filter(name=name).aggregate(total_2=Sum('label_quantity_2'))['total_2'] or 0
+            total_1 = LabelStock.objects.filter(label_name=label_name_instance).aggregate(total_1=Sum('label_quantity_1'))['total_1'] or 0
+            total_2 = LabelStock.objects.filter(label_name=label_name_instance).aggregate(total_2=Sum('label_quantity_2'))['total_2'] or 0
             return JsonResponse({
                 'success': True,
                 'message': 'Stock added successfully!',

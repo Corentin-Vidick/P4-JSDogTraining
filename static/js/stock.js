@@ -189,7 +189,7 @@ $('#removeStockForm').on('submit', function(e) {
 });
 
 // Add label stock
-// Grouped view: When the modal is shown, store the triggering button and populate modal fields.
+// Label view: When the modal is shown, store the triggering button and populate modal fields.
 $('#addLabelStockModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
     // Store the button globally for later use.
@@ -198,12 +198,27 @@ $('#addLabelStockModal').on('show.bs.modal', function (event) {
     var itemName = button.attr('data-item-name');
     var itemHasTwoLabels = button.attr('data-item-has-two-labels');
     
-    console.log("Grouped view - Item Name:", itemName);
+    console.log("Label view - Item Name:", itemName);
     
     var modal = $(this);
-    modal.find('#groupedModalItemName').text(itemName);
-    modal.find('#groupedModalItemNameHidden').val(itemName);
-    modal.find('#groupedModalItemCategorygroupedModalItemHasTwoLabels').val(itemHasTwoLabels);
+    modal.find('#modalLabelName').text(itemName);
+    modal.find('#labelModalItemNameHidden').val(itemName);
+    modal.find('#labelModalItemHasTwoLabels').val(itemHasTwoLabels);
+
+    // Fetch the form with the correct configuration:
+    $.ajax({
+        type: 'GET',
+        url: fetchLabelStockFormUrl,
+        data: { has_two_labels: itemHasTwoLabels },
+        success: function(response) {
+            // Replace the form fields area in the modal with the rendered HTML.
+            // Assume you wrap your form fields in a div with id "labelFormFields"
+            modal.find('#labelFormFields').html(response.form_html);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching form:', status, error);
+        }
+    });
 });
  
 // Grouped view: Handle the form submission using AJAX.

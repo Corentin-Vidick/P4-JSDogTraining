@@ -16,4 +16,6 @@ urlpatterns = [
           name='label'),
      path('add_label_stock/', views.add_label_stock,
           name='add_label_stock'),
+     path('get_label_stock_form/', views.get_label_stock_form,
+          name='get_label_stock_form'),
 ]

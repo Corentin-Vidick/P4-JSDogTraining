@@ -14,28 +14,28 @@ class PackedStock(models.Model):
     batch = models.IntegerField()
 
     def __str__(self):
-        return f"{self.name}, {self.quantity}"
+        return f"{self.name}"
 
 class BulkStock(models.Model):
     """
     All bulk stock (treats, rope)
     """
-    bulk_name = models.ForeignKey(
+    bulk_name = models.OneToOneField(
         PackedStock, on_delete=models.CASCADE, null=False, blank=False)
     bulk_quantity = models.IntegerField()
 
     def __str__(self):
-        return f"{self.name}, {self.quantity}"
+        return f"{self.bulk_name}"
 
 class LabelStock(models.Model):
     """
     All labels stock
     """
-    label_name = models.ForeignKey(
+    label_name = models.OneToOneField(
         PackedStock, on_delete=models.CASCADE, null=False, blank=False)
     has_two_labels = models.BooleanField(default=False)
     label_quantity_1 = models.IntegerField()
     label_quantity_2 = models.IntegerField(null=True)
 
     def __str__(self):
-        return f"{self.name}, {self.label_quantity_1}, {self.label_quantity_2}"
+        return f"{self.label_name}"

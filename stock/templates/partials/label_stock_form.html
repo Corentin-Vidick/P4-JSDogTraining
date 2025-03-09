@@ -1,0 +1,11 @@
+<!-- partials/label_stock_form.html -->
+<div class="mb-3">
+    {{ label_form.label_quantity_1.label_tag }}
+    {{ label_form.label_quantity_1 }}
+</div>
+{% if label_form.label_quantity_2 %}
+<div class="mb-3">
+    {{ label_form.label_quantity_2.label_tag }}
+    {{ label_form.label_quantity_2 }}
+</div>
+{% endif %}

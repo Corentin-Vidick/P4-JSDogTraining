@@ -10,18 +10,22 @@
         <tr>
             <th>Label</th>
             <th>Front label</th>
-            <th>Back label</th>
+            {% if label.has_two_labels %}
+                <th>Back label</th>
+            {% endif %}
             <th>Add stock</th>
         </tr>
         {% for label in grouped_label_stock %}
         <tr>
-            <td>{{ label.name }}</td>
+            <td>{{ label.label_name__label  }}</td>
             <td class="total_quantity_1">{{ label.total_quantity_1 }}</td>
-            <td class="total_quantity_2">{{ label.total_quantity_2 }}</td>
+            {% if label.has_two_labels %}
+                <td>{{ label.label_quantity_2 }}</td>
+            {% endif %}
             <td>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addLabelStockModal"
                         data-item-id = "{{ label.id }}"
-                        data-item-name = "{{ label.name }}"
+                        data-item-name = "{{ label.label_name__label }}"
                         data-item-has-two-labels = "{{ label.has_two_labels }}">
                     <i class="fa-solid fa-plus" aria-hidden="true"></i>
                 </button>
@@ -47,12 +51,14 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- Hidden fields for auto-populated constant values -->
-                        <input type="hidden" name="name" id="groupedModalItemNameHidden" value="">
-                        <input type="hidden" name="has_two_labels" id="groupedModalItemHasTwoLabels" value="">
+                        <!-- Hidden fields -->
+                        <input type="hidden" name="label_name__label" id="labelModalItemNameHidden" value="">
+                        <input type="hidden" name="has_two_labels" id="labelModalItemHasTwoLabels" value="">
                         
-                        <!-- Fields that the user fills in -->
-                        {{ form.as_p }}
+                        <!-- Container for the form fields -->
+                        <div id="labelFormFields">
+                            {{ label_form.as_p }}
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -73,6 +79,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         const addLabelStockUrl = "{% url 'add_label_stock' %}";
+        const fetchLabelStockFormUrl = "{% url 'get_label_stock_form' %}";
         // const removeStockUrl = "{% url 'remove_stock' %}";
     </script>
     <script src="{% static 'js/stock.js' %}"></script>
