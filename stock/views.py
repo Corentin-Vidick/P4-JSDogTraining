@@ -6,9 +6,11 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.template.loader import render_to_string
 from django.db.models import Sum, Max, F
-from .models import PackedStock, BulkStock, LabelStock
-from .forms import AddStockForm, RemoveStockForm, AddStockDetailForm, AddLabelStockForm
+
 from datetime import datetime
+
+from .models import Product, PackedStock, BulkStock, LabelStock
+from .forms import PackedStockForm, RemoveStockForm, AddStockDetailForm, AddLabelStockForm
 
 
 #
@@ -17,112 +19,110 @@ from datetime import datetime
 
 def stock(request):
     """
-    Display all stock available, grouped by stock name
+    Display all packed stock available, grouped by product.
     """
-    # Group the PackedStock by 'name' and calculate the total quantity for each
+    # Group PackedStock by product and sum up the quantity for each product.
     grouped_stock = (
         PackedStock.objects
-        .values('name', 'category', 'weight', 'label', 'origin_stock')
+        .values('product__id', 'product__name', 'product__label_code')
         .annotate(total_quantity=Sum('quantity'))
-        .order_by('name')
+        .order_by('product__name')
     )
     return render(request, 'stock/stock.html', {
         'grouped_stock': grouped_stock,
-        'form': AddStockForm(),
+        'form': PackedStockForm(),
         'remove_form': RemoveStockForm()
-        })
+    })
 
-def stock_detail(request, treat_name):
+def stock_detail(request, product_id):
     """
     Displays a detailed view of the stock, quantity by expiry date/batch
     """
-    print("DEBUG: treat_name in view:", treat_name)
+    print("DEBUG: product_id in view:", product_id)
+    # Retrieve the product instance
+    product = Product.objects.get(id=product_id)
     detailed_stock = (
-        PackedStock.objects.filter(name=treat_name)
+        PackedStock.objects.filter(product=product)
         .values('expiry_date', 'batch')
-        .annotate(
-            total_quantity=Sum('quantity'),
-            name=Max('name'),
-            category=Max('category'),
-            weight=Max('weight'),
-            label=Max('label'),
-            origin_stock=Max('origin_stock'),
-        )
+        .annotate(total_quantity=Sum('quantity'))
         .order_by('expiry_date', 'batch')
     )
     form = AddStockDetailForm()
     return render(request, 'stock/stock_detail.html', {
-        'treat_name': treat_name,
+        'product': product,
         'detailed_stock': detailed_stock,
         'form' : form
     })
 
 def add_stock(request):
     """
-    Add stock using the corresponding treat name. Only the quantity, expiry date and batch are required as a user input.
-    Before adding the new record, delete any existing record with quantity=0 for this treat.
-    The name, category, weight label and origin stock are auto generated
+    Add stock (packing) for a given product.
+    The user provides quantity, expiry_date, and batch.
+    The product is determined via a hidden field (e.g. product_id).
+    After saving the new PackedStock record, the corresponding LabelStock
+    is updated by subtracting the added quantity.
     """
     if request.method == 'POST':
-        form = AddStockForm(request.POST)
+        form = PackedStockForm(request.POST)
         if form.is_valid():
             new_quantity = form.cleaned_data['quantity']
-            # Get required auto-populated fields from hidden inputs
-            name = request.POST.get('name')
-            category = request.POST.get('category')
-            weight = request.POST.get('weight')
-            label = request.POST.get('label')
-            origin_stock = request.POST.get('origin_stock')
             
-            # expiry_date and batch are now required:
+            # Get hidden field: product_id (assumed to be sent in the POST data)
+            product_id = request.POST.get('product_id')
+            if not product_id:
+                return JsonResponse({'success': False, 'errors': {'product': 'Product is required.'}})
+            
+            try:
+                product = Product.objects.get(id=product_id)
+            except Product.DoesNotExist:
+                return JsonResponse({'success': False, 'errors': {'product': 'Invalid product.'}})
+            
+            # Get expiry date and batch from the POST data (both required)
             expiry_date_str = request.POST.get('expiry_date')
             batch_str = request.POST.get('batch')
             if not expiry_date_str:
                 return JsonResponse({'success': False, 'errors': {'expiry_date': 'Expiry date is required.'}})
             if not batch_str:
                 return JsonResponse({'success': False, 'errors': {'batch': 'Batch is required.'}})
-            
             try:
                 expiry_date = datetime.strptime(expiry_date_str, "%Y-%m-%d").date()
             except ValueError as e:
                 return JsonResponse({'success': False, 'errors': {'expiry_date': str(e)}})
-            
             try:
                 batch = int(batch_str)
             except ValueError as e:
                 return JsonResponse({'success': False, 'errors': {'batch': str(e)}})
             
-            # Delete any zero-quantity records for this treat
-            PackedStock.objects.filter(name=name, quantity=0).delete()
-
-            # Create a new stock record
+            # Optionally, delete any zero-quantity records for this product (if desired)
+            PackedStock.objects.filter(product=product, quantity=0).delete()
+            
+            # Create a new PackedStock record
             stock_item = PackedStock(
-                name=name,
-                category=category,
-                weight=weight,
-                label=label,
-                origin_stock=origin_stock,
+                product=product,
                 quantity=new_quantity,
                 expiry_date=expiry_date,
-                batch=batch
+                batch=batch,
+                # You might also use a weight from the form or product; adjust as needed:
+                weight=request.POST.get('weight', 0)
             )
             stock_item.save()
 
-            # Adjust LabelStock quantity
+            # Adjust LabelStock quantity for this product:
             try:
-                label_stock = LabelStock.objects.get(label_name__label=label)
-                
-                # Deduct quantity, ensuring values don't go negative
+                label_stock = product.label_stock
+                # Deduct the new quantity from the front label quantity
                 label_stock.label_quantity_1 = max(0, label_stock.label_quantity_1 - new_quantity)
+                # If product uses two labels, also deduct from the back label quantity
                 if label_stock.has_two_labels:
                     label_stock.label_quantity_2 = max(0, label_stock.label_quantity_2 - new_quantity)
-
                 label_stock.save()
             except LabelStock.DoesNotExist:
-                pass  # Handle case where label stock doesn't exist
+                # Optionally handle missing label stock (maybe log or ignore)
+                pass
 
-            # Recalculate the total quantity for this treat (grouped by name)
-            total = PackedStock.objects.filter(name=name).aggregate(total=Sum('quantity'))['total'] or 0
+            # Recalculate the total quantity for this product
+            total = PackedStock.objects.filter(product=product).aggregate(total=Sum('quantity'))['total'] or 0
+
             return JsonResponse({
                 'success': True,
                 'message': 'Stock added successfully!',
@@ -134,24 +134,29 @@ def add_stock(request):
 
 def remove_stock(request):
     """
-    Remove stock for a given treat (grouped view), following these rules:
-    - Remove stock from records in FIFO order (earliest expiry first).
-    - If a record’s quantity falls to zero, delete that record.
-    - If the removal quantity is greater than the total available and not confirmed,
-      return a warning to prompt confirmation.
-    - If confirmed, merge all records into one:
-         * Keep one record (e.g. the earliest by expiry date) and set its quantity to zero.
-         * Delete all other records for that treat.
+    Remove stock for a given product (grouped view), following these rules:
+      - Remove stock from PackedStock records in FIFO order (earliest expiry first).
+      - If a record’s quantity falls to zero, delete that record.
+      - If the removal quantity is greater than the total available and not confirmed,
+        return a warning prompting for confirmation.
+      - If confirmed, merge all records into one (keep the earliest record, set its quantity to zero, and delete the others).
     """
     if request.method == 'POST':
         form = RemoveStockForm(request.POST)
         if form.is_valid():
             removal_qty = form.cleaned_data['quantity']
             confirm = form.cleaned_data.get('confirm', False)
-            # Get the treat name from the hidden input:
-            name = request.POST.get('name')
-            # Calculate total available for that treat:
-            total = PackedStock.objects.filter(name=name).aggregate(total=Sum('quantity'))['total'] or 0
+            # Get the product id from a hidden field:
+            product_id = request.POST.get('product_id')
+            if not product_id:
+                return JsonResponse({'success': False, 'errors': {'product': 'Product is required.'}})
+            try:
+                product = Product.objects.get(id=product_id)
+            except Product.DoesNotExist:
+                return JsonResponse({'success': False, 'errors': {'product': 'Invalid product.'}})
+            
+            # Calculate total available stock for this product
+            total = PackedStock.objects.filter(product=product).aggregate(total=Sum('quantity'))['total'] or 0
 
             if removal_qty > total and not confirm:
                 return JsonResponse({
@@ -162,16 +167,15 @@ def remove_stock(request):
             
             if removal_qty > total and confirm:
                 # Over-removal confirmed: Merge all records into one.
-                stocks = PackedStock.objects.filter(name=name).order_by('expiry_date')
+                stocks = PackedStock.objects.filter(product=product).order_by('expiry_date')
                 if stocks.exists():
                     first_stock = stocks.first()
                     first_stock.quantity = 0
                     first_stock.save()
-                    # Delete all other records for this treat.
                     stocks.exclude(pk=first_stock.pk).delete()
             else:
                 # Normal removal: removal_qty <= total
-                stocks = PackedStock.objects.filter(name=name).order_by('expiry_date')
+                stocks = PackedStock.objects.filter(product=product).order_by('expiry_date')
                 remaining = removal_qty
                 for stock in stocks:
                     if remaining <= 0:
@@ -184,7 +188,7 @@ def remove_stock(request):
                         stock.save()
                         remaining = 0
 
-            new_total = PackedStock.objects.filter(name=name).aggregate(total=Sum('quantity'))['total'] or 0
+            new_total = PackedStock.objects.filter(product=product).aggregate(total=Sum('quantity'))['total'] or 0
             return JsonResponse({
                 'success': True,
                 'message': 'Stock removed successfully!',
@@ -194,25 +198,31 @@ def remove_stock(request):
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Only POST method allowed'})
 
-
-
-def add_stock_detail(request):
+def update_stock_detail(request):
     """
-    Overwrite stock using the corresponding treat name, expiry date and batch. Only the quantity is required as a user input,
-    the name, category, weight label and origin stock are auto generated
+    Overwrite (update) stock for a given product, expiry date, and batch.
+    The user provides a new quantity, while the product info is provided via hidden fields.
+    If a record exists for the given product/expiry_date/batch, its quantity is overwritten.
+    Otherwise, a new record is created.
     """
     if request.method == 'POST':
         form = AddStockDetailForm(request.POST)
         if form.is_valid():
             new_quantity = form.cleaned_data['quantity']
-            # Assign the auto-populated fields
-            name = request.POST.get('name')
-            category = request.POST.get('category')
-            weight = request.POST.get('weight')
-            label = request.POST.get('label')
-            origin_stock = request.POST.get('origin_stock')
+            
+            # Retrieve hidden fields
+            product_id = request.POST.get('product_id')
             expiry_date_str = request.POST.get('expiry_date')
-            # Convert expiry_date to a Python date object
+            batch_str = request.POST.get('batch')
+            
+            if not product_id:
+                return JsonResponse({'success': False, 'errors': {'product': 'Product is required.'}})
+            try:
+                product = Product.objects.get(id=product_id)
+            except Product.DoesNotExist:
+                return JsonResponse({'success': False, 'errors': {'product': 'Invalid product.'}})
+            
+            # Convert expiry_date
             if expiry_date_str:
                 try:
                     expiry_date = datetime.strptime(expiry_date_str, "%Y-%m-%d").date()
@@ -220,8 +230,8 @@ def add_stock_detail(request):
                     return JsonResponse({'success': False, 'errors': {'expiry_date': str(e)}})
             else:
                 expiry_date = None
-            # Convert batch from string to integer
-            batch_str = request.POST.get('batch')
+            
+            # Convert batch
             if batch_str:
                 try:
                     batch = int(batch_str)
@@ -229,118 +239,126 @@ def add_stock_detail(request):
                     return JsonResponse({'success': False, 'errors': {'batch': str(e)}})
             else:
                 batch = None
-
-            # Try to fetch an existing record for this treat, expiry date, and batch.
+            
+            # Try to fetch an existing PackedStock record for this product, expiry_date, and batch.
             try:
-                stock_item = PackedStock.objects.get(name=name, expiry_date=expiry_date, batch=batch)
+                stock_item = PackedStock.objects.get(product=product, expiry_date=expiry_date, batch=batch)
                 # Overwrite the quantity with the new value
                 stock_item.quantity = new_quantity
-                # Optionally, update the constant fields (if needed)
-                stock_item.category = category
-                stock_item.weight = weight
-                stock_item.label = label
-                stock_item.origin_stock = origin_stock
                 stock_item.save()
             except PackedStock.DoesNotExist:
-                # No matching record exists, so create a new one
+                # No matching record exists, so create a new one.
+                # Optionally, you might use a weight field from POST or default to product value.
+                weight = request.POST.get('weight', 0)
                 stock_item = PackedStock(
-                    name=name,
-                    category=category,
-                    weight=weight,
-                    label=label,
-                    origin_stock=origin_stock,
+                    product=product,
                     quantity=new_quantity,
                     expiry_date=expiry_date,
-                    batch=batch
+                    batch=batch,
+                    weight=weight
                 )
                 stock_item.save()
-            # Recalculate the total quantity for this group
-            total = PackedStock.objects.filter(name=name, expiry_date=expiry_date, batch=batch).aggregate(total=Sum('quantity'))['total'] or 0
-            return JsonResponse({'success': True, 'message': 'Stock added successfully!', 'total_quantity': total})
+            
+            # Recalculate the total quantity for this group (for the given product, expiry date, and batch)
+            total = PackedStock.objects.filter(product=product, expiry_date=expiry_date, batch=batch)\
+                        .aggregate(total=Sum('quantity'))['total'] or 0
+            
+            return JsonResponse({
+                'success': True,
+                'message': 'Stock updated successfully!',
+                'total_quantity': total
+            })
         else:
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Only POST method allowed'})
 
 
-#
-# LabelStock views
-#
 
 def label(request):
     """
-    Display all label stock available, grouped by stock name
+    Display all label stock available, grouped by product.
     """
-    # Group the LabelStock by 'name' and calculate the total quantity for each
+    # Group LabelStock by product fields.
     grouped_label_stock = (
         LabelStock.objects
-        .values('label_name__label', 'has_two_labels')
-        .annotate(total_quantity_1 = Sum('label_quantity_1'),
-                  total_quantity_2 = Sum('label_quantity_2'))
-        .order_by('label_name')
+        .values('product__id', 'product__name', 'product__label_code', 'has_two_labels')
+        .annotate(
+            total_quantity_1=Sum('label_quantity_1'),
+            total_quantity_2=Sum('label_quantity_2')
         )
+        .order_by('product__name')
+    )
+    # Default form; you might use a default value (e.g. has_two_labels False)
     label_form = AddLabelStockForm(initial={'has_two_labels': False})
     return render(request, 'stock/label_stock.html', {
         'grouped_label_stock': grouped_label_stock,
         'label_form': label_form,
-        #'edit_label_form': EditLabelStockForm()
-        })
+    })
+
 
 def get_label_stock_form(request):
     """
     Return the rendered AddLabelStockForm based on the provided has_two_labels parameter.
     """
-    # Get the parameter from the GET query string.
     has_two_labels_str = request.GET.get('has_two_labels', 'false')
     has_two_labels = has_two_labels_str.lower() == 'true'
     form = AddLabelStockForm(has_two_labels=has_two_labels)
-    # Make sure the path to your partial is correct.
+    # Ensure the partial template path is correct.
     html = render_to_string('partials/label_stock_form.html', {'label_form': form})
     return JsonResponse({'form_html': html})
 
+
 def add_label_stock(request):
     """
-    Add stock using the corresponding treat name. Only the quantity is required as a user input.
+    Add label stock for a given product.
+    The user provides quantities, and the product is determined via a hidden field.
     """
     if request.method == 'POST':
-        form = AddLabelStockForm(request.POST)
+        # Pass the has_two_labels parameter to the form constructor
+        has_two_labels = request.POST.get('has_two_labels') == 'True'
+        form = AddLabelStockForm(request.POST, has_two_labels=has_two_labels)
+        print("Form Data:", request.POST)
         if form.is_valid():
+            print("Cleaned Data:", form.cleaned_data)
             new_quantity_1 = form.cleaned_data['label_quantity_1']
             new_quantity_2 = form.cleaned_data.get('label_quantity_2', 0)
-            # Get required auto-populated fields from hidden inputs
-            label_name_str = request.POST.get('label_name__label')
-            has_two_labels = request.POST.get('has_two_labels') == 'True'
-
+            print("Quantity 1:", new_quantity_1)
+            print("Quantity 2:", new_quantity_2)
+            # Get the product from the hidden field (name "product" in the form)
+            product_id = request.POST.get('product')
+            if not product_id:
+                return JsonResponse({'success': False, 'message': 'Product is required'})
             try:
-                # Retrieve the corresponding PackedStock instance
-                label_name_instance = PackedStock.objects.get(label=label_name_str)  
-            except PackedStock.DoesNotExist:
-                return JsonResponse({'success': False, 'message': 'Invalid label name'})
-
-            # Try to get the existing record, or create a new one
+                product = Product.objects.get(id=product_id)
+            except Product.DoesNotExist:
+                return JsonResponse({'success': False, 'message': 'Invalid product'})
+            
+            # Get or create the LabelStock for that product.
             stock_item, created = LabelStock.objects.get_or_create(
-                label_name=label_name_instance, 
+                product=product,
                 defaults={
                     'has_two_labels': has_two_labels,
                     'label_quantity_1': new_quantity_1,
                     'label_quantity_2': new_quantity_2,
                 }
             )
-
             if not created:
-                # If it already exists, update the stock quantities
+                # If it exists, update the quantities using F expressions.
                 stock_item.label_quantity_1 = F('label_quantity_1') + new_quantity_1
                 stock_item.label_quantity_2 = F('label_quantity_2') + new_quantity_2
+                print("Updating quantities: ", new_quantity_1, new_quantity_2)
                 stock_item.save()
 
-            # Recalculate the total quantity for this label (grouped by name)
-            total_1 = LabelStock.objects.filter(label_name=label_name_instance).aggregate(total_1=Sum('label_quantity_1'))['total_1'] or 0
-            total_2 = LabelStock.objects.filter(label_name=label_name_instance).aggregate(total_2=Sum('label_quantity_2'))['total_2'] or 0
+            # Recalculate the total quantities for this product.
+            total_1 = LabelStock.objects.filter(product=product).aggregate(total_1=Sum('label_quantity_1'))['total_1'] or 0
+            total_2 = LabelStock.objects.filter(product=product).aggregate(total_2=Sum('label_quantity_2'))['total_2'] or 0
             return JsonResponse({
                 'success': True,
-                'message': 'Stock added successfully!',
+                'message': 'Label stock added successfully!',
                 'total_quantity_1': total_1,
                 'total_quantity_2': total_2
             })
         else:
+            print("Form Errors:", form.errors)
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Only POST method allowed'})

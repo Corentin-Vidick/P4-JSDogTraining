@@ -10,9 +10,7 @@
         <tr>
             <th>Label</th>
             <th>Front label</th>
-            {% if label.has_two_labels %}
-                <th>Back label</th>
-            {% endif %}
+            <th>Back label</th>
             <th>Add stock</th>
         </tr>
         {% for label in grouped_label_stock %}
@@ -20,7 +18,9 @@
             <td>{{ label.label_name__label  }}</td>
             <td class="total_quantity_1">{{ label.total_quantity_1 }}</td>
             {% if label.has_two_labels %}
-                <td>{{ label.label_quantity_2 }}</td>
+                <td class="total_quantity_2">{{ label.total_quantity_2 }}</td>
+            {% else %}
+                <td>N/A</td>
             {% endif %}
             <td>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addLabelStockModal"
@@ -58,6 +58,7 @@
                         <!-- Container for the form fields -->
                         <div id="labelFormFields">
                             {{ label_form.as_p }}
+                            <p>label_quantity_2: {{ label_form.label_quantity_2 }}</p>
                         </div>
                     </div>
                     <div class="modal-footer">
