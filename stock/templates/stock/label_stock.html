@@ -7,38 +7,45 @@
 
 <div class="container">
     <table class="stock_table">
-        <tr>
-            <th>Label</th>
-            <th>Front label</th>
-            <th>Back label</th>
-            <th>Add stock</th>
-        </tr>
-        {% for label in grouped_label_stock %}
-        <tr>
-            <td>{{ label.label_name__label  }}</td>
-            <td class="total_quantity_1">{{ label.total_quantity_1 }}</td>
-            {% if label.has_two_labels %}
-                <td class="total_quantity_2">{{ label.total_quantity_2 }}</td>
-            {% else %}
-                <td>N/A</td>
-            {% endif %}
-            <td>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addLabelStockModal"
-                        data-item-id = "{{ label.id }}"
-                        data-item-name = "{{ label.label_name__label }}"
-                        data-item-has-two-labels = "{{ label.has_two_labels }}">
-                    <i class="fa-solid fa-plus" aria-hidden="true"></i>
-                </button>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="4">No stock available.</td>
-        </tr>
-        {% endfor %}
+        <thead>
+            <tr>
+                <th>Label</th>
+                <th>Front Label</th>
+                <th>Back Label</th>
+                <th>Add Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for label in grouped_label_stock %}
+            <tr>
+                <td class="label_name">{{ label.product__name }}</td>
+                <td class="total_quantity_1">{{ label.total_quantity_1 }}</td>
+                {% if label.has_two_labels %}
+                    <td class="total_quantity_2">{{ label.total_quantity_2 }}</td>
+                {% else %}
+                    <td>N/A</td>
+                {% endif %}
+                <td>
+                    <button type="button" class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addLabelStockModal"
+                        data-item-id="{{ label.product__id }}"
+                        data-item-name="{{ label.product__name }}"
+                        data-item-has-two-labels="{{ label.has_two_labels }}">
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                    </button>
+
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4">No stock available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 
-    <!-- Add label stock defined outside the loop -->
+    <!-- Add Label Stock Modal -->
     <div class="modal fade" id="addLabelStockModal" tabindex="-1" aria-labelledby="addLabelStockLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -52,13 +59,12 @@
                     </div>
                     <div class="modal-body">
                         <!-- Hidden fields -->
-                        <input type="hidden" name="label_name__label" id="labelModalItemNameHidden" value="">
+                        <input type="hidden" name="product_id" id="labelModalProductId" value="">
                         <input type="hidden" name="has_two_labels" id="labelModalItemHasTwoLabels" value="">
-                        
+
                         <!-- Container for the form fields -->
                         <div id="labelFormFields">
                             {{ label_form.as_p }}
-                            <p>label_quantity_2: {{ label_form.label_quantity_2 }}</p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -70,8 +76,6 @@
         </div>
     </div>
 
-    <!-- Edit label stock moodal -->
-
 </div>
 
 {% endblock %}
@@ -81,7 +85,30 @@
     <script>
         const addLabelStockUrl = "{% url 'add_label_stock' %}";
         const fetchLabelStockFormUrl = "{% url 'get_label_stock_form' %}";
-        // const removeStockUrl = "{% url 'remove_stock' %}";
+
+        $(document).ready(function () {
+            const addLabelStockModal = $('#addLabelStockModal');
+
+            addLabelStockModal.on('show.bs.modal', function (event) {
+                const button = $(event.relatedTarget);
+                const labelName = button.data('label-name');
+                const hasTwoLabels = button.data('has-two-labels');
+
+                $('#modalLabelName').text(labelName);
+                $('#labelModalItemNameHidden').val(labelName);
+                $('#labelModalItemHasTwoLabels').val(hasTwoLabels);
+
+                // Fetch and update form fields dynamically
+                $.get(fetchLabelStockFormUrl, { has_two_labels: hasTwoLabels }, function (data) {
+                    $('#labelFormFields').html(data.form_html);
+                });
+            });
+
+            addLabelStockModal.on('hidden.bs.modal', function () {
+                // Reset form fields when modal is closed
+                $('#labelStockForm')[0].reset();
+            });
+        });
     </script>
     <script src="{% static 'js/stock.js' %}"></script>
 {% endblock %}

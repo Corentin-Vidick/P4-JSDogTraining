@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+    console.log("JS loaded");
 
     // When the Add Stock modal is shown, store the triggering button and populate modal fields.
     $('#addStockModal').on('show.bs.modal', function (event) {
@@ -125,6 +126,7 @@ $(document).ready(function() {
     // Remove Stock Modal (for removing packed stock)
     // When the removal modal is shown, populate its hidden fields.
     $('#removeStockModal').on('show.bs.modal', function (event) {
+        console.log("Remove Stock Modal");
         var button = $(event.relatedTarget);
         // Store the button globally for later use.
         window.triggeringRemoveButton = button;
@@ -177,37 +179,49 @@ $(document).ready(function() {
 
 
     // Add label stock
-    // When the modal is shown, store the triggering button and populate modal fields.
+    // When the Add Label Stock modal is shown, store the triggering button and populate modal fields.
     $('#addLabelStockModal').on('show.bs.modal', function (event) {
+        console.log("Add Label Modal - Product Name:", productName);
         var button = $(event.relatedTarget);
-        window.triggeringGroupedButton = button; // Store the button globally for later use.
+        // Store the button globally for later use.
+        window.triggeringAddLabelButton = button;
+        console.log("Triggering button HTML:", button.prop('outerHTML'));
         
-        var itemName = button.attr('data-item-name');
-        var itemHasTwoLabels = button.attr('data-item-has-two-labels');
+        // Try using .attr() first
+        var productId = button.attr('data-item-id');
+        // Fallback: if it's empty, try using .data()
+        if (!productId) {
+            productId = button.data('itemId');
+        }
+        console.log("Product ID:", productId);
         
-        console.log("Label view - Item Name:", itemName);
-        console.log("label_quantity_1: " + $('#id_label_quantity_1').val());
-        console.log("label_quantity_2: " + $('#id_label_quantity_2').val());
+        // Similarly retrieve other attributes:
+        var productName = button.attr('data-item-name') || button.data('itemName');
+        var itemHasTwoLabels = button.attr('data-item-has-two-labels') || button.data('itemHasTwoLabels');
+        
+        console.log("Label view - Product ID:", productId);
+        console.log("Label view - Product Name:", productName);
+        console.log("Label view - Has Two Labels:", itemHasTwoLabels);
         
         var modal = $(this);
-        modal.find('#modalLabelName').text(itemName);
-        modal.find('#labelModalItemNameHidden').val(itemName);
+        modal.find('#modalLabelName').text(productName);
+        // Set the hidden input for the product – note that the hidden input's name is 'product'
+        modal.find('#labelModalProductId').val(productId);
         modal.find('#labelModalItemHasTwoLabels').val(itemHasTwoLabels);
-
+        
         // Fetch the form with the correct configuration:
         $.ajax({
             type: 'GET',
             url: fetchLabelStockFormUrl,
             data: { has_two_labels: itemHasTwoLabels },
             success: function(response) {
-                // Replace the form fields area in the modal with the rendered HTML.
                 modal.find('#labelFormFields').html(response.form_html);
             },
             error: function(xhr, status, error) {
                 console.error('Error fetching form:', status, error);
             }
         });
-    });
+    });    
 
     // Add label stock
     // Handle the form submission using AJAX.
@@ -224,7 +238,7 @@ $(document).ready(function() {
                     alert(response.message);
                     $('#addLabelStockModal').modal('hide');
                     // Retrieve the button that triggered the modal from the global variable.
-                    var button = window.triggeringGroupedButton;
+                    var button = window.triggeringAddLabelButton;
                     if (!button) {
                         console.error("Triggering button not found");
                         return;

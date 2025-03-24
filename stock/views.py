@@ -288,7 +288,7 @@ def label(request):
         )
         .order_by('product__name')
     )
-    # Default form; you might use a default value (e.g. has_two_labels False)
+    # Default form
     label_form = AddLabelStockForm(initial={'has_two_labels': False})
     return render(request, 'stock/label_stock.html', {
         'grouped_label_stock': grouped_label_stock,
@@ -316,7 +316,7 @@ def add_label_stock(request):
     if request.method == 'POST':
         # Pass the has_two_labels parameter to the form constructor
         has_two_labels = request.POST.get('has_two_labels') == 'True'
-        form = AddLabelStockForm(request.POST, has_two_labels=has_two_labels)
+        form = AddLabelStockForm(request.POST, has_two_labels=True)
         print("Form Data:", request.POST)
         if form.is_valid():
             print("Cleaned Data:", form.cleaned_data)
@@ -325,7 +325,7 @@ def add_label_stock(request):
             print("Quantity 1:", new_quantity_1)
             print("Quantity 2:", new_quantity_2)
             # Get the product from the hidden field (name "product" in the form)
-            product_id = request.POST.get('product')
+            product_id = request.POST.get('product_id')
             if not product_id:
                 return JsonResponse({'success': False, 'message': 'Product is required'})
             try:

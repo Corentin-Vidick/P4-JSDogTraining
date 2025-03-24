@@ -23,9 +23,13 @@ class AddStockDetailForm(forms.ModelForm):
         }
 
 class AddLabelStockForm(forms.ModelForm):
-    product = forms.ModelChoiceField(queryset=Product.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
-    quantity = forms.IntegerField(min_value=0, widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    def __init__(self, *args, **kwargs):
+        # Remove the 'has_two_labels' from kwargs so that it doesn't get passed to the base class.
+        has_two_labels = kwargs.pop('has_two_labels', False)
+        super().__init__(*args, **kwargs)
+        if not has_two_labels:
+            self.fields.pop('label_quantity_2', None)
 
     class Meta:
         model = LabelStock
-        fields = ['product', 'quantity']
+        fields = ['label_quantity_1', 'label_quantity_2']

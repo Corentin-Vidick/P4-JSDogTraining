@@ -1,13 +1,21 @@
 <!-- partials/label_stock_form.html -->
 <div class="mb-3">
-    <!-- {{ label_form.label_quantity_1.label_tag }} -->
-    Front label:
+    <label for="id_label_quantity_1" class="form-label">Front label:</label>
     {{ label_form.label_quantity_1 }}
 </div>
-{% if label_form.label_quantity_2 %}
-    <div class="mb-3">
-        <!-- {{ label_form.label_quantity_2.label_tag }} -->
-        Back label:
-        {{ label_form.label_quantity_2 }}
-    </div>
-{% endif %}
+
+<div id="backLabelContainer" class="mb-3" {% if not label_form.label_quantity_2 %}style="display: none;"{% endif %}>
+    <label for="id_label_quantity_2" class="form-label">Back label:</label>
+    {{ label_form.label_quantity_2 }}
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const hasTwoLabels = document.getElementById("labelModalItemHasTwoLabels");
+        const backLabelContainer = document.getElementById("backLabelContainer");
+
+        if (hasTwoLabels && backLabelContainer) {
+            backLabelContainer.style.display = hasTwoLabels.value === "True" ? "block" : "none";
+        }
+    });
+</script>

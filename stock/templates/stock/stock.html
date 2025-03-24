@@ -24,7 +24,8 @@
                 <td class="total_quantity">{{ stock.total_quantity }}</td>
                 <td>
                     <button type="button" class="btn btn-primary"
-                            data-bs-toggle="modal" data-bs-target="#addStockModal"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addStockModal"
                             data-product-id="{{ stock.product__id }}"
                             data-product-name="{{ stock.product__name }}"
                             data-product-label="{{ stock.product__label_code }}">
@@ -33,7 +34,8 @@
                 </td>
                 <td>
                     <button type="button" class="btn btn-danger"
-                            data-bs-toggle="modal" data-bs-target="#removeStockModal"
+                            data-bs-toggle="modal"
+                            data-bs-target="#removeStockModal"
                             data-product-id="{{ stock.product__id }}"
                             data-product-name="{{ stock.product__name }}">
                         <i class="fa-solid fa-minus" aria-hidden="true"></i>
