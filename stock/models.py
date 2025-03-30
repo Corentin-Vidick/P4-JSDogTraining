@@ -37,7 +37,7 @@ class BulkStock(models.Model):
     quantity = models.IntegerField(default=0)  # e.g., available in grams
     expiry_date = models.DateField(default=datetime.date(2025, 1, 1))
     batch = models.IntegerField()
-    # A BulkStock can be used for multiple products, and a product can use multiple BulkStock entries.
+    # A BulkStock can be used for multiple products, and a Product can use multiple BulkStock entries.
     products = models.ManyToManyField(Product, related_name='bulk_stocks', blank=True)
 
     def __str__(self):
