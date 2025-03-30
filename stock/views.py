@@ -10,7 +10,9 @@ from django.db.models import Sum, Max, F
 from datetime import datetime
 
 from .models import Product, PackedStock, BulkStock, LabelStock
-from .forms import PackedStockForm, RemoveStockForm, AddStockDetailForm, AddLabelStockForm
+from .forms import PackedStockForm, RemoveStockForm, AddStockDetailForm
+from .forms import AddLabelStockForm
+from .forms import AddBulkStockForm, AddBulkStockDetailForm
 
 
 #
@@ -272,7 +274,9 @@ def update_stock_detail(request):
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Only POST method allowed'})
 
-
+#
+# LabelStock views
+#
 
 def label(request):
     """
@@ -295,7 +299,6 @@ def label(request):
         'label_form': label_form,
     })
 
-
 def get_label_stock_form(request):
     """
     Return the rendered AddLabelStockForm based on the provided has_two_labels parameter.
@@ -306,7 +309,6 @@ def get_label_stock_form(request):
     # Ensure the partial template path is correct.
     html = render_to_string('partials/label_stock_form.html', {'label_form': form})
     return JsonResponse({'form_html': html})
-
 
 def add_label_stock(request):
     """
@@ -362,3 +364,83 @@ def add_label_stock(request):
             print("Form Errors:", form.errors)
             return JsonResponse({'success': False, 'errors': form.errors})
     return JsonResponse({'success': False, 'message': 'Only POST method allowed'})
+
+#
+# BulkStock views
+#
+
+def bulk_stock(request):
+    """
+    Display all bulk stock available, grouped by bulk stock name.
+    Each line shows the bulk stock type (e.g. FTT, FF) and the aggregated quantity.
+    """
+    # Group BulkStock by name and sum up the quantity for each group.
+    grouped_bulk_stock = (
+        BulkStock.objects
+        .values('name')
+        .annotate(total_quantity=Sum('quantity'))
+        .order_by('name')
+    )
+    
+    bulk_form = AddBulkStockForm()
+    
+    return render(request, 'stock/bulk_stock.html', {
+        'grouped_bulk_stock': grouped_bulk_stock,
+        'bulk_form': bulk_form,
+    })
+
+def add_bulk_stock(request):
+    """
+    Add bulk stock for a given bulk stock type.
+    The user provides quantity, expiry_date, and batch via the form.
+    The bulk stock type is determined via a hidden field 'bulk_stock_name'.
+    """
+    if request.method == 'POST':
+        form = AddBulkStockForm(request.POST)
+        if form.is_valid():
+            new_quantity = form.cleaned_data['quantity']
+            expiry_date = form.cleaned_data['expiry_date']
+            batch = form.cleaned_data['batch']
+            # Get the bulk stock type from the hidden field.
+            bulk_stock_name = request.POST.get('bulk_stock_name')
+            if not bulk_stock_name:
+                return JsonResponse({'success': False, 'message': 'Bulk stock name is required.'})
+            
+            # Create a new BulkStock record
+            bulk_stock_item = BulkStock(
+                name=bulk_stock_name,
+                quantity=new_quantity,
+                expiry_date=expiry_date,
+                batch=batch
+            )
+            bulk_stock_item.save()
+            
+            # Recalculate the total quantity for this bulk stock type.
+            total = BulkStock.objects.filter(name=bulk_stock_name).aggregate(total=Sum('quantity'))['total'] or 0
+            
+            return JsonResponse({
+                'success': True,
+                'message': 'Bulk stock added successfully!',
+                'total_quantity': total
+            })
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    return JsonResponse({'success': False, 'message': 'Only POST method allowed'})
+
+def bulk_stock_detail(request, bulk_stock_name):
+    """
+    Displays a detailed view of the stock, quantity by expiry date/batch
+    """
+    print("DEBUG: bulk_stock_name in bulk view:", bulk_stock_name)
+    detailed_bulk_stock = (
+        BulkStock.objects.filter(name=bulk_stock_name)
+        .values('expiry_date', 'batch')
+        .annotate(total_quantity=Sum('quantity'))
+        .order_by('expiry_date', 'batch')
+    )
+    form = AddBulkStockDetailForm()
+    return render(request, 'stock/bulk_stock_detail.html', {
+        'bulk_stock_name': bulk_stock_name,
+        'detailed_stock': detailed_bulk_stock,
+        'form' : form
+    })

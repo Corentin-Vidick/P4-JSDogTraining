@@ -2,7 +2,9 @@ $(document).ready(function() {
 
     console.log("JS loaded");
 
-    // When the Add Stock modal is shown, store the triggering button and populate modal fields.
+    // ****************************
+    // Add Stock Modal
+    // ****************************
     $('#addStockModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         // Store the button globally for later use.
@@ -28,12 +30,12 @@ $(document).ready(function() {
     // Handle the Add Stock form submission using AJAX.
     $('#stockForm').on('submit', function(e) {
         e.preventDefault();
-        // Optionally log the serialized form data.
+        // Log the serialized form data.
         console.log("Submitting Add Stock Form:", $(this).serialize());
         
         $.ajax({
             type: 'POST',
-            url: addStockUrl,  // Defined in your template via {% url 'add_stock' %}
+            url: addStockUrl,  // Defined in template via {% url 'add_stock' %}
             data: $(this).serialize(),
             success: function(response) {
                 if(response.success){
@@ -62,8 +64,9 @@ $(document).ready(function() {
         });
     });
 
-    // Update Stock Detail Modal (for overwriting a PackedStock record)
-    // When the detail modal is shown, populate its fields.
+    // ****************************
+    // Update Stock Detail Modal
+    // ****************************
     $('#updateStockDetailModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         console.log("Storing triggering detail button:", button);
@@ -96,7 +99,7 @@ $(document).ready(function() {
         console.log("Submitting Update Stock Detail Form:", $(this).serialize());
         $.ajax({
             type: 'POST',
-            url: addStockDetailUrl,  // Defined in your template via {% url 'add_stock_detail' %}
+            url: addStockDetailUrl,  // Defined in template via {% url 'add_stock_detail' %}
             data: $(this).serialize(),
             success: function(response) {
                 if(response.success){
@@ -123,8 +126,9 @@ $(document).ready(function() {
         });
     });
  
-    // Remove Stock Modal (for removing packed stock)
-    // When the removal modal is shown, populate its hidden fields.
+    // ****************************
+    // Remove Stock Modal
+    // ****************************
     $('#removeStockModal').on('show.bs.modal', function (event) {
         console.log("Remove Stock Modal");
         var button = $(event.relatedTarget);
@@ -145,7 +149,7 @@ $(document).ready(function() {
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: removeStockUrl,  // Defined in your template via {% url 'remove_stock' %}
+            url: removeStockUrl,  // Defined in template via {% url 'remove_stock' %}
             data: $(this).serialize(),
             success: function(response) {
                 if(response.success){
@@ -178,8 +182,9 @@ $(document).ready(function() {
     });
 
 
-    // Add label stock
-    // When the Add Label Stock modal is shown, store the triggering button and populate modal fields.
+    // ****************************
+    // Add Label Stock Modal
+    // ****************************
     $('#addLabelStockModal').on('show.bs.modal', function (event) {
         console.log("Add Label Modal - Product Name:", productName);
         var button = $(event.relatedTarget);
@@ -223,7 +228,6 @@ $(document).ready(function() {
         });
     });    
 
-    // Add label stock
     // Handle the form submission using AJAX.
     $('#labelStockForm').on('submit', function(e) {
         e.preventDefault();
@@ -263,5 +267,58 @@ $(document).ready(function() {
         });
     });
 
+    
+    // ****************************
+    // Add Bulk Stock Modal
+    // ****************************
 
+    $(document).ready(function() {
+        // When the Add Bulk Stock modal is shown, populate its fields.
+        $('#addBulkStockModal').on('show.bs.modal', function(event) {
+          var button = $(event.relatedTarget);
+          // Store the button globally for later use.
+          window.triggeringBulkGroupedButton = button;
+          var bulkStockName = button.attr('data-item-name'); // Use .attr() for raw value
+          console.log("Add Bulk Stock Modal - Bulk Stock Name:", bulkStockName);
+          var modal = $(this);
+          modal.find('#modalBulkStockName').text(bulkStockName);
+          modal.find('#modalBulkStockNameHidden').val(bulkStockName);
+        });
+        
+        // Handle the Add Bulk Stock form submission using AJAX.
+        $('#bulkStockForm').on('submit', function(e) {
+          e.preventDefault();
+          console.log("Submitting Bulk Stock Form:", $(this).serialize());
+          
+          $.ajax({
+            type: 'POST',
+            url: addBulkStockUrl,
+            data: $(this).serialize(),
+            success: function(response) {
+              if(response.success){
+                alert(response.message);
+                $('#addBulkStockModal').modal('hide');
+                // Retrieve the button that triggered the modal.
+                var button = window.triggeringBulkGroupedButton;
+                if (!button) {
+                    console.error("Triggering button not found");
+                    return;
+                }
+                // Find the closest table row and update its total quantity cell.
+                var row = button.closest('tr');
+                row.find('.total_quantity').text(response.total_quantity);
+                console.log("Updated total quantity cell with:", response.total_quantity);
+              } else {
+                console.log('Validation errors:', response.errors);
+                alert('There were errors in your submission.');
+              }
+            },
+            error: function(xhr, status, error) {
+              console.error('Bulk Stock AJAX error:', status, error);
+              console.error('Response:', xhr.responseText);
+              alert('An error occurred while adding bulk stock: ' + error);
+            }
+          });
+        });
+    });
 });

@@ -25,4 +25,13 @@ urlpatterns = [
     
     # Fetch the form to add label stock (AJAX loading)
     path('get_label_stock_form/', views.get_label_stock_form, name='get_label_stock_form'),
+
+    # Bulk stock management
+    path('bulk_stock/', views.bulk_stock, name='bulk_stock'),
+
+    # Add bulk stock
+    path('add_bulk_stock', views.add_bulk_stock, name='add_bulk_stock'),
+
+    #Bulk stock detail
+    path('bulk_stock_detail/<str:bulk_stock_name>/', views.bulk_stock_detail, name='bulk_stock_detail')
 ]

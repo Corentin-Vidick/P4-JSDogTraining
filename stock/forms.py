@@ -1,5 +1,5 @@
 from django import forms
-from .models import PackedStock, LabelStock, Product
+from .models import PackedStock, LabelStock, Product, BulkStock
 
 class PackedStockForm(forms.ModelForm):
     quantity = forms.IntegerField(min_value=1, widget=forms.NumberInput(attrs={'class': 'form-control'}))
@@ -33,3 +33,20 @@ class AddLabelStockForm(forms.ModelForm):
     class Meta:
         model = LabelStock
         fields = ['label_quantity_1', 'label_quantity_2']
+
+class AddBulkStockForm(forms.ModelForm):
+    quantity = forms.IntegerField(min_value=1, widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    expiry_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}))
+    batch = forms.CharField(required=False, max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = BulkStock
+        fields = ['quantity', 'expiry_date', 'batch']
+
+class AddBulkStockDetailForm(forms.ModelForm):
+    class Meta:
+        model = BulkStock
+        fields = ['quantity']
+        widgets = {
+            'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min': '1'}),
+        }
