@@ -18,6 +18,7 @@
       {% for bulk in grouped_bulk_stock %}
       <tr>
         <td>
+            {{ bulk.product__id }}
           <a href="{% url 'bulk_stock_detail' bulk.name %}">{{ bulk.name }}</a>
         </td>
         <td class="total_quantity">{{ bulk.total_quantity }}</td>

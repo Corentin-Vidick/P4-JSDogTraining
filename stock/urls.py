@@ -33,5 +33,8 @@ urlpatterns = [
     path('add_bulk_stock', views.add_bulk_stock, name='add_bulk_stock'),
 
     #Bulk stock detail
-    path('bulk_stock_detail/<str:bulk_stock_name>/', views.bulk_stock_detail, name='bulk_stock_detail')
+    path('bulk_stock_detail/<str:bulk_stock_name>/', views.bulk_stock_detail, name='bulk_stock_detail'),
+
+    # Add bulk stock detail
+    path('add_bulk_stock_detail/', views.update_bulk_stock_detail, name='add_bulk_stock_detail'),
 ]

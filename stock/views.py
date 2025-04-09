@@ -434,7 +434,7 @@ def bulk_stock_detail(request, bulk_stock_name):
     print("DEBUG: bulk_stock_name in bulk view:", bulk_stock_name)
     detailed_bulk_stock = (
         BulkStock.objects.filter(name=bulk_stock_name)
-        .values('expiry_date', 'batch')
+        .values('expiry_date', 'batch', 'id')
         .annotate(total_quantity=Sum('quantity'))
         .order_by('expiry_date', 'batch')
     )
@@ -444,3 +444,78 @@ def bulk_stock_detail(request, bulk_stock_name):
         'detailed_stock': detailed_bulk_stock,
         'form' : form
     })
+
+def update_bulk_stock_detail(request):
+    """
+    Overwrite (update) stock for a given product, expiry date, and batch.
+    The user provides a new quantity, while the product info is provided via hidden fields.
+    If a record exists for the given product/expiry_date/batch, its quantity is overwritten.
+    Otherwise, a new record is created.
+    """
+    if request.method == 'POST':
+        form = AddBulkStockDetailForm(request.POST)
+        print("Form Data:", request.POST)
+        if form.is_valid():
+            new_quantity = form.cleaned_data['quantity']
+            print("DEBUG: new_quantity in bulk view:", new_quantity)
+            # Retrieve hidden fields
+            product_id = request.POST.get('bulk_stock_id')
+            expiry_date_str = request.POST.get('expiry_date')
+            batch_str = request.POST.get('batch')
+            
+            if not product_id:
+                return JsonResponse({'success': False, 'errors': {'product': 'Product is required.'}})
+            try:
+                bulk_product = BulkStock.objects.get(id=product_id)
+                print("DEBUG: Product found:", bulk_product.name)
+            except BulkStock.DoesNotExist:
+                return JsonResponse({'success': False, 'errors': {'product': 'Invalid product.'}})
+            
+            # Convert expiry_date
+            if expiry_date_str:
+                try:
+                    expiry_date = datetime.strptime(expiry_date_str, "%Y-%m-%d").date()
+                except ValueError as e:
+                    return JsonResponse({'success': False, 'errors': {'expiry_date': str(e)}})
+            else:
+                expiry_date = None
+            
+            # Convert batch
+            if batch_str:
+                try:
+                    batch = int(batch_str)
+                except ValueError as e:
+                    return JsonResponse({'success': False, 'errors': {'batch': str(e)}})
+            else:
+                batch = None
+            
+            # Try to fetch an existing BulkStock record for this product, expiry_date, and batch.
+            try:
+                stock_item = BulkStock.objects.get(name=bulk_product.name, expiry_date=expiry_date, batch=batch)
+                print("BulkStock exists and found")
+                # Overwrite the quantity with the new value
+                stock_item.quantity = new_quantity
+                stock_item.save()
+            except BulkStock.DoesNotExist:
+                # No matching record exists, so create a new one.
+                print("BulkStock not found, creating new one")
+                stock_item = BulkStock(
+                    name=bulk_product.name,
+                    quantity=new_quantity,
+                    expiry_date=expiry_date,
+                    batch=batch
+                )
+                stock_item.save()
+            
+            # Recalculate the total quantity for this group (for the given product, expiry date, and batch)
+            total = BulkStock.objects.filter(name=bulk_product.name, expiry_date=expiry_date, batch=batch)\
+                        .aggregate(total=Sum('quantity'))['total'] or 0
+            
+            return JsonResponse({
+                'success': True,
+                'message': 'Stock updated successfully!',
+                'total_quantity': total
+            })
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    return JsonResponse({'success': False, 'message': 'Only POST method allowed'})

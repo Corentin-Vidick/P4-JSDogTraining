@@ -321,4 +321,71 @@ $(document).ready(function() {
           });
         });
     });
+
+
+    // ****************************
+    // Update Bulk Stock Detail Modal
+    // ****************************
+    $('#updateBulkStockDetailModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        console.log("Storing triggering detail button:", button);
+        window.triggeringBulkDetailButton = button;
+            
+        // Get product-specific details and the record identifiers (e.g. expiry date, batch) from data attributes.
+        var productName = button.data('product-name');
+        var productId = button.data('item-id');
+        var expiryDate = button.data('expiry-date');
+        var batch = button.data('batch');
+            
+        console.log("Bulk Detail Modal - Product Name:", productName);
+        console.log("Bulk Detail Modal - Product ID:", productId);
+        console.log("Bulk Detail Modal - Expiry Date:", expiryDate);
+        console.log("Bulk Detail Modal - Batch:", batch);
+            
+        var modal = $(this);
+        // Set the modal header with the product name.
+        modal.find('#bulkDetailModalProductName').text(productName);
+        // Populate hidden fields in the detail modal.
+        modal.find('#bulkDetailModalExpiryDate').val(expiryDate);
+        modal.find('#bulkDetailModalBatch').val(batch);
+        modal.find('#bulkDetailModalProductId').val(productId);
+        // Clear the user-editable fields:
+        modal.find('input[name="quantity"]').val('');
+    });
+ 
+    // Handle the Update Stock Detail form submission via AJAX.
+    $('#bulkstockdetailForm').on('submit', function(e) {
+        e.preventDefault();
+        console.log("Submitting Update Bulk Stock Detail Form:", $(this).serialize());
+        $.ajax({
+            type: 'POST',
+            url: addBulkStockDetailUrl,  // Defined in template via {% url 'add_stock_detail' %}
+            data: $(this).serialize(),
+            success: function(response) {
+                if(response.success){
+                    alert(response.message);
+                    $('#updateBulkStockDetailModal').modal('hide');
+                    var button = window.triggeringBulkDetailButton;
+                    if (!button) {
+                        console.error("Triggering detail button not found");
+                        return;
+                    }
+                    var row = button.closest('tr');
+                    row.find('.total_quantity').text(response.total_quantity);
+                    console.log("Updated detail total quantity cell with:", response.total_quantity);
+                } else {
+                    console.log('Validation errors:', response.errors);
+                    alert('There were errors in your submission.');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Detail AJAX error:', status, error);
+                console.error('Response:', xhr.responseText);
+                alert('An error occurred while updating stock: ' + error);
+            }
+        });
+    });
+
+
+
 });
