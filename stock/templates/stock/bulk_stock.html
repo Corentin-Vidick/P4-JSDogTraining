@@ -9,6 +9,7 @@
   <table class="stock_table table">
     <thead>
       <tr>
+        <th>Products</th>
         <th>Bulk Stock Type</th>
         <th>Total Quantity</th>
         <th>Actions</th>
@@ -18,7 +19,7 @@
       {% for bulk in grouped_bulk_stock %}
       <tr>
         <td>
-            {{ bulk.product__id }}
+          {{ products }}
           <a href="{% url 'bulk_stock_detail' bulk.name %}">{{ bulk.name }}</a>
         </td>
         <td class="total_quantity">{{ bulk.total_quantity }}</td>

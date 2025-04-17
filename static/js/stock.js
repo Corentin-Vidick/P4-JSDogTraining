@@ -283,6 +283,10 @@ $(document).ready(function() {
           var modal = $(this);
           modal.find('#modalBulkStockName').text(bulkStockName);
           modal.find('#modalBulkStockNameHidden').val(bulkStockName);
+          // Clear the user-editable fields:
+          modal.find('input[name="quantity"]').val('');
+          modal.find('input[name="expiry_date"]').val('');
+          modal.find('input[name="batch"]').val('');
         });
         
         // Handle the Add Bulk Stock form submission using AJAX.
@@ -320,6 +324,12 @@ $(document).ready(function() {
             }
           });
         });
+
+        // Always clear fields on close
+        $('#addBulkStockModal').on('hidden.bs.modal', function () {
+            $(this).find('form')[0].reset();
+        });
+        
     });
 
 

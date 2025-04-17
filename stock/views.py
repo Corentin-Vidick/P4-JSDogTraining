@@ -112,6 +112,7 @@ def add_stock(request):
             # Adjust LabelStock quantity for this product:
             try:
                 label_stock = product.label_stock
+                print("Corresponding label: ", label_stock)
                 # Deduct the new quantity from the front label quantity
                 label_stock.label_quantity_1 = max(0, label_stock.label_quantity_1 - new_quantity)
                 # If product uses two labels, also deduct from the back label quantity
@@ -120,6 +121,15 @@ def add_stock(request):
                 label_stock.save()
             except LabelStock.DoesNotExist:
                 # Optionally handle missing label stock (maybe log or ignore)
+                pass
+
+            # Adjust corresponding BulkStock quantity:
+            try:
+                bulk_stock = product.bulk_stocks.all().order_by('expiry_date').values()
+                for x in bulk_stock:
+                    print("Corresponding bulk stock: ", x)
+            except BulkStock.DoesNotExist:
+                print("Bulk stock not found")
                 pass
 
             # Recalculate the total quantity for this product
@@ -381,6 +391,8 @@ def bulk_stock(request):
         .annotate(total_quantity=Sum('quantity'))
         .order_by('name')
     )
+
+    # products = BulkStock.objects.filter(name='FTT').values('products__label_code')
     
     bulk_form = AddBulkStockForm()
     
@@ -403,6 +415,13 @@ def add_bulk_stock(request):
             batch = form.cleaned_data['batch']
             # Get the bulk stock type from the hidden field.
             bulk_stock_name = request.POST.get('bulk_stock_name')
+            print("Bulk stock name: ", bulk_stock_name)
+            # Get one existing object from the same BulkStock
+            related_bulk_stock = BulkStock.objects.filter(name=bulk_stock_name).first()
+            print("Related bulk stock: ", related_bulk_stock)
+            # Get the products associated to that BulkStock
+            associated_products = related_bulk_stock.products.all()
+            print("Related packed stock name: ", associated_products)
             if not bulk_stock_name:
                 return JsonResponse({'success': False, 'message': 'Bulk stock name is required.'})
             
@@ -411,9 +430,12 @@ def add_bulk_stock(request):
                 name=bulk_stock_name,
                 quantity=new_quantity,
                 expiry_date=expiry_date,
-                batch=batch
+                batch=batch,
             )
             bulk_stock_item.save()
+
+            # Set the M2M values for the newly created BulkStock record
+            bulk_stock_item.products.set(associated_products)
             
             # Recalculate the total quantity for this bulk stock type.
             total = BulkStock.objects.filter(name=bulk_stock_name).aggregate(total=Sum('quantity'))['total'] or 0

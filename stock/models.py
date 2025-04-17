@@ -4,7 +4,6 @@ import datetime
 class Product(models.Model):
     name = models.CharField(max_length=100)
     label_code = models.CharField(max_length=50, unique=True)  # e.g., "FTT", "FTTV", "FF"
-    # Other product-specific fields as needed
 
     def __str__(self):
         return self.name
@@ -15,7 +14,6 @@ class PackedStock(models.Model):
     batch = models.IntegerField()
     quantity = models.IntegerField(default=0)
     weight = models.IntegerField(help_text="Weight per pack in grams")
-    # Additional fields if needed
 
     def __str__(self):
         return f"{self.product.name} - {self.quantity}"
