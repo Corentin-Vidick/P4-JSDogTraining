@@ -62,7 +62,8 @@ def add_stock(request):
     The user provides quantity, expiry_date, and batch.
     The product is determined via a hidden field (e.g. product_id).
     After saving the new PackedStock record, the corresponding LabelStock
-    is updated by subtracting the added quantity.
+    is updated by subtracting the added quantity. The total weight is taken
+    out of the corresponding BulkStock with the closest expiry date.
     """
     if request.method == 'POST':
         form = PackedStockForm(request.POST)
@@ -95,8 +96,14 @@ def add_stock(request):
             except ValueError as e:
                 return JsonResponse({'success': False, 'errors': {'batch': str(e)}})
             
-            # Optionally, delete any zero-quantity records for this product (if desired)
+            # Delete any zero-quantity records for this product (if desired)
             PackedStock.objects.filter(product=product, quantity=0).delete()
+
+            # Get the weight from pre-existing stock
+            item = PackedStock.objects.filter(product=product).first()
+            print("Item:", item)
+            item_weight = item.weight
+            print ("The weight of the item is: ", item_weight)
             
             # Create a new PackedStock record
             stock_item = PackedStock(
@@ -104,8 +111,7 @@ def add_stock(request):
                 quantity=new_quantity,
                 expiry_date=expiry_date,
                 batch=batch,
-                # You might also use a weight from the form or product; adjust as needed:
-                weight=request.POST.get('weight', 0)
+                weight=item_weight
             )
             stock_item.save()
 
@@ -121,16 +127,33 @@ def add_stock(request):
                 label_stock.save()
             except LabelStock.DoesNotExist:
                 # Optionally handle missing label stock (maybe log or ignore)
-                pass
+                print("Label stock not found")
 
             # Adjust corresponding BulkStock quantity:
-            try:
-                bulk_stock = product.bulk_stocks.all().order_by('expiry_date').values()
-                for x in bulk_stock:
-                    print("Corresponding bulk stock: ", x)
-            except BulkStock.DoesNotExist:
-                print("Bulk stock not found")
-                pass
+            total_weight = new_quantity * stock_item.weight
+            print("Total weight: ", total_weight)
+            bulk_qs = BulkStock.objects.filter(products=product).order_by('expiry_date', 'batch')
+            print("bulk_qs", bulk_qs)
+            remaining = total_weight
+            for bucket in bulk_qs:
+                if remaining <= 0:
+                    break
+                if bucket.quantity <= remaining:
+                    remaining -= bucket.quantity
+                    bucket.quantity = 0
+                    bucket.save(update_fields=['quantity'])
+                else:
+                    bucket.quantity -= remaining
+                    bucket.save(update_fields=['quantity'])
+                    remaining = 0
+
+            if remaining > 0:
+                # Not enough bulk stock to cover the weight used.
+                # Warn the user
+                messages.warning(request,
+                f"Packed {new_quantity} units ({total_weight}g) but only "
+                f"{total_weight-remaining}g of bulk was available."
+                )
 
             # Recalculate the total quantity for this product
             total = PackedStock.objects.filter(product=product).aggregate(total=Sum('quantity'))['total'] or 0
@@ -415,13 +438,10 @@ def add_bulk_stock(request):
             batch = form.cleaned_data['batch']
             # Get the bulk stock type from the hidden field.
             bulk_stock_name = request.POST.get('bulk_stock_name')
-            print("Bulk stock name: ", bulk_stock_name)
             # Get one existing object from the same BulkStock
             related_bulk_stock = BulkStock.objects.filter(name=bulk_stock_name).first()
-            print("Related bulk stock: ", related_bulk_stock)
             # Get the products associated to that BulkStock
             associated_products = related_bulk_stock.products.all()
-            print("Related packed stock name: ", associated_products)
             if not bulk_stock_name:
                 return JsonResponse({'success': False, 'message': 'Bulk stock name is required.'})
             
