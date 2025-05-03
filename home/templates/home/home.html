@@ -3,6 +3,68 @@
 {% block content %}
 {% load static %}
 <div class="container">
+
+    <div class="container">
+        <div class="short-dated">
+            <div>
+            <!-- Short dated packed stock table -->
+                <h3 class="card-title">Packed stock</h3>
+                <table class="stock-table table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Expiry date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for stock in first_packed_stock %}
+                            <tr>
+                                <td>{{ stock.product }}</td>
+                                <td>{{ stock.quantity }}</td>
+                                <td>{{ stock.expiry_date }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div>
+            <!-- Short dated bulk stock table -->
+                <h3 class="card-title">Bulk stock</h3>
+                <table class="stock-table table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Expiry date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for stock in first_bulk_stock %}
+                            <tr>
+                                <td>{{ stock.name }}</td>
+                                <td>{{ stock.quantity }}</td>
+                                <td>{{ stock.expiry_date }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    <!-- Repeatable row to give space to the page -->
+    <div class="row spacer">
+        <div class="col">
+            <img src="{% static 'images/pawprint.jpg' %}" class="spacer-img" alt="Pawprint">
+        </div>
+        <div class="col">
+            <img src="{% static 'images/pawprint.jpg' %}" class="spacer-img" alt="Pawprint">
+        </div>
+        <div class="col">
+            <img src="{% static 'images/pawprint.jpg' %}" class="spacer-img" alt="Pawprint">
+        </div>
+    </div>
+
     <div class="row services-section">
         <h2>Stock control</h2>
         <!-- Packed stock -->
