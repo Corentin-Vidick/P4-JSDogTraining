@@ -17,7 +17,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = os.environ.get('DEBUG', True)
 
 ALLOWED_HOSTS = ['jstraining.herokuapp.com', 'localhost']
 
@@ -97,17 +97,17 @@ MESSAGE_TAGS = {
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 # Use for testing
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # Use for preview
-DATABASES = {
-     'default': dj_database_url.parse(os.environ.get("DATABASE_URL")),
- }
+# DATABASES = {
+#      'default': dj_database_url.parse(os.environ.get("DATABASE_URL")),
+#  }
 
 
 # Password validation
@@ -150,6 +150,12 @@ STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'  # noqa
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dnym3vixx',
+    'API_KEY': '117732375752543',
+    'API_SECRET': 'tKwt140d4pp6J_9JTzEM_89k89k',
+}
 
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
